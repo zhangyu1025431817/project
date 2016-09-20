@@ -23,5 +23,7 @@ public interface MainContract {
 
     abstract class Presenter extends BasePresenter<Model, View> {
         abstract void getHousesList(String areaCode, int pageSize, int curPage);
+        abstract void getCityList();
+
     }
 }

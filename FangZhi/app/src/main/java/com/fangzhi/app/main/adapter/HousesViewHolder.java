@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.HousesResponseBean;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -27,7 +28,9 @@ public class HousesViewHolder extends BaseViewHolder<HousesResponseBean.Houses> 
     public void setData(HousesResponseBean.Houses data) {
         Glide.with(getContext())
                 .load(data.getImagePath())
-                .placeholder(R.drawable.bg_default)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .crossFade()
                 .into(imageView);
     }
 }

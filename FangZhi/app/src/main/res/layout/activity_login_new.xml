@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_login_logo" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/layout_login"
+        android:layout_width="wrap_content"
+        android:layout_height="800px"
+        android:layout_marginTop="30px"
+        android:background="@drawable/bg_login_box"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="90px"
+        android:paddingLeft="180px"
+        android:paddingRight="180px"
+        android:paddingTop="90px">
+
+        <com.fangzhi.app.view.StateEditText
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edit_login"
+            android:hint="@string/input_phone_number"
+            android:inputType="phone"
+            android:paddingLeft="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+
+        <com.fangzhi.app.view.StateEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:background="@drawable/bg_edit_login"
+            android:hint="@string/please_input_password"
+            android:inputType="textPassword"
+            android:paddingLeft="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.fangzhi.app.view.StateEditText
+                android:id="@+id/et_message_code"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edit_login"
+                android:hint="@string/input_verification_code"
+                android:paddingLeft="20px"
+                android:textColorHint="@color/colorTextGrayBABABA"
+                android:textSize="30px" />
+
+            <ImageView
+                android:id="@+id/iv_random_code"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:text="@string/get_msg_code"
+                android:textColor="@color/colorWhite" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:background="@drawable/btn_login"
+            android:text="@string/login"
+            android:textColor="@color/colorWhite" />
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

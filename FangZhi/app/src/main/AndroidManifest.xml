@@ -6,8 +6,17 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--读取缓存数据-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" /><!-- 访问网络连接 -->
@@ -19,30 +28,47 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
     <application
-        android:allowBackup="true"
         android:name=".MyApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        tools:replace="android:icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/MyTheme">
-        <activity android:name="com.fangzhi.app.LoadingActivity" android:screenOrientation="landscape">
+        android:theme="@style/MyTheme"
+
+
+        tools:replace="android:icon">
+        <!-- 设置key -->
+        <meta-data
+            android:name="房智_装修"
+            android:value="9ecad00ea95543d902c3820868a03d03" />
+        <!-- 定位需要的服务 -->
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity
+            android:name="com.fangzhi.app.LoadingActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.fangzhi.app.login.LoginActivity" android:screenOrientation="landscape"/>
-        <activity android:name="com.fangzhi.app.main.MainActivity" android:screenOrientation="landscape"/>
+        <activity
+            android:name="com.fangzhi.app.main.MainActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".main.room.RoomActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".login.LoginActivityNew"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".main.location.CityActivity"
+            android:screenOrientation="landscape"/>
         <meta-data
             android:name="design_width"
-            android:value="2048"/>
+            android:value="2048" />
         <meta-data
             android:name="design_height"
-            android:value="1536"/>
+            android:value="1536" />
     </application>
 
 </manifest>

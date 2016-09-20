@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.provider.Settings;
 
 /**
  * 跟App相关的辅助类
@@ -61,5 +62,10 @@ public class AppUtils
 		}
 		return null;
 	}
-
+	/**
+	 * 获取设备唯一标识
+	 */
+	public static String getDeviceId(Context context){
+		return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+	}
 }

@@ -10,7 +10,7 @@
     <string name="login_protocol_two"><![CDATA[<房智用户使用协议>]]></string>
     <string name="forget_password">忘记密码?</string>
     <string name="input_right_phone_number">请输入正确的手机号码</string>
-    <string name="password_not_be_null">邀请码或密码不能为空</string>
+    <string name="password_not_be_null">密码不能为空</string>
     <string name="logining">正在登录...</string>
     <string name="sure">确定</string>
     <string name="get_msg_code">获取</string>
@@ -20,6 +20,7 @@
     <string name="password_not_null">密码不能为空</string>
     <string name="phone_number_not_be_null">手机号不能为空</string>
     <string name="request_code_not_be_null">邀请码不能为空</string>
+    <string name="verification_code_error">验证码错误</string>
     <string name="please_input_password">请输入密码</string>
     <string name="commit_ing">正在提交...</string>
 </resources>

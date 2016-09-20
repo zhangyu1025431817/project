@@ -9,9 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.amap.api.location.AMapLocationClient;
 import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.MainActivity;
 import com.fangzhi.app.network.MySubscriber;
 import com.fangzhi.app.network.NetWorkRequest;
@@ -39,6 +39,7 @@ public class LoadingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AMapLocationClient.setApiKey("9ecad00ea95543d902c3820868a03d03");
         setContentView(R.layout.activity_loading);
         ButterKnife.bind(this);
         if (Build.VERSION.SDK_INT >= 21) {
@@ -73,14 +74,14 @@ public class LoadingActivity extends AppCompatActivity {
                         if (RequestCodeMessage.verificationResponseCode(loginBean)) {
                             startActivity(new Intent(LoadingActivity.this,MainActivity.class));
                         } else {
-                            startActivity(new Intent(LoadingActivity.this, LoginActivity.class));
+                            startActivity(new Intent(LoadingActivity.this, MainActivity.class));
                         }
                         finish();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        startActivity(new Intent(LoadingActivity.this, LoginActivity.class));
+                        startActivity(new Intent(LoadingActivity.this, MainActivity.class));
                         finish();
                     }
                 });

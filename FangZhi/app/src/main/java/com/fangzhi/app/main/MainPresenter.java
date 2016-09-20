@@ -27,6 +27,11 @@ public class MainPresenter extends MainContract.Presenter {
     }
 
     @Override
+    void getCityList() {
+
+    }
+
+    @Override
     public void onStart() {
 
     }
