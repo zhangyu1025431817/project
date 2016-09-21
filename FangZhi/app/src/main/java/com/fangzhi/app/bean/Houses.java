@@ -1,66 +1,67 @@
 package com.fangzhi.app.bean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by smacr on 2016/9/9.
  */
 public class Houses {
-    String id;
-    String name;
-    //房型数量
-    String typeCount;
-    //本地图片地址
-    String image;
-    City city;
-    List<HouseType> houseTypeList = new ArrayList<>();
 
-    public String getId() {
-        return id;
+    private List<House> premiseList;
+
+    public List<House> getPremiseList() {
+        return premiseList;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPremiseList(List<House> premiseList) {
+        this.premiseList = premiseList;
     }
 
-    public String getName() {
-        return name;
-    }
+    public class House{
+        String id;//楼盘ID
+        String pre_cname;// 楼盘中文名称
+        String pre_ename;// 楼盘引文名称
+        String count;//楼盘所有户型数量
+        String pre_img;//
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        public String getId() {
+            return id;
+        }
 
-    public String getTypeCount() {
-        return typeCount;
-    }
+        public void setId(String id) {
+            this.id = id;
+        }
 
-    public void setTypeCount(String typeCount) {
-        this.typeCount = typeCount;
-    }
+        public String getPre_cname() {
+            return pre_cname;
+        }
 
-    public String getImage() {
-        return image;
-    }
+        public void setPre_cname(String pre_cname) {
+            this.pre_cname = pre_cname;
+        }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+        public String getPre_ename() {
+            return pre_ename;
+        }
 
-    public City getCity() {
-        return city;
-    }
+        public void setPre_ename(String pre_ename) {
+            this.pre_ename = pre_ename;
+        }
 
-    public void setCity(City city) {
-        this.city = city;
-    }
+        public String getCount() {
+            return count;
+        }
 
-    public List<HouseType> getHouseTypeList() {
-        return houseTypeList;
-    }
+        public void setCount(String count) {
+            this.count = count;
+        }
 
-    public void setHouseTypeList(List<HouseType> houseTypeList) {
-        this.houseTypeList = houseTypeList;
+        public String getPre_img() {
+            return pre_img;
+        }
+
+        public void setPre_img(String pre_img) {
+            this.pre_img = pre_img;
+        }
     }
 }

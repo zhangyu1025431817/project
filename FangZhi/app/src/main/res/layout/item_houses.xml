@@ -1,27 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300px"
-    android:layout_height="300px"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
     android:layout_margin="8dp"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:paddingTop="8dp">
+    android:paddingTop="8dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp">
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/iv_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
             android:layout_below="@id/iv_image"
             android:text="翡翠城" />
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_below="@id/iv_image"
+            android:text="户型:13" />
     </com.zhy.autolayout.AutoRelativeLayout>
 </com.fangzhi.app.view.AutoCardView>

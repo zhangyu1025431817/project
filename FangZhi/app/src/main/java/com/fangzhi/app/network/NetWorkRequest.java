@@ -1,6 +1,9 @@
 package com.fangzhi.app.network;
 
+import com.fangzhi.app.bean.Area;
 import com.fangzhi.app.bean.BaseResponseBean;
+import com.fangzhi.app.bean.HouseTypes;
+import com.fangzhi.app.bean.Houses;
 import com.fangzhi.app.bean.HousesResponseBean;
 import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.bean.SetPasswordBean;
@@ -73,6 +76,26 @@ public class NetWorkRequest {
     }
     public static Observable<HousesResponseBean> getHousesList(String token,String areaCode,int pageSize,int curPage){
         return Network.getApiService().getHousesList(token,areaCode,pageSize,curPage)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+    public static Observable<Area> getCities(String token){
+        return Network.getApiService().getCities(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+    public static Observable<Houses> getHouses(String token,String id,int pageCount,int page){
+        return Network.getApiService().getHouses(token,id,pageCount,page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+    public static Observable<Houses> searchHouse(String token,String id,String name,int pageSize,int page){
+        return Network.getApiService().searchHouse(token,id,name,pageSize,page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+    public static Observable<HouseTypes> getHouseTypes(String token,String id){
+        return Network.getApiService().getHouseTypes(token,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

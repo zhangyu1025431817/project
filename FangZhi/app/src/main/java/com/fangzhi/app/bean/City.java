@@ -1,19 +1,23 @@
 package com.fangzhi.app.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by smacr on 2016/9/9.
  */
 public class City {
+    public static final String ID = "id";
+    public static final String LEVEL = "level";
+    public static final String E_NAME = "area_ename";
+    public static final String C_NAME = "area_cname";
     String id;
-    String name;
-    List<Houses> housesList = new ArrayList<>();
+    String level;
+    String area_ename;
+    String area_cname;
 
-    public City(String id, String name) {
+    public City(String id, String level, String area_ename, String area_cname) {
         this.id = id;
-        this.name = name;
+        this.level = level;
+        this.area_ename = area_ename;
+        this.area_cname = area_cname;
     }
 
     public String getId() {
@@ -24,19 +28,27 @@ public class City {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLevel() {
+        return level;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
-    public List<Houses> getHousesList() {
-        return housesList;
+    public String getArea_ename() {
+        return area_ename;
     }
 
-    public void setHousesList(List<Houses> housesList) {
-        this.housesList = housesList;
+    public void setArea_ename(String area_ename) {
+        this.area_ename = area_ename;
+    }
+
+    public String getArea_cname() {
+        return area_cname;
+    }
+
+    public void setArea_cname(String area_cname) {
+        this.area_cname = area_cname;
     }
 }

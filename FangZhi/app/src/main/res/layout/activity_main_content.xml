@@ -1,40 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <RelativeLayout
-        android:background="#EEEFF3"
         android:layout_width="match_parent"
-        android:paddingLeft="20px"
-        android:layout_height="?attr/actionBarSize">
-    <TextView
-        android:id="@+id/tv_location"
-        android:layout_width="wrap_content"
-        android:gravity="center"
-        android:drawablePadding="10px"
-        android:drawableLeft="@drawable/icon_location"
-        android:layout_height="match_parent"
-        android:textColor="@color/text_gray_white"
-        android:text="重庆"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/common_white"
+        android:paddingRight="20px"
+        android:paddingLeft="20px">
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/icon_location"
+            android:drawablePadding="10px"
+            android:gravity="center"
+            android:text="正在定位"
+            android:textColor="@color/text_gray_white" />
+
         <com.fangzhi.app.view.ClearEditText
             android:id="@+id/et_keyword"
             android:layout_width="400px"
-            android:layout_centerInParent="true"
             android:layout_height="60px"
+            android:layout_centerInParent="true"
             android:background="@drawable/bg_layout_rectangle_circle_selector"
+            android:drawableRight="@drawable/icon_search"
             android:gravity="center_vertical"
+            android:hint="请输入您想要查找的楼盘"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:drawableRight="@drawable/icon_search"
-            android:hint="请输入您想要查找的楼盘"
-            android:textColorHint="#aaa"
             android:textColor="#333"
+            android:textColorHint="#aaa"
             android:textSize="12sp" />
+        <CheckBox
+            android:id="@+id/cb_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/cb_gray_green_bg"
+            android:text="全部楼盘"
+            android:focusable="true"
+            android:checked="true"
+            android:textColor="@color/colorTextCommonGray"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
+
     <com.jude.easyrecyclerview.EasyRecyclerView
-        android:layout_width="match_parent"
         android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_login" />
 </com.zhy.autolayout.AutoLinearLayout>

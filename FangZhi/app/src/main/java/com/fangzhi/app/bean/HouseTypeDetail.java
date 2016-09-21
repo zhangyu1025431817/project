@@ -16,7 +16,7 @@ public class HouseTypeDetail {
     String image;
     //居室模块
     List<HouseTypeModule> houseTypeModuleList = new ArrayList<>();
-    HouseType houseType;
+    HouseTypes houseType;
 
     public String getId() {
         return id;
@@ -66,11 +66,11 @@ public class HouseTypeDetail {
         this.houseTypeModuleList = houseTypeModuleList;
     }
 
-    public HouseType getHouseType() {
+    public HouseTypes getHouseType() {
         return houseType;
     }
 
-    public void setHouseType(HouseType houseType) {
+    public void setHouseType(HouseTypes houseType) {
         this.houseType = houseType;
     }
 }
