@@ -13,7 +13,7 @@ public class Room {
     //进入当前房间需要展示的家居
     List<RoomProduct> roomProductList = new ArrayList<>();
     //房间拥有的家居模块
-    List<RoomProductType> roomProductTypeList = new ArrayList<>();
+    List<RoomProductTypes> roomProductTypeList = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -39,11 +39,11 @@ public class Room {
         this.roomProductList = roomProductList;
     }
 
-    public List<RoomProductType> getRoomProductTypeList() {
+    public List<RoomProductTypes> getRoomProductTypeList() {
         return roomProductTypeList;
     }
 
-    public void setRoomProductTypeList(List<RoomProductType> roomProductTypeList) {
+    public void setRoomProductTypeList(List<RoomProductTypes> roomProductTypeList) {
         this.roomProductTypeList = roomProductTypeList;
     }
 }

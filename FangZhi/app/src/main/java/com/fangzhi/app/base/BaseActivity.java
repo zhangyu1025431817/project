@@ -4,17 +4,17 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.fangzhi.app.tools.TUtil;
 
 import butterknife.ButterKnife;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
  * Created by zhangyu on 2016/3/11.
  */
-public abstract class BaseActivity<T extends BasePresenter,M extends BaseModel> extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter,M extends BaseModel> extends SwipeBackActivity {
 
     protected T mPresenter;
     protected M mModel;

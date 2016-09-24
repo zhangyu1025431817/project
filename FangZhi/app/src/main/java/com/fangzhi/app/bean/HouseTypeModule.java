@@ -15,7 +15,7 @@ public class HouseTypeModule {
     String name;
     //坐标
     Rect rect;
-    HouseTypeDetail houseTypeDetail;
+    HouseTypeDetails houseTypeDetail;
     //房间风格样式，欧式，中式..
     List<HouseModuleStyle> houseModuleStyleList = new ArrayList<>();
 
@@ -43,11 +43,11 @@ public class HouseTypeModule {
         this.rect = rect;
     }
 
-    public HouseTypeDetail getHouseTypeDetail() {
+    public HouseTypeDetails getHouseTypeDetail() {
         return houseTypeDetail;
     }
 
-    public void setHouseTypeDetail(HouseTypeDetail houseTypeDetail) {
+    public void setHouseTypeDetail(HouseTypeDetails houseTypeDetail) {
         this.houseTypeDetail = houseTypeDetail;
     }
 

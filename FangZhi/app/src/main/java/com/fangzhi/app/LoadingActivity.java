@@ -10,12 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.amap.api.location.AMapLocationClient;
-import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.main.MainActivity;
-import com.fangzhi.app.network.MySubscriber;
-import com.fangzhi.app.network.NetWorkRequest;
-import com.fangzhi.app.network.RequestCodeMessage;
+import com.fangzhi.app.login.LoginActivityNew;
 import com.fangzhi.app.tools.SPUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -25,7 +21,7 @@ import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -58,30 +54,12 @@ public class LoadingActivity extends AppCompatActivity {
         mSubscription = Observable
                 .just((String) SPUtils.get(MyApplication.getContext(), SpKey.TOKEN, ""))
                 .delay(2, TimeUnit.SECONDS)
-                .flatMap(new Func1<String, Observable<LoginBean>>() {
-                    @Override
-                    public Observable<LoginBean> call(String token) {
-                        return token.isEmpty()
-                                ? Observable.<LoginBean>error(new NullPointerException("Token is null!"))
-                                : NetWorkRequest.login(token);
-                    }
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<LoginBean>() {
+                .subscribe(new Action1<String>() {
                     @Override
-                    public void onNext(LoginBean loginBean) {
-                        if (RequestCodeMessage.verificationResponseCode(loginBean)) {
-                            startActivity(new Intent(LoadingActivity.this,MainActivity.class));
-                        } else {
-                            startActivity(new Intent(LoadingActivity.this, MainActivity.class));
-                        }
-                        finish();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        startActivity(new Intent(LoadingActivity.this, MainActivity.class));
+                    public void call(String s) {
+                        startActivity(new Intent(LoadingActivity.this, LoginActivityNew.class));
                         finish();
                     }
                 });

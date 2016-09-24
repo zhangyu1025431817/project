@@ -2,6 +2,7 @@ package com.fangzhi.app.main.city;
 
 import com.fangzhi.app.bean.Area;
 import com.fangzhi.app.network.MySubscriber;
+import com.fangzhi.app.network.http.api.ErrorCode;
 
 /**
  * Created by smacr on 2016/9/20.
@@ -9,10 +10,19 @@ import com.fangzhi.app.network.MySubscriber;
 public class CityPresenter extends CityContract.Presenter {
     @Override
     void getCityList() {
-        mRxManager.add(mModel.getCities().subscribe(new MySubscriber<Area>(){
+        mRxManager.add(mModel.getCities(mView.getToken()).subscribe(new MySubscriber<Area>() {
             @Override
             public void onNext(Area area) {
-                mView.setCities(area.getAreaList());
+                if (ErrorCode.TOKEN_INVALID.equals(area.getError_code())) {
+                    mView.tokenInvalid(area.getMsg());
+                } else if (ErrorCode.SERVER_EXCEPTION.equals(area.getError_code())) {
+                    mView.onError(area.getMsg());
+                } else if (ErrorCode.SUCCEED.equals(area.getError_code())) {
+                    mView.setCities(area.getAreaList());
+                } else {
+                    mView.setCities(null);
+                }
+
             }
 
             @Override

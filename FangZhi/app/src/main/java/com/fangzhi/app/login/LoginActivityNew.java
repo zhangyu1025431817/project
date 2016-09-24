@@ -1,14 +1,17 @@
 package com.fangzhi.app.login;
 
 import android.content.Intent;
-import android.widget.ImageView;
 
+import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
+import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.main.MainActivity;
 import com.fangzhi.app.tools.AppUtils;
-import com.fangzhi.app.tools.RandomCode;
+import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.StateEditText;
+import com.fangzhi.app.view.SweetAlertDialogDelegate;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -32,34 +35,17 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
      */
     @Bind(R.id.et_message_code)
     StateEditText etMessageCode;
-    /**
-     * 随机码
-     */
-    @Bind(R.id.iv_random_code)
-    ImageView ivRandomCode;
-    private String mRealRandomCode;
-
+    DialogDelegate dialogDelegate ;
     /**
      * 登录
      */
     @OnClick(R.id.btn_login)
     public void onLogin() {
-        startActivity(new Intent(this, MainActivity.class));
-//
-//        if (verification(etPhone, getString(R.string.phone_number_not_be_null))
-//                && verification(etPassword, getString(R.string.password_not_be_null))) {
-//            if (!etMessageCode.getText().toString().trim().equals(mRealRandomCode)) {
-//                etMessageCode.changeState(getString(R.string.verification_code_error));
-//            } else {
-//                mPresenter.login();
-//            }
-//        }
-    }
-
-    @OnClick(R.id.iv_random_code)
-    public void changeRandomCode() {
-        ivRandomCode.setImageBitmap(RandomCode.getInstance().createBitmap());
-        mRealRandomCode = RandomCode.getInstance().getCode().toLowerCase();
+        if (verification(etPhone, getString(R.string.phone_number_not_be_null))
+                && verification(etPassword, getString(R.string.password_not_be_null))) {
+            dialogDelegate.showProgressDialog(true,"正在登录...");
+            mPresenter.login();
+        }
     }
 
     private boolean verification(StateEditText et, String errorMsg) {
@@ -77,13 +63,13 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
 
     @Override
     public void initView() {
-        //将验证码用图片的形式显示出来
-        changeRandomCode();
+        dialogDelegate = new SweetAlertDialogDelegate(this);
+        etPhone.setText(SPUtils.getString(MyApplication.getContext(), SpKey.USER_NAME,""));
+        etPassword.setText(SPUtils.getString(MyApplication.getContext(),SpKey.PASSWORD,""));
     }
 
     @Override
     public String getDeviceId() {
-
         return AppUtils.getDeviceId(this);
     }
 
@@ -98,18 +84,30 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
     }
 
     @Override
-    public String getRandomCode() {
-        return etMessageCode.getText().toString().trim();
-    }
-
-    @Override
     public void loginSucceed() {
-
+        dialogDelegate.clearDialog();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     @Override
     public void loginFailed(String msg) {
+        dialogDelegate.stopProgressWithFailed(msg,msg);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dialogDelegate.clearDialog();
+    }
+
+    @Override
+    public void tokenInvalid(String msg) {
 
     }
 
+    @Override
+    public void onError(String msg) {
+
+    }
 }

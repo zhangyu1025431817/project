@@ -1,168 +1,299 @@
 package com.fangzhi.app.main.room;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.util.SparseArray;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.fangzhi.app.R;
+import com.fangzhi.app.base.BaseActivity;
+import com.fangzhi.app.bean.Order;
+import com.fangzhi.app.bean.RoomProduct;
+import com.fangzhi.app.bean.RoomProductType;
+import com.fangzhi.app.bean.Scene;
+import com.fangzhi.app.config.SpKey;
+import com.fangzhi.app.login.LoginActivityNew;
+import com.fangzhi.app.main.adapter.PartAdapter;
+import com.fangzhi.app.main.list.ListOrderActivity;
+import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.tools.ScreenUtils;
+import com.fangzhi.app.tools.T;
+import com.fangzhi.app.view.DialogDelegate;
+import com.fangzhi.app.view.SweetAlertDialogDelegate;
+import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by smacr on 2016/9/12.
  */
-public class RoomActivity extends AppCompatActivity {
+public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View
+        , RecyclerArrayAdapter.OnLoadMoreListener {
+    @Bind(R.id.layout_frame)
     FrameLayout frameLayout;
-    ImageView imageView;
-    private Bitmap resultBitmap;
-    int[] drawables = new int[]{R.drawable.bg_lv_1, R.drawable.bg_lv_2, R.drawable.bg_lv_3, R.drawable.bg_lv_4,
-            R.drawable.bg_lv_5, R.drawable.bg_lv_6, R.drawable.bg_lv_7, R.drawable.bg_lv_8
-    };
-    int count = 0;
-    String[] urls = new String[]{"http://120.76.212.114/test/bg_lv_1.webp",
-            "http://120.76.212.114/test/bg_lv_2.webp",
-            "http://120.76.212.114/test/bg_lv_3.webp",
-            "http://120.76.212.114/test/bg_lv_4.webp",
-            "http://120.76.212.114/test/bg_lv_5.webp",
-            "http://120.76.212.114/test/bg_lv_6.webp",
-            "http://120.76.212.114/test/bg_lv_7.webp",
-            "http://120.76.212.114/test/bg_lv_8.webp",};
-    SparseArray<Bitmap> spArray = new SparseArray<>();
-    List<Model> list = new ArrayList<>();
-    Canvas canvas;
+    @Bind(R.id.layout_part)
+    LinearLayout layoutPart;
+    @Bind(R.id.gb_type)
+    MyRadioGroup radioGroup;
+    @Bind(R.id.recycler_view)
+    EasyRecyclerView recyclerView;
 
+    //图层map
+    private Map<Integer, ImageView> map = new HashMap<>();
+    private Map<Integer,Order> productMap = new HashMap<>();
+    private PartAdapter mAdapter;
+    private List<RoomProductType> mList = new ArrayList<>();
+    private List<RoomProduct> mDataList = new ArrayList<>();
+    private boolean isShow = true;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //    Fresco.initialize(this);
-        setContentView(R.layout.activity_room);
-        frameLayout = (FrameLayout) findViewById(R.id.layout_frame);
-
-        //     imageView.setImageBitmap(resultBitmap);
-        for (int i = 0; i < urls.length; i++) {
-     //       downLoad(urls[i]);
-            ImageView iv = new ImageView(this);
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            Glide.with(this)
-                    .load(urls[i])
-                    .skipMemoryCache(true)
-                    .override(1000, 750)
-                    .into(iv);
-            frameLayout.addView(iv, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        }
-
-//        for (int i = 0; i < urls.length; i++) {
-//            downLoad(urls[i]);
-//        }
-
+    public int getLayoutId() {
+        return R.layout.activity_room;
     }
 
-    /*
-   * 使用Canvas合并Bitmap
-   */
-//    private Bitmap mergeBitmap() {
-//        // 获取ImageView上得Bitmap图片
-//        // 创建空得背景bitmap
-//        // 生成画布图像
-//        Bitmap resultBitmap = Bitmap.createBitmap(imageView.getWidth(),
-//                imageView.getHeight(), Bitmap.Config.RGB_565);
-//        Canvas canvas = new Canvas(resultBitmap);// 使用空白图片生成canvas
-//        for (int i = 0; i < list.size(); i++) {
-////            Bitmap bmp;
-////            if(isChange && i==5){
-////                bmp  = BitmapFactory.decodeResource(getResources(),R.drawable.bg_lv_6_1);
-////            }else{
-////                Date curDate = new Date(System.currentTimeMillis());
-////                bmp  = BitmapFactory.decodeResource(getResources(),drawables[i]);
-////                Date endDate = new Date(System.currentTimeMillis());
-////                long diff = endDate.getTime() - curDate.getTime();
-////                Log.e("生成bitmap所用时间",diff+"");
-////            }
-//            Rect srcRect = new Rect(0, 0, list.get(i).getWidth(), list.get(i).getHeight());// 截取bmp1中的矩形区域
-//            Rect dstRect = new Rect(0, 0, imageView.getWidth(),
-//                    imageView.getHeight());// bmp1在目标画布中的位置
-//
-//            canvas.drawBitmap(list.get(i), srcRect, dstRect, null);
-//
-//            // bmp.recycle();
-//        }
-//        isChange = !isChange;
-//        //   canvas.save( Canvas.ALL_SAVE_FLAG );
-//        // 将bmp1,bmp2合并显示
-//        return resultBitmap;
-//    }
+    String mHotTypeId;
+    String mSceneId;
+    private int mLastSelectPosition = -1;
+    DialogDelegate dialogDelegate;
+    private int mCurrentIndex = 0;//当前图层
+    private String mCurrentIndexName;//当前图层类别 第一次加载全部图层应该有个对应类别 点击的时候改变当前图层类别并存下来，
+    @Override
+    public void initView() {
+        layoutPart.setVisibility(View.GONE);
+        Intent intent = getIntent();
+        String bgUrl = intent.getStringExtra("bg");
+        mHotTypeId = intent.getStringExtra("hotType");
+        mSceneId = intent.getStringExtra("sceneId");
+        //添加背景
+        add(0, bgUrl);
+        List<Scene.Part> list = (List<Scene.Part>) intent.getSerializableExtra("parts");
+        for (Scene.Part part : list) {
+            add(part.getOrder_num(), part.getPart_img());
+            Order order = new Order();
+            order.setPart_img_short(part.getPart_img_short());
+            order.setPart_brand(part.getPart_brand());
+            order.setType(part.getType_name());
+            order.setPart_code(part.getPart_name());
+//            order.setPrice("0");
+//            order.setCount("1");
+            order.setTotalMoney("0");
+            order.setPart_unit(part.getPart_unit());
+            productMap.put(part.getOrder_num(),order);
+        }
+        dialogDelegate = new SweetAlertDialogDelegate(this);
+        initRecyclerView();
+    }
 
+    private void add(int number, String url) {
+        final ImageView iv = new ImageView(this);
+        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        map.put(number, iv);
+        frameLayout.addView(iv, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        Glide.with(this)
+                .load(url)
+                .asBitmap()
+                .dontAnimate()
+                .thumbnail(0.1f)
+                .into(new SimpleTarget<Bitmap>(ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this)) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                        iv.setImageBitmap(resource); // Possibly runOnUiThread()
+                    }
+                });
+    }
 
-    private void downLoad(String url) {
-        Glide.with(this).load(url).asBitmap().into(new SimpleTarget<Bitmap>(1280, 720) {
+    private void initRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mAdapter = new PartAdapter(this);
+        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                Log.e("onResourceReady", "宽=" + resource.getWidth() + "，高=" + resource.getHeight());
-
-                Rect srcRect = new Rect(0, 0, resource.getWidth(), resource.getHeight());// 截取bmp1中的矩形区域
-                Rect dstRect = new Rect(0, 0, imageView.getWidth(), imageView.getHeight());// bmp1在目标画布中的位置
-                canvas.drawBitmap(resource, srcRect, dstRect, null);
-                count++;
-                if (count == 8) {
-                    //排序
-                    imageView.setImageBitmap(resultBitmap);
+            public void onItemClick(int position) {
+                if (mLastSelectPosition != -1 && mLastSelectPosition != position) {
+                    RoomProduct lastProduct = mAdapter.getItem(mLastSelectPosition);
+                    lastProduct.setSelected(false);
                 }
-            }
+                RoomProduct product = mAdapter.getItem(position);
 
+                if (map.containsKey(mCurrentIndex)) {
+                    final ImageView iv = map.get(mCurrentIndex);
+                    if (product.isSelected()) {
+                        //清空对应图层
+                        iv.setVisibility(View.INVISIBLE);
+                        if(productMap.containsKey(mCurrentIndex)) {
+                            productMap.remove(mCurrentIndex);
+                        }
+                    } else {
+                        //设置对应图层
+                        iv.setVisibility(View.VISIBLE);
+                        Glide.with(RoomActivity.this)
+                                .load(product.getPart_img())
+                                .asBitmap()
+                                .dontAnimate()
+                                .thumbnail(0.1f)
+                                .into(new SimpleTarget<Bitmap>(ScreenUtils.getScreenWidth(RoomActivity.this),
+                                        ScreenUtils.getScreenHeight(RoomActivity.this)) {
+                                    @Override
+                                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                                        iv.setImageBitmap(resource); // Possibly runOnUiThread()
+                                    }
+                                });
+                        productToOrder(product);
+                    }
+                }
+
+                product.setSelected(!product.isSelected());
+                mLastSelectPosition = position;
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+        recyclerView.setAdapterWithProgress(mAdapter);
+        onRefresh();
+    }
+
+    private void addPartType(List<RoomProductType> list) {
+        radioGroup.addList(list, new MyRadioGroup.OnCheckedListener() {
+            @Override
+            public void onChecked(RoomProductType roomProductType) {
+                if(mLastSelectPosition != -1){
+                    mAdapter.getItem(mLastSelectPosition).setSelected(false);
+                }
+                mAdapter.clear();
+                mAdapter.addAll(roomProductType.getSonList());
+                mCurrentIndex = roomProductType.getOrder_num();
+                mLastSelectPosition = -1;
+                mCurrentIndexName = roomProductType.getType_name();
+            }
         });
     }
 
-    /**
-     * 图片质量压缩
-     *
-     * @param image
-     * @param srcPath 要保存的路径
-     * @return
-     */
-    public static Bitmap compressImage(Bitmap image, String srcPath) {
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.WEBP, 80, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-        int options = 100;
-        while (baos.toByteArray().length / 1024 > 100) {    // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
-            baos.reset();// 重置baos即清空baos
-            options -= 10;// 每次都减少10
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
-
-        }
-        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
-        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
-        try {
-            FileOutputStream out = new FileOutputStream(srcPath);
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return bitmap;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dialogDelegate.clearDialog();
+        System.gc();
     }
 
-    class Model {
-        int index;
-        int res;
+    @Override
+    public void onLoadMore() {
+        mPresenter.getRoomPartTypeList();
+    }
 
-        public Model(int index, int res) {
-            this.index = index;
-            this.res = res;
+    public void onRefresh() {
+        recyclerView.setRefreshing(true);
+        mAdapter.clear();
+        onLoadMore();
+    }
+
+    @Override
+    public String getToken() {
+        return SPUtils.getString(this, SpKey.TOKEN,"");
+    }
+
+    @Override
+    public String getHotType() {
+        return mHotTypeId;
+    }
+
+    @Override
+    public String getUserId() {
+        return SPUtils.getString(this, SpKey.USER_ID,"");
+    }
+
+    @Override
+    public String getSceneId() {
+        return mSceneId;
+    }
+
+    @Override
+    public void showRoomProductTypes(List<RoomProductType> list) {
+        recyclerView.setRefreshing(false);
+        if (list != null && !list.isEmpty()) {
+            //初始化右侧控件类型
+            addPartType(list);
+            mList.addAll(list);
         }
+    }
+    @OnClick(R.id.iv_home)
+    public void onHome(){
+        layoutPart.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.iv_eye)
+    public void onEye(){
+        if(layoutPart.getVisibility() == View.VISIBLE){
+            layoutPart.setVisibility(View.GONE);
+        }
+        for (int key : map.keySet()) {
+            if(key == 0){
+                continue;
+            }
+            if(isShow) {
+                map.get(key).setVisibility(View.GONE);
+            }else{
+                map.get(key).setVisibility(View.VISIBLE);
+            }
+        }
+        isShow = !isShow;
+    }
+    @OnClick(R.id.iv_close)
+    public void onReturn(){
+        finish();
+    }
+    @OnClick(R.id.tv_hide)
+    public void onHide(){
+        layoutPart.setVisibility(View.GONE);
+    }
+    @OnClick(R.id.iv_calculate)
+    public void onShowOrder(){
+        ArrayList<Order> list = new ArrayList<>();
+        for (int key : productMap.keySet()) {
+                list.add(productMap.get(key));
+        }
+        Intent intent = new Intent();
+        intent.putExtra("list",list);
+        intent.setClass(this, ListOrderActivity.class);
+        startActivity(intent);
+    }
+    public void productToOrder(RoomProduct product){
+        Order order = new Order();
+        order.setPart_img_short(product.getPart_img_short());
+        order.setPart_brand(product.getPart_brand());
+        order.setType(product.getType_name());
+        order.setPart_code(product.getPart_name());
+//        order.setPrice("0");
+//        order.setCount("1");
+        order.setTotalMoney("0");
+        order.setPart_unit(product.getPart_unit());
+        productMap.put(mCurrentIndex,order);
+    }
+
+    @Override
+    public void tokenInvalid(String msg) {
+        dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(RoomActivity.this, LoginActivityNew.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(new Intent(RoomActivity.this, LoginActivityNew.class));
+            }
+        });
+    }
+
+    @Override
+    public void onError(String msg) {
+        T.showShort(this,msg);
     }
 }

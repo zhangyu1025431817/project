@@ -12,7 +12,7 @@ public interface DialogDelegate {
     void showNormalDialog(String option, String msg);
     void showWarningDialog(String option, String msg, OnDialogListener listener);
     void showSuccessDialog(String option, String msg, OnDialogListener listener);
-    void showErrorDialog(String option, String msg);
+    void showErrorDialog(String option, String msg,OnDialogListener listener);
 
     void stopProgressWithSuccess(String option, String msg, OnDialogListener listener);
     void stopProgressWithFailed(String option, String msg);

@@ -22,13 +22,25 @@ public class ApiUrl {
      */
     public static final String GET_HOUSE_TYPE_LIST = "fznet/fzapp/FangzhiAction/getHouseType.json";
     /**
+     * 根据户型图ID获取该户型的热点信息
+     */
+    public static final String GET_HOUSE_TYPE_DETAILS = "fznet/fzapp/FangzhiAction/getHouseHot.json";
+    /**
+     * 获取场景列表
+     */
+    public static final String GET_SCENES = "fznet/fzapp/FangzhiAction/getScenc.json";
+    /**
+     * 获取场景组成部件类型及部件
+     */
+    public static final String GET_SCNEN_PART_TYPE="fznet/fzapp/FangzhiAction/getPart.json";
+    /**
      * 获取app版本号
      */
     public static final String APP_VERSION = "";
     /**
      * 首次登录接口
      */
-    public static final String USER_LOGIN = "";
+    public static final String USER_LOGIN = "fznet/fzapp/FangzhiAction/login.json";
     /**
      * 自动登录
      */

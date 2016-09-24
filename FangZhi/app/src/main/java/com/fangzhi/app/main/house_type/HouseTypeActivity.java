@@ -8,7 +8,14 @@ import android.widget.TextView;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.HouseTypes;
+import com.fangzhi.app.config.SpKey;
+import com.fangzhi.app.login.LoginActivityNew;
 import com.fangzhi.app.main.adapter.HouseTypeAdapter;
+import com.fangzhi.app.main.type_detail.HouseTypeDetailActivity;
+import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.tools.T;
+import com.fangzhi.app.view.DialogDelegate;
+import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
@@ -29,7 +36,7 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
     private String mHouseId;
     private HouseTypeAdapter mAdapter;
     private int page;
-
+    DialogDelegate dialogDelegate;
     @Override
     public int getLayoutId() {
         return R.layout.activity_house_type;
@@ -46,15 +53,31 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
 
         recyclerView.setRefreshListener(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
         mAdapter = new HouseTypeAdapter(this);
         mAdapter.setMore(R.layout.view_more, this);
+        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String imgUrl = mAdapter.getItem(position).getHouse_img();
+                String id = mAdapter.getItem(position).getId();
+                String name = mAdapter.getItem(position).getHouse_name();
+                Intent intent = new Intent();
+                intent.putExtra("imgUrl",imgUrl);
+                intent.putExtra("id",id);
+                intent.putExtra("name",name);
+                intent.setClass(HouseTypeActivity.this, HouseTypeDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+        dialogDelegate = new SweetAlertDialogDelegate(this);
         recyclerView.setAdapterWithProgress(mAdapter);
         onRefresh();
     }
 
     @Override
     public String getToken() {
-        return "";
+        return SPUtils.getString(this, SpKey.TOKEN,"");
     }
 
     @Override
@@ -69,6 +92,7 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
     }
     @OnClick(R.id.iv_back)
     public void onFinish(){
+        dialogDelegate.clearDialog();
         finish();
     }
 
@@ -84,5 +108,22 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
         page = 1;
         mAdapter.clear();
         onLoadMore();
+    }
+
+    @Override
+    public void tokenInvalid(String msg) {
+        dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(HouseTypeActivity.this, LoginActivityNew.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(new Intent(HouseTypeActivity.this, LoginActivityNew.class));
+            }
+        });
+    }
+
+    @Override
+    public void onError(String msg) {
+        T.showShort(this,msg);
     }
 }

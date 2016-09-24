@@ -10,8 +10,7 @@ import rx.Observable;
  */
 public class CityModel implements CityContract.Model {
     @Override
-    public Observable<Area> getCities() {
-        String token = "123";
+    public Observable<Area> getCities(String token) {
         return NetWorkRequest.getCities(token);
     }
 }

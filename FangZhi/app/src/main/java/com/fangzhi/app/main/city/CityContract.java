@@ -15,11 +15,13 @@ import rx.Observable;
  */
 public interface CityContract {
     interface Model extends BaseModel {
-        Observable<Area> getCities();
+        Observable<Area> getCities(String token);
     }
 
     interface View extends BaseView {
         void setCities(List<City> list);
+        String getToken();
+
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

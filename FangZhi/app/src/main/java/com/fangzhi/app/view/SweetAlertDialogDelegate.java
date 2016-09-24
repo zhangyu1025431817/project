@@ -103,10 +103,16 @@ public class SweetAlertDialogDelegate implements DialogDelegate {
     }
 
     @Override
-    public void showErrorDialog(String option, String msg) {
+    public void showErrorDialog(String option, String msg,final OnDialogListener listener) {
         new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText(option)
                 .setConfirmText("确定")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        listener.onClick();
+                    }
+                })
                 .setContentText(msg)
                 .show();
     }

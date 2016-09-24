@@ -2,7 +2,7 @@
     <string name="app_name">房智</string>
     <string name="login_request_code">邀请码登录</string>
     <string name="login_verification_code">账号登录</string>
-    <string name="input_phone_number">请输入手机号</string>
+    <string name="input_phone_number">请输入用户名</string>
     <string name="input_request_code">请输入邀请码</string>
     <string name="input_verification_code">请输入验证码</string>
     <string name="login">登录</string>
@@ -18,7 +18,7 @@
     <string name="set_login_password">设置登录密码</string>
     <string name="finish">完成</string>
     <string name="password_not_null">密码不能为空</string>
-    <string name="phone_number_not_be_null">手机号不能为空</string>
+    <string name="phone_number_not_be_null">用户名不能为空</string>
     <string name="request_code_not_be_null">邀请码不能为空</string>
     <string name="verification_code_error">验证码错误</string>
     <string name="please_input_password">请输入密码</string>

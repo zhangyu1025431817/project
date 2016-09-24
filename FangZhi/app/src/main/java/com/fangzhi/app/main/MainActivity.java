@@ -15,11 +15,16 @@ import com.amap.api.location.AMapLocationListener;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.Houses;
+import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.location.LocationManager;
+import com.fangzhi.app.login.LoginActivityNew;
 import com.fangzhi.app.main.adapter.HousesAdapter;
 import com.fangzhi.app.main.city.CityActivity;
 import com.fangzhi.app.main.house_type.HouseTypeActivity;
 import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.tools.T;
+import com.fangzhi.app.view.DialogDelegate;
+import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
@@ -43,6 +48,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     private int page = 0;
     boolean isSearch = false;
     String mKeyword = "";
+    DialogDelegate dialogDelegate;
     /**
      * 定位监听
      */
@@ -57,8 +63,8 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                     tvLocation.setText("定位失败");
                 } else {
                     tvLocation.setText(name);
-                    SPUtils.putString(MainActivity.this, "city_name", name);
-                    SPUtils.putString(MainActivity.this, "city_code", name);
+                    SPUtils.putString(MainActivity.this, SpKey.CITY_NAME, name);
+                    SPUtils.putString(MainActivity.this, SpKey.CITY_CODE, code);
                     onRefresh();
                 }
                 LocationManager.getInstance().stopLocation();
@@ -75,7 +81,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     public void initView() {
-
+        setSwipeBackEnable(false);
         recyclerView.setRefreshListener(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new HousesAdapter(this);
@@ -96,15 +102,15 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         });
 
         //开始定位
-        String currentCity = SPUtils.getString(this, "city_name", null);
-        if (currentCity == null) {
+        String currentCity = SPUtils.getString(this, SpKey.CITY_NAME, "");
+        if (currentCity.isEmpty()) {
             tvLocation.setText("正在定位");
             LocationManager.getInstance().startLocation(locationListener);
         } else {
             tvLocation.setText(currentCity);
             onRefresh();
         }
-
+        dialogDelegate = new SweetAlertDialogDelegate(this);
     }
 
     @OnCheckedChanged(R.id.cb_all)
@@ -126,11 +132,15 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String city = (String) SPUtils.get(this, "city_name", "定位失败");
+        String city = (String) SPUtils.get(this, SpKey.CITY_NAME, "定位失败");
         tvLocation.setText(city);
         if (resultCode == RESULT_OK) {
             recyclerView.setRefreshing(false);
-            onRefresh();
+            if(cbAll.isChecked()){
+                onRefresh();
+            }else {
+                cbAll.setChecked(true);
+            }
         }
     }
 
@@ -160,13 +170,13 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     public String getToken() {
-        return SPUtils.getString(this, "token", "");
+        return SPUtils.getString(this, SpKey.TOKEN,"");
     }
 
     @Override
     public String getAreaCode() {
 
-        return SPUtils.getString(this, "city_code", "");
+        return SPUtils.getString(this, SpKey.CITY_CODE, "");
     }
 
     @Override
@@ -217,6 +227,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        dialogDelegate.clearDialog();
         LocationManager.getInstance().removeListener(locationListener);
     }
     public void closeKeyboard() {
@@ -226,4 +237,23 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                     .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+    @Override
+    public void tokenInvalid(String msg) {
+        dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(MainActivity.this, LoginActivityNew.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(new Intent(MainActivity.this, LoginActivityNew.class));
+            }
+        });
+    }
+
+
+    @Override
+    public void onError(String msg) {
+        T.showShort(this,msg);
+    }
+
 }

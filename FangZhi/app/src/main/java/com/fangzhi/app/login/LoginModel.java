@@ -10,8 +10,8 @@ import rx.Observable;
  */
 public class LoginModel implements LoginContract.Model {
     @Override
-    public Observable<LoginBean> login(String deviceCode,String account, String password,String randomCode) {
-        return NetWorkRequest.login(account,password);
+    public Observable<LoginBean> login(String deviceCode, String account, String password) {
+        return NetWorkRequest.login(account,password,deviceCode);
     }
 
     @Override

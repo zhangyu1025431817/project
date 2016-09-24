@@ -19,7 +19,7 @@ public class Product {
     String brandName;
     //图层
     String index;
-    RoomProductType roomProductType;
+    RoomProductTypes roomProductType;
 
     public String getIndex() {
         return index;
@@ -29,11 +29,11 @@ public class Product {
         this.index = index;
     }
 
-    public RoomProductType getRoomProductType() {
+    public RoomProductTypes getRoomProductType() {
         return roomProductType;
     }
 
-    public void setRoomProductType(RoomProductType roomProductType) {
+    public void setRoomProductType(RoomProductTypes roomProductType) {
         this.roomProductType = roomProductType;
     }
 

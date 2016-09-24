@@ -2,8 +2,7 @@ package com.fangzhi.app.main.house_type;
 
 import com.fangzhi.app.bean.HouseTypes;
 import com.fangzhi.app.network.MySubscriber;
-
-import java.util.ArrayList;
+import com.fangzhi.app.network.http.api.ErrorCode;
 
 /**
  * Created by smacr on 2016/9/21.
@@ -16,12 +15,20 @@ public class HouseTypePresenter extends HouseTypeContract.Presenter {
         mRxManager.add(mModel.getHouseTypes(token,id).subscribe(new MySubscriber<HouseTypes>(){
             @Override
             public void onNext(HouseTypes houseTypes) {
-                mView.showHouseTypes(houseTypes.getHouseList());
+                if (ErrorCode.TOKEN_INVALID.equals(houseTypes.getError_code())) {
+                    mView.tokenInvalid(houseTypes.getMsg());
+                } else if (ErrorCode.SERVER_EXCEPTION.equals(houseTypes.getError_code())) {
+                    mView.onError(houseTypes.getMsg());
+                } else if (ErrorCode.SUCCEED.equals(houseTypes.getError_code())) {
+                    mView.showHouseTypes(houseTypes.getHouseList());
+                } else {
+                    mView.showHouseTypes(null);
+                }
             }
 
             @Override
             public void onError(Throwable e) {
-                mView.showHouseTypes(new ArrayList<HouseTypes.HouseType>());
+                mView.showHouseTypes(null);
             }
         }));
     }

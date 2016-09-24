@@ -12,14 +12,13 @@ import rx.Observable;
  */
 public interface LoginContract {
     interface Model extends BaseModel{
-        Observable<LoginBean> login(String deviceCode,String account,String password,String randomCode);
+        Observable<LoginBean> login(String deviceCode, String account, String password);
         Observable<LoginBean> login(String token);
     }
     interface View extends BaseView{
         String getDeviceId();
         String getPhoneNumber();
         String getPassword();
-        String getRandomCode();
         //登录
         void loginSucceed();
         void loginFailed(String msg);

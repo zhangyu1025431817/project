@@ -1,58 +1,54 @@
 package com.fangzhi.app.bean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by smacr on 2016/9/9.
  */
 public class RoomProductType {
-    String id;
-    String name;
-    //层次
-    String index;
-    //产品列表
-    List<Product> productList= new ArrayList<>();
-    //对应房间
-    Room room;
+    String type_id;
+    String type_name;
+    int order_num;
+    int page_no;
+    List<RoomProduct> sonList;
 
-    public Room getRoom() {
-        return room;
+    public int getOrder_num() {
+        return order_num;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setOrder_num(int order_num) {
+        this.order_num = order_num;
     }
 
-    public String getId() {
-        return id;
+    public int getPage_no() {
+        return page_no;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPage_no(int page_no) {
+        this.page_no = page_no;
     }
 
-    public String getName() {
-        return name;
+    public String getType_id() {
+        return type_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType_id(String type_id) {
+        this.type_id = type_id;
     }
 
-    public String getIndex() {
-        return index;
+    public String getType_name() {
+        return type_name;
     }
 
-    public void setIndex(String index) {
-        this.index = index;
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
     }
 
-    public List<Product> getProductList() {
-        return productList;
+    public List<RoomProduct> getSonList() {
+        return sonList;
     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setSonList(List<RoomProduct> sonList) {
+        this.sonList = sonList;
     }
 }

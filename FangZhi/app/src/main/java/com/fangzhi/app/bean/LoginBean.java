@@ -1,22 +1,15 @@
 package com.fangzhi.app.bean;
 
-import java.io.Serializable;
-import java.util.List;
-
 /**
  * Created by smacr on 2016/8/30.
  */
-public class LoginBean extends BaseResponseBean implements Serializable{
+public class LoginBean {
 
     private String token;
-    private String storeName;
-    private String validityTime;
-    private List<Area> areaCodeList;
+    private String userID;
+    private String error_code;
+    private String msg;
 
-    public class Area implements Serializable{
-        private String areaCode;
-        private String areaName;
-    }
 
     public String getToken() {
         return token;
@@ -26,27 +19,27 @@ public class LoginBean extends BaseResponseBean implements Serializable{
         this.token = token;
     }
 
-    public String getStoreName() {
-        return storeName;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
-    public String getValidityTime() {
-        return validityTime;
+    public String getError_code() {
+        return error_code;
     }
 
-    public void setValidityTime(String validityTime) {
-        this.validityTime = validityTime;
+    public void setError_code(String error_code) {
+        this.error_code = error_code;
     }
 
-    public List<Area> getAreaCodeList() {
-        return areaCodeList;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setAreaCodeList(List<Area> areaCodeList) {
-        this.areaCodeList = areaCodeList;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

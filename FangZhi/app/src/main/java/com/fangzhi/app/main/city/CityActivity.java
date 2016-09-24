@@ -19,8 +19,10 @@ import com.amap.api.location.AMapLocationListener;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.City;
+import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.db.DBManager;
 import com.fangzhi.app.location.LocationManager;
+import com.fangzhi.app.login.LoginActivityNew;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SideLetterBar;
@@ -200,6 +202,28 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
         String name = SPUtils.getString(CityActivity.this, "city_name", "定位失败");
         mCityAdapter.updateLocateState(LocateState.SUCCESS, name);
         dialogDelegate.clearDialog();
+    }
+
+    @Override
+    public String getToken() {
+        return SPUtils.getString(this,SpKey.TOKEN,"");
+    }
+
+    @Override
+    public void tokenInvalid(String msg) {
+        dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(CityActivity.this, LoginActivityNew.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(new Intent(CityActivity.this, LoginActivityNew.class));
+            }
+        });
+    }
+
+    @Override
+    public void onError(String msg) {
+        dialogDelegate.stopProgressWithFailed(msg,msg);
     }
 
     public void closeKeyboard() {
