@@ -2,8 +2,6 @@ package com.fangzhi.app.main.room;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -19,11 +17,11 @@ import com.fangzhi.app.bean.RoomProductType;
 import com.fangzhi.app.bean.Scene;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.download.DownLoadImageService;
+import com.fangzhi.app.download.DrawImageService;
 import com.fangzhi.app.login.LoginActivityNew;
 import com.fangzhi.app.main.adapter.PartAdapter;
 import com.fangzhi.app.main.list.ListOrderActivity;
 import com.fangzhi.app.tools.SPUtils;
-import com.fangzhi.app.tools.ScreenUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
@@ -36,8 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -77,89 +73,15 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     private int mLastSelectPosition = -1;
     DialogDelegate dialogDelegate;
     private int mCurrentIndex = 0;//当前图层
-    /**
-     * 单线程列队执行
-     */
-    private static ExecutorService singleExecutor = null;
-    /**
-     * 多线程下载
-     */
-    private static ExecutorService cacheExecutor = null;
 
-    /**
-     * 执行单线程列队执行
-     */
-    public void runOnQueueSignle(Runnable runnable) {
-        if (singleExecutor == null) {
-            singleExecutor = Executors.newSingleThreadExecutor();
-
-        }
-        singleExecutor.submit(runnable);
-    }
-
-    /**
-     * 执行单线程列队执行
-     */
-    public void runOnQueueCache(Runnable runnable) {
-        if (cacheExecutor == null) {
-            cacheExecutor = Executors.newCachedThreadPool();
-
-        }
-        cacheExecutor.submit(runnable);
-    }
 
     Handler handler = new Handler();
     @Bind(R.id.iv_show)
     ImageView ivShow;
-    Canvas canvas;
     Bitmap resultBitmap;
-    int i = 0;//计数器
     String bgUrl;
-    boolean isCanDraw = false;
-
-    /**
-     * 启动图片下载线程
-     */
-    private void onDownLoad(String url) {
-        DownLoadImageService service = new DownLoadImageService(
-                url,
-                new DownLoadImageService.ImageDownLoadCallBack() {
-
-                    @Override
-                    public void onDownLoadSuccess(final Bitmap bitmap) {
-                        i++;
-                        if (!isCanDraw) {//下载
-                            if (i == mapUrl.size()) {//所有下载完成
-                                isCanDraw = true;
-                                reDraw();
-                            }
-                        } else {//画图
-                            // 将bmp绘制在画布上
-                            Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());// 截取bmp1中的矩形区域
-                            Rect dstRect = new Rect(0, 0, ScreenUtils.getScreenWidth(RoomActivity.this),
-                                    ScreenUtils.getScreenHeight(RoomActivity.this));// bmp1在目标画布中的位置
-                            canvas.drawBitmap(bitmap, srcRect, dstRect, null);
-                            if (i == mapUrl.size()) {
-                                // 在这里执行图片保存方法
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ivShow.setImageBitmap(resultBitmap);
-                                        isCanDraw = false;
-                                    }
-                                });
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onDownLoadFailed() {
-                        i++;
-                    }
-                });
-        runOnQueueCache(service);
-    }
+    DownLoadImageService downLoadImageService;
+    DrawImageService drawImageService;
 
     @Override
     public void initView() {
@@ -173,12 +95,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         mHlCode = intent.getStringExtra("hlCode");
         List<Scene.Part> list = (List<Scene.Part>) intent.getSerializableExtra("parts");
         //用于当背景的空bitmap
-        resultBitmap = Bitmap.createBitmap(ScreenUtils.getScreenWidth(this),
-                ScreenUtils.getScreenHeight(this), Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(resultBitmap);
+
         for (Scene.Part part : list) {
             mapUrl.put(part.getOrder_num(), part.getPart_img());
-            // onDownLoad(part.getPart_img());
             Order order = new Order();
             order.setPart_img_short(part.getPart_img_short());
             order.setPart_brand(part.getPart_brand());
@@ -192,8 +111,19 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         }
         dialogDelegate = new SweetAlertDialogDelegate(this);
         initRecyclerView();
+        drawImageService = new DrawImageService(this, ivShow, handler, new DrawImageService.OnDrawListener() {
+            @Override
+            public void onDrawSucceed() {
 
-        reDraw();
+            }
+        });
+        downLoadImageService = new DownLoadImageService( new DownLoadImageService.ImageDownLoadCallBack() {
+            @Override
+            public void onDownLoadSuccess() {
+                drawImageService.startDraw(mapUrl);
+            }
+        });
+        downLoadImageService.startDown(mapUrl);
     }
 
     /**
@@ -212,20 +142,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             }
             mapUrl.put(number, url);
         }
-        reDraw();
+        downLoadImageService.startDown(mapUrl);
     }
 
-    /**
-     * 重绘
-     */
-    private void reDraw() {
-        i = 0;
-        //清空画布
-        // canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        for (Integer key : mapUrl.keySet()) {
-            onDownLoad(mapUrl.get(key));
-        }
-    }
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -345,7 +264,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         mapUrl.clear();
         productMap.clear();
         mapUrl.put(0, bgUrl);
-        reDraw();
+        downLoadImageService.startDown(mapUrl);
     }
 
     @OnClick(R.id.iv_close)
