@@ -23,7 +23,6 @@ public class MySubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
-        L.e("Throwable", e.getMessage());
         L.e("MySubscriber", "onError被调用了");
     }
 

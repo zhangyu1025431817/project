@@ -1,12 +1,14 @@
 package com.fangzhi.app.login;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.main.MainActivity;
+import com.fangzhi.app.main.custom.CustomActivity;
 import com.fangzhi.app.tools.AppUtils;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.view.DialogDelegate;
@@ -36,11 +38,13 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
     @Bind(R.id.et_message_code)
     StateEditText etMessageCode;
     DialogDelegate dialogDelegate ;
+
     /**
      * 登录
      */
     @OnClick(R.id.btn_login)
     public void onLogin() {
+
         if (verification(etPhone, getString(R.string.phone_number_not_be_null))
                 && verification(etPassword, getString(R.string.password_not_be_null))) {
             dialogDelegate.showProgressDialog(true,"正在登录...");
@@ -63,6 +67,8 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
 
     @Override
     public void initView() {
+        setSwipeBackEnable(false);
+        Log.e("LoginActivityNew",AppUtils.getDeviceId(this));
         dialogDelegate = new SweetAlertDialogDelegate(this);
         etPhone.setText(SPUtils.getString(MyApplication.getContext(), SpKey.USER_NAME,""));
         etPassword.setText(SPUtils.getString(MyApplication.getContext(),SpKey.PASSWORD,""));
@@ -70,7 +76,7 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
 
     @Override
     public String getDeviceId() {
-        return AppUtils.getDeviceId(this);
+        return "d2e0ec6cfb5a4ceb";
     }
 
     @Override
@@ -84,9 +90,16 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
     }
 
     @Override
-    public void loginSucceed() {
+    public void loginSucceed(String img) {
         dialogDelegate.clearDialog();
-        startActivity(new Intent(this, MainActivity.class));
+        if(img == null || img.isEmpty()) {
+            startActivity(new Intent(this, MainActivity.class));
+        }else{
+            Intent intent = new Intent();
+            intent.putExtra("url",img);
+            intent.setClass(this, CustomActivity.class);
+            startActivity(intent);
+        }
         finish();
     }
 
@@ -110,4 +123,9 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
     public void onError(String msg) {
 
     }
+    @OnClick(R.id.tv_protocol)
+    public void onProtocol(){
+        startActivity(new Intent(this,ProtocolActivity.class));
+    }
+
 }

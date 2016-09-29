@@ -29,7 +29,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                             SPUtils.put(MyApplication.getContext(), SpKey.USER_NAME,mView.getPhoneNumber());
                             SPUtils.put(MyApplication.getContext(), SpKey.PASSWORD,mView.getPassword());
                             SPUtils.put(MyApplication.getContext(), SpKey.USER_ID,loginBean.getUserID());
-                            mView.loginSucceed();
+                            mView.loginSucceed(loginBean.getImg());
                         } else {
                             mView.loginFailed(loginBean.getMsg());
                         }

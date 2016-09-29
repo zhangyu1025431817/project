@@ -55,10 +55,10 @@ public interface ApiService {
     Observable<Scenes> getScenes(@Header("token") String token,
                                  @Field("hot_type") String hotType,
                                  @Field("userID") String userId);
-    @POST(ApiUrl.GET_SCNEN_PART_TYPE)
-    @FormUrlEncoded
+    @GET(ApiUrl.GET_SCNEN_PART_TYPE)
     Observable<RoomProductTypes> getRoomProductTypes(@Header("token") String token,
-                                                     @Field("hot_type") String hotType,
-                                                     @Field("userID") String userId,
-                                                     @Field("hlCode") String sceneId);
+                                                     @Query("hot_type") String hotType,
+                                                     @Query("userID") String userId,
+                                                     @Query("scene_id") String sceneId,
+                                                     @Query("hlCode") String hlCode);
 }

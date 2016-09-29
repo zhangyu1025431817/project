@@ -20,7 +20,7 @@ public interface LoginContract {
         String getPhoneNumber();
         String getPassword();
         //登录
-        void loginSucceed();
+        void loginSucceed(String url);
         void loginFailed(String msg);
 
     }

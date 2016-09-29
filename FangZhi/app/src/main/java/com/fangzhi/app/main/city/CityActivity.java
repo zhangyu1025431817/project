@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import com.fangzhi.app.db.DBManager;
 import com.fangzhi.app.location.LocationManager;
 import com.fangzhi.app.login.LoginActivityNew;
 import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.view.ClearEditText;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SideLetterBar;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
@@ -49,10 +49,8 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
     SideLetterBar mLetterBar;
     //搜索框
     @Bind(R.id.et_search)
-    EditText etSearch;
-    //输入框清除
-    @Bind(R.id.iv_search_clear)
-    ImageView ivClear;
+    ClearEditText etSearch;
+
     //表层显示字母
     @Bind(R.id.tv_letter_overlay)
     TextView tvOverlay;
@@ -131,11 +129,9 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
             public void afterTextChanged(Editable s) {
                 String keyword = s.toString();
                 if (TextUtils.isEmpty(keyword)) {
-                    ivClear.setVisibility(View.GONE);
                     viewEmpty.setVisibility(View.GONE);
                     lvResultCity.setVisibility(View.GONE);
                 } else {
-                    ivClear.setVisibility(View.VISIBLE);
                     lvResultCity.setVisibility(View.VISIBLE);
                     List<City> result = dbManager.searchCity(keyword);
                     if (result == null || result.size() == 0) {
@@ -206,7 +202,7 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
 
     @Override
     public String getToken() {
-        return SPUtils.getString(this,SpKey.TOKEN,"");
+        return SPUtils.getString(this, SpKey.TOKEN, "");
     }
 
     @Override
@@ -223,14 +219,19 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
 
     @Override
     public void onError(String msg) {
-        dialogDelegate.stopProgressWithFailed(msg,msg);
+        dialogDelegate.stopProgressWithFailed(msg, msg);
     }
 
     public void closeKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm.isActive()) {
-            imm.hideSoftInputFromWindow(getCurrentFocus()
-                    .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        try {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm.isActive()) {
+
+                imm.hideSoftInputFromWindow(getCurrentFocus()
+                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

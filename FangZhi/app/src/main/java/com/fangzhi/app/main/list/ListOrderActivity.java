@@ -1,5 +1,6 @@
 package com.fangzhi.app.main.list;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.fangzhi.app.R;
@@ -96,15 +98,15 @@ public class ListOrderActivity extends SwipeBackActivity {
                                   public void call(Object o) {
                                       final OrderViewHolder.Money money = (OrderViewHolder.Money) o;
                                       final Order order = mAdapter.getItem(money.position);
-                                      new DialogInput(ListOrderActivity.this, "请输入单价", new DialogInput.ClickListenerInterface() {
+                                      new DialogInput(ListOrderActivity.this, Float.parseFloat(order.getPrice()), 0, new DialogInput.ClickListenerInterface() {
 
                                           @Override
-                                          public void doConfirm(String price) {
+                                          public void doConfirm(String priceStr) {
                                               int count = Integer.parseInt(order.getCount());
-                                              float mf = Float.parseFloat(price);
+                                              float mf = Float.parseFloat(priceStr);
                                               float strP = count * mf;
                                               String strT = strP + "";
-                                              order.setPrice(price);
+                                              order.setPrice(priceStr);
                                               order.setTotalMoney(strT);
                                               moneyMap.put(money.position, strP);
                                               mAdapter.notifyDataSetChanged();
@@ -112,7 +114,7 @@ public class ListOrderActivity extends SwipeBackActivity {
                                               for (Integer key : moneyMap.keySet()) {
                                                   totalMoney += moneyMap.get(key);
                                               }
-                                              tvTotalMoney.setText("总价" + totalMoney + "");
+                                              tvTotalMoney.setText(totalMoney + "");
                                           }
                                       }).show();
 
@@ -127,15 +129,15 @@ public class ListOrderActivity extends SwipeBackActivity {
                                   public void call(Object o) {
                                       final OrderViewHolder.Money money = (OrderViewHolder.Money) o;
                                       final Order order = mAdapter.getItem(money.position);
-                                      new DialogInput(ListOrderActivity.this, "请输入数量", new DialogInput.ClickListenerInterface() {
+                                      new DialogInput(ListOrderActivity.this, Integer.parseInt(order.getCount()), 1, new DialogInput.ClickListenerInterface() {
 
                                           @Override
-                                          public void doConfirm(String price) {
-                                              int count = Integer.parseInt(order.getCount());
-                                              float mf = Float.parseFloat(price);
-                                              float strP = count * mf;
+                                          public void doConfirm(String countStr) {
+                                              float price = Float.parseFloat(order.getPrice());
+                                              int count = Integer.parseInt(countStr);
+                                              float strP = count * price;
                                               String strT = strP + "";
-                                              order.setPrice(price);
+                                              order.setCount(countStr);
                                               order.setTotalMoney(strT);
                                               moneyMap.put(money.position, strP);
                                               mAdapter.notifyDataSetChanged();
@@ -143,8 +145,7 @@ public class ListOrderActivity extends SwipeBackActivity {
                                               for (Integer key : moneyMap.keySet()) {
                                                   totalMoney += moneyMap.get(key);
                                               }
-                                              tvTotalMoney.setText("总价" + totalMoney + "");
-
+                                              tvTotalMoney.setText(totalMoney + "");
                                           }
                                       }).show();
 
@@ -160,5 +161,27 @@ public class ListOrderActivity extends SwipeBackActivity {
     @OnClick(R.id.iv_back)
     public void onReturn() {
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxBus.$().unregister("price");
+        RxBus.$().unregister("count");
+    }
+
+    public void closeKeyboard() {
+        try {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm.isActive()) {
+
+                imm.hideSoftInputFromWindow(getCurrentFocus()
+                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

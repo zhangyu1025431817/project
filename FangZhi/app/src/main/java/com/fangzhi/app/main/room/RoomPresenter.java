@@ -16,7 +16,7 @@ public class RoomPresenter extends RoomContract.Presenter {
     @Override
     void getRoomPartTypeList() {
         mRxManager.add(mModel.getRoomPartTypes(mView.getToken(),mView.getHotType(),
-                mView.getUserId(),mView.getSceneId()).subscribe(new MySubscriber<RoomProductTypes>(){
+                mView.getUserId(),mView.getSceneId(),mView.getHlCode()).subscribe(new MySubscriber<RoomProductTypes>(){
             @Override
             public void onNext(RoomProductTypes roomProductTypes) {
                 if (ErrorCode.TOKEN_INVALID.equals(roomProductTypes.getError_code())) {

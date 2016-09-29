@@ -76,8 +76,8 @@ public class NetWorkRequest {
     }
 
     public static Observable<RoomProductTypes> getRoomProductTypes(String token, String hotType,
-                                                                   String userId, String sceneId) {
-        return Network.getApiService().getRoomProductTypes(token, hotType, userId, sceneId)
+                                                                   String userId, String sceneId,String hlCode) {
+        return Network.getApiService().getRoomProductTypes(token, hotType, userId, sceneId,hlCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

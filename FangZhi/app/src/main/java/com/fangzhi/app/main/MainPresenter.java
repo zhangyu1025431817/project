@@ -31,6 +31,7 @@ public class MainPresenter extends MainContract.Presenter {
 
             @Override
             public void onError(Throwable e) {
+
                 mView.showHousesList(null);
             }
         }));

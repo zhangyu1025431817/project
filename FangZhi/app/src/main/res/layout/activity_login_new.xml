@@ -21,14 +21,16 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="90px"
-        android:paddingLeft="180px"
-        android:paddingRight="180px"
+
         android:paddingTop="90px">
 
         <com.fangzhi.app.view.StateEditText
             android:id="@+id/et_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="180px"
+            android:textCursorDrawable="@null"
+            android:layout_marginRight="180px"
             android:background="@drawable/bg_edit_login"
             android:hint="@string/input_phone_number"
             android:paddingLeft="20px"
@@ -40,6 +42,9 @@
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="180px"
+            android:textCursorDrawable="@null"
+            android:layout_marginRight="180px"
             android:layout_marginTop="40px"
             android:background="@drawable/bg_edit_login"
             android:hint="@string/please_input_password"
@@ -53,15 +58,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40px"
-            android:visibility="gone"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <com.fangzhi.app.view.StateEditText
                 android:id="@+id/et_message_code"
                 android:layout_width="0dp"
-                android:layout_weight="3"
                 android:layout_height="wrap_content"
+                android:layout_weight="3"
                 android:background="@drawable/bg_edit_login"
                 android:hint="@string/input_verification_code"
                 android:paddingLeft="20px"
@@ -71,9 +76,9 @@
             <ImageView
                 android:id="@+id/iv_random_code"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10px"
+                android:layout_weight="1"
                 android:text="@string/get_msg_code"
                 android:textColor="@color/colorWhite" />
         </com.zhy.autolayout.AutoLinearLayout>
@@ -82,9 +87,32 @@
             android:id="@+id/btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="180px"
+            android:layout_marginRight="180px"
             android:layout_marginTop="40px"
             android:background="@drawable/btn_login"
             android:text="@string/login"
             android:textColor="@color/colorWhite" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50px"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_protocol_one" />
+
+            <TextView
+                android:id="@+id/tv_protocol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_protocol_two"
+                android:textColor="@color/text_green_light_green" />
+        </LinearLayout>
+
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

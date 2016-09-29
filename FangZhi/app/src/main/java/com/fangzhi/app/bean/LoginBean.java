@@ -9,7 +9,15 @@ public class LoginBean {
     private String userID;
     private String error_code;
     private String msg;
+    private String img;
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public String getToken() {
         return token;

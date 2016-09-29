@@ -10,7 +10,8 @@ import rx.Observable;
  */
 public class RoomModel implements RoomContract.Model {
     @Override
-    public Observable<RoomProductTypes> getRoomPartTypes(String token, String hotType, String userId, String sceneId) {
-        return NetWorkRequest.getRoomProductTypes(token,hotType,userId,sceneId);
+    public Observable<RoomProductTypes> getRoomPartTypes(String token, String hotType,
+                                                         String userId, String sceneId,String hlCode) {
+        return NetWorkRequest.getRoomProductTypes(token,hotType,userId,sceneId,hlCode);
     }
 }

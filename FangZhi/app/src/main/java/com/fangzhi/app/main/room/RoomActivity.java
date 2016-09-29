@@ -2,15 +2,15 @@ package com.fangzhi.app.main.room;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.Order;
@@ -18,6 +18,7 @@ import com.fangzhi.app.bean.RoomProduct;
 import com.fangzhi.app.bean.RoomProductType;
 import com.fangzhi.app.bean.Scene;
 import com.fangzhi.app.config.SpKey;
+import com.fangzhi.app.download.DownLoadImageService;
 import com.fangzhi.app.login.LoginActivityNew;
 import com.fangzhi.app.main.adapter.PartAdapter;
 import com.fangzhi.app.main.list.ListOrderActivity;
@@ -30,9 +31,13 @@ import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -42,8 +47,7 @@ import butterknife.OnClick;
  */
 public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View
         , RecyclerArrayAdapter.OnLoadMoreListener {
-    @Bind(R.id.layout_frame)
-    FrameLayout frameLayout;
+
     @Bind(R.id.layout_part)
     LinearLayout layoutPart;
     @Bind(R.id.gb_type)
@@ -51,67 +55,176 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
 
-    //图层map
-    private Map<Integer, ImageView> map = new HashMap<>();
-    private Map<Integer,Order> productMap = new HashMap<>();
+    //当前图层urls
+    private Map<Integer, String> mapUrl = new TreeMap<>(new Comparator<Integer>() {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o1 - o2;
+        }
+    });
+    private Map<Integer, Order> productMap = new HashMap<>();
     private PartAdapter mAdapter;
     private List<RoomProductType> mList = new ArrayList<>();
-    private List<RoomProduct> mDataList = new ArrayList<>();
-    private boolean isShow = true;
+
     @Override
     public int getLayoutId() {
-        return R.layout.activity_room;
+        return R.layout.activity_room3;
     }
 
     String mHotTypeId;
     String mSceneId;
+    String mHlCode;
     private int mLastSelectPosition = -1;
     DialogDelegate dialogDelegate;
     private int mCurrentIndex = 0;//当前图层
-    private String mCurrentIndexName;//当前图层类别 第一次加载全部图层应该有个对应类别 点击的时候改变当前图层类别并存下来，
+    /**
+     * 单线程列队执行
+     */
+    private static ExecutorService singleExecutor = null;
+    /**
+     * 多线程下载
+     */
+    private static ExecutorService cacheExecutor = null;
+
+    /**
+     * 执行单线程列队执行
+     */
+    public void runOnQueueSignle(Runnable runnable) {
+        if (singleExecutor == null) {
+            singleExecutor = Executors.newSingleThreadExecutor();
+
+        }
+        singleExecutor.submit(runnable);
+    }
+
+    /**
+     * 执行单线程列队执行
+     */
+    public void runOnQueueCache(Runnable runnable) {
+        if (cacheExecutor == null) {
+            cacheExecutor = Executors.newCachedThreadPool();
+
+        }
+        cacheExecutor.submit(runnable);
+    }
+
+    Handler handler = new Handler();
+    @Bind(R.id.iv_show)
+    ImageView ivShow;
+    Canvas canvas;
+    Bitmap resultBitmap;
+    int i = 0;//计数器
+    String bgUrl;
+    boolean isCanDraw = false;
+
+    /**
+     * 启动图片下载线程
+     */
+    private void onDownLoad(String url) {
+        DownLoadImageService service = new DownLoadImageService(
+                url,
+                new DownLoadImageService.ImageDownLoadCallBack() {
+
+                    @Override
+                    public void onDownLoadSuccess(final Bitmap bitmap) {
+                        i++;
+                        if (!isCanDraw) {//下载
+                            if (i == mapUrl.size()) {//所有下载完成
+                                isCanDraw = true;
+                                reDraw();
+                            }
+                        } else {//画图
+                            // 将bmp绘制在画布上
+                            Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());// 截取bmp1中的矩形区域
+                            Rect dstRect = new Rect(0, 0, ScreenUtils.getScreenWidth(RoomActivity.this),
+                                    ScreenUtils.getScreenHeight(RoomActivity.this));// bmp1在目标画布中的位置
+                            canvas.drawBitmap(bitmap, srcRect, dstRect, null);
+                            if (i == mapUrl.size()) {
+                                // 在这里执行图片保存方法
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ivShow.setImageBitmap(resultBitmap);
+                                        isCanDraw = false;
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onDownLoadFailed() {
+                        i++;
+                    }
+                });
+        runOnQueueCache(service);
+    }
+
     @Override
     public void initView() {
         layoutPart.setVisibility(View.GONE);
         Intent intent = getIntent();
-        String bgUrl = intent.getStringExtra("bg");
+        bgUrl = intent.getStringExtra("bg");
+        //首先放置背景
+        mapUrl.put(0, bgUrl);
         mHotTypeId = intent.getStringExtra("hotType");
         mSceneId = intent.getStringExtra("sceneId");
-        //添加背景
-        add(0, bgUrl);
+        mHlCode = intent.getStringExtra("hlCode");
         List<Scene.Part> list = (List<Scene.Part>) intent.getSerializableExtra("parts");
+        //用于当背景的空bitmap
+        resultBitmap = Bitmap.createBitmap(ScreenUtils.getScreenWidth(this),
+                ScreenUtils.getScreenHeight(this), Bitmap.Config.ARGB_8888);
+        canvas = new Canvas(resultBitmap);
         for (Scene.Part part : list) {
-            add(part.getOrder_num(), part.getPart_img());
+            mapUrl.put(part.getOrder_num(), part.getPart_img());
+            // onDownLoad(part.getPart_img());
             Order order = new Order();
             order.setPart_img_short(part.getPart_img_short());
             order.setPart_brand(part.getPart_brand());
             order.setType(part.getType_name());
             order.setPart_code(part.getPart_name());
-//            order.setPrice("0");
-//            order.setCount("1");
-            order.setTotalMoney("0");
+            order.setPrice("0.0");
+            order.setCount("1");
+            order.setTotalMoney("0.0");
             order.setPart_unit(part.getPart_unit());
-            productMap.put(part.getOrder_num(),order);
+            productMap.put(part.getOrder_num(), order);
         }
         dialogDelegate = new SweetAlertDialogDelegate(this);
         initRecyclerView();
+
+        reDraw();
     }
 
-    private void add(int number, String url) {
-        final ImageView iv = new ImageView(this);
-        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        map.put(number, iv);
-        frameLayout.addView(iv, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        Glide.with(this)
-                .load(url)
-                .asBitmap()
-                .dontAnimate()
-                .thumbnail(0.1f)
-                .into(new SimpleTarget<Bitmap>(ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this)) {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                        iv.setImageBitmap(resource); // Possibly runOnUiThread()
-                    }
-                });
+    /**
+     * 当前集合一修改就马上触发重绘制
+     *
+     * @param number
+     * @param url
+     * @param isCancel
+     */
+    private void change(int number, String url, boolean isCancel) {
+        if (isCancel) {
+            mapUrl.remove(number);
+        } else {
+            if (url.equals(mapUrl.get(number))) {
+                return;
+            }
+            mapUrl.put(number, url);
+        }
+        reDraw();
+    }
+
+    /**
+     * 重绘
+     */
+    private void reDraw() {
+        i = 0;
+        //清空画布
+        // canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        for (Integer key : mapUrl.keySet()) {
+            onDownLoad(mapUrl.get(key));
+        }
     }
 
     private void initRecyclerView() {
@@ -127,31 +240,16 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 }
                 RoomProduct product = mAdapter.getItem(position);
 
-                if (map.containsKey(mCurrentIndex)) {
-                    final ImageView iv = map.get(mCurrentIndex);
-                    if (product.isSelected()) {
-                        //清空对应图层
-                        iv.setVisibility(View.INVISIBLE);
-                        if(productMap.containsKey(mCurrentIndex)) {
-                            productMap.remove(mCurrentIndex);
-                        }
-                    } else {
-                        //设置对应图层
-                        iv.setVisibility(View.VISIBLE);
-                        Glide.with(RoomActivity.this)
-                                .load(product.getPart_img())
-                                .asBitmap()
-                                .dontAnimate()
-                                .thumbnail(0.1f)
-                                .into(new SimpleTarget<Bitmap>(ScreenUtils.getScreenWidth(RoomActivity.this),
-                                        ScreenUtils.getScreenHeight(RoomActivity.this)) {
-                                    @Override
-                                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                                        iv.setImageBitmap(resource); // Possibly runOnUiThread()
-                                    }
-                                });
-                        productToOrder(product);
+                if (product.isSelected()) {
+                    //清空对应图层
+                    change(mCurrentIndex, null, true);
+                    if (productMap.containsKey(mCurrentIndex)) {
+                        productMap.remove(mCurrentIndex);
                     }
+                } else {
+                    //添加对应图层
+                    change(mCurrentIndex, product.getPart_img(), false);
+                    productToOrder(product);
                 }
 
                 product.setSelected(!product.isSelected());
@@ -167,14 +265,13 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         radioGroup.addList(list, new MyRadioGroup.OnCheckedListener() {
             @Override
             public void onChecked(RoomProductType roomProductType) {
-                if(mLastSelectPosition != -1){
+                if (mLastSelectPosition != -1) {
                     mAdapter.getItem(mLastSelectPosition).setSelected(false);
                 }
                 mAdapter.clear();
                 mAdapter.addAll(roomProductType.getSonList());
                 mCurrentIndex = roomProductType.getOrder_num();
                 mLastSelectPosition = -1;
-                mCurrentIndexName = roomProductType.getType_name();
             }
         });
     }
@@ -183,6 +280,11 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     protected void onDestroy() {
         super.onDestroy();
         dialogDelegate.clearDialog();
+        mapUrl = null;
+        productMap = null;
+        mAdapter = null;
+        mList = null;
+        resultBitmap.recycle();
         System.gc();
     }
 
@@ -199,7 +301,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public String getToken() {
-        return SPUtils.getString(this, SpKey.TOKEN,"");
+        return SPUtils.getString(this, SpKey.TOKEN, "");
     }
 
     @Override
@@ -209,12 +311,17 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public String getUserId() {
-        return SPUtils.getString(this, SpKey.USER_ID,"");
+        return SPUtils.getString(this, SpKey.USER_ID, "");
     }
 
     @Override
     public String getSceneId() {
         return mSceneId;
+    }
+
+    @Override
+    public String getHlCode() {
+        return mHlCode;
     }
 
     @Override
@@ -226,58 +333,58 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             mList.addAll(list);
         }
     }
+
     @OnClick(R.id.iv_home)
-    public void onHome(){
+    public void onHome() {
+        layoutPart.setAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_out));
         layoutPart.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.iv_eye)
-    public void onEye(){
-        if(layoutPart.getVisibility() == View.VISIBLE){
-            layoutPart.setVisibility(View.GONE);
-        }
-        for (int key : map.keySet()) {
-            if(key == 0){
-                continue;
-            }
-            if(isShow) {
-                map.get(key).setVisibility(View.GONE);
-            }else{
-                map.get(key).setVisibility(View.VISIBLE);
-            }
-        }
-        isShow = !isShow;
+    public void onEye() {
+        mapUrl.clear();
+        productMap.clear();
+        mapUrl.put(0, bgUrl);
+        reDraw();
     }
+
     @OnClick(R.id.iv_close)
-    public void onReturn(){
+    public void onReturn() {
         finish();
     }
-    @OnClick(R.id.tv_hide)
-    public void onHide(){
-        layoutPart.setVisibility(View.GONE);
+
+    @OnClick({R.id.iv_cover, R.id.tv_hide})
+    public void onHide() {
+        if (layoutPart.getVisibility() == View.VISIBLE) {
+            layoutPart.setAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_in));
+            layoutPart.setVisibility(View.GONE);
+        }
+
     }
+
     @OnClick(R.id.iv_calculate)
-    public void onShowOrder(){
+    public void onShowOrder() {
         ArrayList<Order> list = new ArrayList<>();
         for (int key : productMap.keySet()) {
-                list.add(productMap.get(key));
+            list.add(productMap.get(key));
         }
         Intent intent = new Intent();
-        intent.putExtra("list",list);
+        intent.putExtra("list", list);
         intent.setClass(this, ListOrderActivity.class);
         startActivity(intent);
     }
-    public void productToOrder(RoomProduct product){
+
+    public void productToOrder(RoomProduct product) {
         Order order = new Order();
         order.setPart_img_short(product.getPart_img_short());
         order.setPart_brand(product.getPart_brand());
         order.setType(product.getType_name());
         order.setPart_code(product.getPart_name());
-//        order.setPrice("0");
-//        order.setCount("1");
-        order.setTotalMoney("0");
+        order.setPrice("0.0");
+        order.setCount("1");
+        order.setTotalMoney("0.0");
         order.setPart_unit(product.getPart_unit());
-        productMap.put(mCurrentIndex,order);
+        productMap.put(mCurrentIndex, order);
     }
 
     @Override
@@ -294,6 +401,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public void onError(String msg) {
-        T.showShort(this,msg);
+        T.showShort(this, msg);
     }
+
 }

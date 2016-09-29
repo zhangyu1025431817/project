@@ -15,7 +15,8 @@ import rx.Observable;
  */
 public interface RoomContract {
     interface Model extends BaseModel {
-        Observable<RoomProductTypes> getRoomPartTypes(String token,String hotType,String userId,String sceneId);
+        Observable<RoomProductTypes> getRoomPartTypes(String token,String hotType,String userId,
+                                                      String sceneId,String hlCode);
     }
 
     interface View extends BaseView {
@@ -23,6 +24,7 @@ public interface RoomContract {
         String getHotType();
         String getUserId();
         String getSceneId();
+        String getHlCode();
         void showRoomProductTypes(List<RoomProductType> list);
     }
 

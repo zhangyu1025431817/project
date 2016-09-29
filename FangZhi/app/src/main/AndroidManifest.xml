@@ -62,6 +62,7 @@
             android:theme="@style/AppBaseTheme"
             android:screenOrientation="landscape"/>
         <activity android:name=".login.LoginActivityNew"
+            android:theme="@style/AppBaseThemeMain"
             android:screenOrientation="landscape"/>
         <activity android:name=".main.city.CityActivity"
             android:screenOrientation="landscape"
@@ -82,8 +83,12 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".main.list.ListOrderActivity"
             android:theme="@style/AppBaseTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan"
             android:screenOrientation="landscape"/>
+        <activity android:name=".main.custom.CustomActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".login.ProtocolActivity"
+            android:screenOrientation="landscape"
+            />
         <meta-data
             android:name="design_width"
             android:value="2048" />

@@ -49,7 +49,7 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
             mHotType = intent.getStringExtra("type");
         }
         recyclerView.setRefreshListener(this);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new SceneAdapter(this);
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
@@ -59,7 +59,8 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
                 intent.putExtra("parts", scene.getSonList());
                 intent.putExtra("bg",scene.getHl_img());
                 intent.putExtra("hotType",mHotType);
-                intent.putExtra("sceneId",scene.getHl_code());
+                intent.putExtra("hlCode",scene.getHl_code());
+                intent.putExtra("sceneId",scene.getScene_id());
                 intent.setClass(SceneActivity.this, RoomActivity.class);
                 startActivity(intent);
             }
