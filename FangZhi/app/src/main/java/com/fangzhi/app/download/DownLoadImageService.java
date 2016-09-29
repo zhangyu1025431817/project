@@ -59,11 +59,14 @@ public class DownLoadImageService{
         @Override
         public void run() {
             try {
+                final long startTime = System.nanoTime();  //開始時間
                 Glide.with(MyApplication.getContext())
                         .load(url)
                         .asBitmap()
                         .into(ScreenUtils.getScreenWidth(MyApplication.getContext()),
                                 ScreenUtils.getScreenHeight(MyApplication.getContext()));
+                final long consumingTime = System.nanoTime() - startTime; //消耗時間
+                System.out.println("下载"+consumingTime / 1000/1000 + "毫秒");
                 waitForComplete();
             } catch (Exception e) {
                 e.printStackTrace();

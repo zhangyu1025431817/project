@@ -1,7 +1,6 @@
 package com.fangzhi.app.main.room;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -78,7 +77,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     Handler handler = new Handler();
     @Bind(R.id.iv_show)
     ImageView ivShow;
-    Bitmap resultBitmap;
     String bgUrl;
     DownLoadImageService downLoadImageService;
     DrawImageService drawImageService;
@@ -203,7 +201,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         productMap = null;
         mAdapter = null;
         mList = null;
-        resultBitmap.recycle();
         System.gc();
     }
 

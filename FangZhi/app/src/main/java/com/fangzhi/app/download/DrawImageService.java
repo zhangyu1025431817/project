@@ -64,6 +64,7 @@ public class DrawImageService  {
 
         @Override
         public void run() {
+            final long startTime = System.nanoTime();  //開始時間
             for (Integer key : mapUrl.keySet()) {
                 try {
                     Bitmap bitmap = Glide.with(MyApplication.getContext())
@@ -79,6 +80,8 @@ public class DrawImageService  {
                     e.printStackTrace();
                 }
             }
+            final long consumingTime = System.nanoTime() - startTime; //消耗時間
+            System.out.println("画图"+consumingTime / 1000/1000 + "毫秒");
             handler.post(new Runnable() {
                 @Override
                 public void run() {
