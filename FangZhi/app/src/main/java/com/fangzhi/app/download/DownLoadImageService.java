@@ -1,5 +1,7 @@
 package com.fangzhi.app.download;
 
+import android.content.Context;
+
 import com.bumptech.glide.Glide;
 import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.tools.ScreenUtils;
@@ -29,9 +31,12 @@ public class DownLoadImageService{
     private  int index;
     private Map<Integer,String> mapUrl;
     private ImageDownLoadCallBack callBack;
-
-    public DownLoadImageService( ImageDownLoadCallBack callBack) {
+    private int width;
+    private int height;
+    public DownLoadImageService( ImageDownLoadCallBack callBack,Context context) {
         this.callBack = callBack;
+        width = ScreenUtils.getScreenWidth(context);
+        height = ScreenUtils.getScreenHeight(context);
     }
 
     public void startDown(Map<Integer,String> mapUrl){
@@ -63,8 +68,7 @@ public class DownLoadImageService{
                 Glide.with(MyApplication.getContext())
                         .load(url)
                         .asBitmap()
-                        .into(ScreenUtils.getScreenWidth(MyApplication.getContext()),
-                                ScreenUtils.getScreenHeight(MyApplication.getContext()));
+                        .into(width,height);
                 final long consumingTime = System.nanoTime() - startTime; //消耗時間
                 System.out.println("下载"+consumingTime / 1000/1000 + "毫秒");
                 waitForComplete();

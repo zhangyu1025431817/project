@@ -3,6 +3,7 @@ package com.fangzhi.app.main.room;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -83,6 +84,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public void initView() {
+        Runtime rt=Runtime.getRuntime();
+        long maxMemory=rt.maxMemory();
+        Log.i("maxMemory:",Long.toString(maxMemory/(1024*1024)));
         layoutPart.setVisibility(View.GONE);
         Intent intent = getIntent();
         bgUrl = intent.getStringExtra("bg");
@@ -120,7 +124,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             public void onDownLoadSuccess() {
                 drawImageService.startDraw(mapUrl);
             }
-        });
+        },this);
         downLoadImageService.startDown(mapUrl);
     }
 
@@ -154,6 +158,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 if (mLastSelectPosition != -1 && mLastSelectPosition != position) {
                     RoomProduct lastProduct = mAdapter.getItem(mLastSelectPosition);
                     lastProduct.setSelected(false);
+                    mAdapter.notifyItemChanged(mLastSelectPosition);
                 }
                 RoomProduct product = mAdapter.getItem(position);
 
@@ -171,7 +176,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
                 product.setSelected(!product.isSelected());
                 mLastSelectPosition = position;
-                mAdapter.notifyDataSetChanged();
+               // mAdapter.notifyDataSetChanged();
+                mAdapter.notifyItemChanged(position);
             }
         });
         recyclerView.setAdapterWithProgress(mAdapter);

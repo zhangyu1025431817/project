@@ -1,18 +1,15 @@
 //package com.fangzhi.app.main.room;
 //
 //import android.content.Intent;
-//import android.graphics.Bitmap;
 //import android.support.v7.widget.LinearLayoutManager;
-//import android.util.Log;
 //import android.view.View;
 //import android.view.animation.AnimationUtils;
-//import android.widget.FrameLayout;
 //import android.widget.ImageView;
 //import android.widget.LinearLayout;
+//import android.widget.RelativeLayout;
 //
 //import com.bumptech.glide.Glide;
-//import com.bumptech.glide.request.animation.GlideAnimation;
-//import com.bumptech.glide.request.target.SimpleTarget;
+//import com.facebook.drawee.view.SimpleDraweeView;
 //import com.fangzhi.app.R;
 //import com.fangzhi.app.base.BaseActivity;
 //import com.fangzhi.app.bean.Order;
@@ -42,10 +39,9 @@
 ///**
 // * Created by smacr on 2016/9/12.
 // */
-//public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View
-//        , RecyclerArrayAdapter.OnLoadMoreListener {
+//public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View {
 //    @Bind(R.id.layout_frame)
-//    FrameLayout frameLayout;
+//    RelativeLayout frameLayout;
 //    @Bind(R.id.layout_part)
 //    LinearLayout layoutPart;
 //    @Bind(R.id.gb_type)
@@ -53,27 +49,38 @@
 //    @Bind(R.id.recycler_view)
 //    EasyRecyclerView recyclerView;
 //
-//
 //    //图层map
-//    private Map<Integer, ImageView> map = new HashMap<>();
+//    private Map<Integer, SimpleDraweeView > map = new HashMap<>();
+//    //清单map
 //    private Map<Integer, Order> productMap = new HashMap<>();
+//    //控件
 //    private PartAdapter mAdapter;
+//    //控件种类
 //    private List<RoomProductType> mList = new ArrayList<>();
-//    private List<RoomProduct> mDataList = new ArrayList<>();
+//    //控件视图是否显示
 //    private boolean isShow = true;
+//    //热点类型
+//    String mHotTypeId;
+//    //场景id
+//    String mSceneId;
+//    //
+//    String mHlCode;
+//    //最后一次选择的控件种类
+//    private int mLastSelectPosition = -1;
+//    //等待框
+//    DialogDelegate dialogDelegate;
+//    //当前选中图层
+//    private int mCurrentIndex = 0;
+//    //屏幕宽度
+//    private int mScreenWidth;
+//    //屏幕高度
+//    private int mScreenHeight;
 //
 //    @Override
 //    public int getLayoutId() {
 //        return R.layout.activity_room;
 //    }
 //
-//    String mHotTypeId;
-//    String mSceneId;
-//    String mHlCode;
-//    private int mLastSelectPosition = -1;
-//    DialogDelegate dialogDelegate;
-//    private int mCurrentIndex = 0;//当前图层
-//    private String mCurrentIndexName;//当前图层类别 第一次加载全部图层应该有个对应类别 点击的时候改变当前图层类别并存下来，
 //
 //    @Override
 //    public void initView() {
@@ -83,12 +90,13 @@
 //        mHotTypeId = intent.getStringExtra("hotType");
 //        mSceneId = intent.getStringExtra("sceneId");
 //        mHlCode = intent.getStringExtra("hlCode");
+//        mScreenWidth = ScreenUtils.getScreenWidth(this);
+//        mScreenHeight = ScreenUtils.getScreenHeight(this);
 //        //添加背景
-//       // add(0, bgUrl);
+//        addCoverage(0, bgUrl);
 //        List<Scene.Part> list = (List<Scene.Part>) intent.getSerializableExtra("parts");
-//        loadShelf(list);
 //        for (Scene.Part part : list) {
-//            add(part.getOrder_num(), part.getPart_img());
+//            addCoverage(part.getOrder_num(), part.getPart_img());
 //            Order order = new Order();
 //            order.setPart_img_short(part.getPart_img_short());
 //            order.setPart_brand(part.getPart_brand());
@@ -104,98 +112,49 @@
 //        initRecyclerView();
 //    }
 //
-//    private void add(int number, String url) {
-//        final ImageView iv = new ImageView(this);
-//        iv.setScaleType(ImageView.ScaleType.FIT_XY);
-//        map.put(number, iv);
-//        frameLayout.addView(iv, ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this));
-//        Glide.with(this)
-//                .load(url)
-//                .asBitmap()
-//                .dontAnimate()
-//                .fitCenter()
-//                .into(new SimpleTarget<Bitmap>(1000, 749) {
-//                    @Override
-//                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-//                        Log.e("onResourceReady",resource.getRowBytes()*resource.getHeight()+"");
-//                        iv.setImageBitmap(resource); // Possibly runOnUiThread()
-//                    }
-//                });
-////        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
-////                .setProgressiveRenderingEnabled(true)
-////                .build();
-////        DraweeController controller = Fresco.newDraweeControllerBuilder()
-////                .setImageRequest(request)
-////                .build();
-////        Picasso.with(this)
-////                .load(url)
-////                .memoryPolicy(MemoryPolicy.NO_CACHE)
-////                .fit()
-////                .into(iv);
-//    }
+//    /**
+//     * 添加图层
+//     *
+//     * @param number 图层号
+//     * @param url    图层url
+//     */
+//    private void addCoverage(int number, String url) {
+//        SimpleDraweeView view = new SimpleDraweeView(this);
+//        frameLayout.addView(view, ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this));
+//        view.setImageURI(url);
+////        ImageView iv = new ImageView(this);
+////        iv.setScaleType(ImageView.ScaleType.FIT_XY);
+//        map.put(number, view);
 //
-//    private void loadShelf(final List<Scene.Part> list) {
-//        if (list.size() == 0) {
-//            return;
-//        }
-//        Glide.with(this)
-//                .load(list.get(0).getPart_img())
-//                .asBitmap()
-//                .dontAnimate()
-//                .fitCenter()
-//                .into(new SimpleTarget<Bitmap>(ScreenUtils.getScreenWidth(this), ScreenUtils.getScreenHeight(this)) {
-//                    @Override
-//                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-//                        Log.e("onResourceReady", resource.getRowBytes() * resource.getHeight() + "");
-//                        ImageView iv = new ImageView(RoomActivity.this);
-//                        iv.setScaleType(ImageView.ScaleType.FIT_XY);
-//                        iv.setImageBitmap(resource); // Possibly runOnUiThread()
-//                        frameLayout.addView(iv, ScreenUtils.getScreenWidth(RoomActivity.this),
-//                                ScreenUtils.getScreenHeight(RoomActivity.this));
-//                        list.remove(0);
-//                        loadShelf(list);
-//                    }
-//                });
+//      //  Glide.with(this).load(url).override(mScreenWidth, mScreenHeight).into(iv);
 //    }
 //
 //    private void initRecyclerView() {
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
 //        mAdapter = new PartAdapter(this);
 //        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(int position) {
 //                if (mLastSelectPosition != -1 && mLastSelectPosition != position) {
+//                    //取消上一此选中状态
 //                    RoomProduct lastProduct = mAdapter.getItem(mLastSelectPosition);
 //                    lastProduct.setSelected(false);
 //                }
 //                RoomProduct product = mAdapter.getItem(position);
-//
-//                if (map.containsKey(mCurrentIndex)) {
-//                    final ImageView iv = map.get(mCurrentIndex);
-//                    if (product.isSelected()) {
-//                        //清空对应图层
-//                        iv.setVisibility(View.INVISIBLE);
-//                        if (productMap.containsKey(mCurrentIndex)) {
-//                            productMap.remove(mCurrentIndex);
-//                        }
-//                    } else {
-//                        //设置对应图层
-//                        iv.setVisibility(View.VISIBLE);
-//                        Glide.with(RoomActivity.this)
-//                                .load(product.getPart_img())
-//                                .asBitmap()
-//                                .centerCrop()
-//                                .dontAnimate()
-//                                .into(new SimpleTarget<Bitmap>(ScreenUtils.getScreenWidth(RoomActivity.this),
-//                                        ScreenUtils.getScreenHeight(RoomActivity.this)) {
-//                                    @Override
-//                                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-//                                        iv.setImageBitmap(resource); // Possibly runOnUiThread()
-//                                    }
-//                                });
-//                        productToOrder(product);
-//                    }
+//                //定位到当前需要改变的图层
+//                final ImageView iv = map.get(mCurrentIndex);
+//                if (product.isSelected()) {
+//                    //清空对应图层
+//                    iv.setVisibility(View.INVISIBLE);
+//                    productMap.remove(mCurrentIndex);
+//                } else {
+//                    //设置对应图层
+//                    iv.setVisibility(View.VISIBLE);
+//                    Glide.with(RoomActivity.this)
+//                            .load(product.getPart_img())
+//                            .override(mScreenWidth,mScreenHeight)
+//                            .into(iv);
+//                    productToOrder(product);
 //                }
 //
 //                product.setSelected(!product.isSelected());
@@ -204,7 +163,7 @@
 //            }
 //        });
 //        recyclerView.setAdapterWithProgress(mAdapter);
-//        onRefresh();
+//        mPresenter.getRoomPartTypeList();
 //    }
 //
 //    private void addPartType(List<RoomProductType> list) {
@@ -218,7 +177,6 @@
 //                mAdapter.addAll(roomProductType.getSonList());
 //                mCurrentIndex = roomProductType.getOrder_num();
 //                mLastSelectPosition = -1;
-//                mCurrentIndexName = roomProductType.getType_name();
 //            }
 //        });
 //    }
@@ -232,17 +190,6 @@
 //        mAdapter = null;
 //        mList = null;
 //        System.gc();
-//    }
-//
-//    @Override
-//    public void onLoadMore() {
-//        mPresenter.getRoomPartTypeList();
-//    }
-//
-//    public void onRefresh() {
-//        recyclerView.setRefreshing(true);
-//        mAdapter.clear();
-//        onLoadMore();
 //    }
 //
 //    @Override
@@ -272,7 +219,6 @@
 //
 //    @Override
 //    public void showRoomProductTypes(List<RoomProductType> list) {
-//        recyclerView.setRefreshing(false);
 //        if (list != null && !list.isEmpty()) {
 //            //初始化右侧控件类型
 //            addPartType(list);

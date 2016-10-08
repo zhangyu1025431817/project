@@ -3,7 +3,7 @@ package com.fangzhi.app.download;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
+import android.graphics.Matrix;
 import android.os.Handler;
 import android.widget.ImageView;
 
@@ -36,7 +36,6 @@ public class DrawImageService  {
     }
     private Map<Integer, String> mapUrl;
     private Handler handler;
-    private Canvas canvas;
     private ImageView imageView;
     private Bitmap resultBitmap;
     private OnDrawListener listener;
@@ -53,7 +52,6 @@ public class DrawImageService  {
         height = ScreenUtils.getScreenHeight(context);
         this.listener = listener;
         resultBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(resultBitmap);
     }
 
     public void startDraw(Map<Integer, String> mapUrl){
@@ -64,24 +62,28 @@ public class DrawImageService  {
 
         @Override
         public void run() {
-            final long startTime = System.nanoTime();  //開始時間
+            Canvas canvas = new Canvas(resultBitmap);
             for (Integer key : mapUrl.keySet()) {
                 try {
+                    final long startTime = System.nanoTime();  //開始時間
                     Bitmap bitmap = Glide.with(MyApplication.getContext())
                             .load(mapUrl.get(key))
                             .asBitmap()
-                            .into(ScreenUtils.getScreenWidth(MyApplication.getContext()) / 2,
-                                    ScreenUtils.getScreenHeight(MyApplication.getContext()) / 2)
+                            .into(width,height)
                             .get();
-                    Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());// 截取bmp1中的矩形区域
-                    Rect dstRect = new Rect(0, 0, width, height);// bmp1在目标画布中的位置
-                    canvas.drawBitmap(bitmap, srcRect, dstRect, null);
+                    final long consumingTime = System.nanoTime() - startTime; //消耗時間
+                    System.out.println("获取bitmap"+consumingTime / 1000/1000 + "毫秒");
+                    Matrix mMatrix = new Matrix();
+                    mMatrix.postScale(width/(float) bitmap.getWidth(),
+                            height/(float) bitmap.getHeight());
+                //    Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());// 截取bmp1中的矩形区域
+               //     Rect dstRect = new Rect(0, 0, width, height);// bmp1在目标画布中的位置
+                    canvas.drawBitmap(bitmap, mMatrix, null);
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
             }
-            final long consumingTime = System.nanoTime() - startTime; //消耗時間
-            System.out.println("画图"+consumingTime / 1000/1000 + "毫秒");
+
             handler.post(new Runnable() {
                 @Override
                 public void run() {

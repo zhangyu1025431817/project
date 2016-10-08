@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.RoomProduct;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -27,8 +26,6 @@ public class PartViewHolder extends BaseViewHolder<RoomProduct> {
     public void setData(RoomProduct data) {
         Glide.with(getContext())
                 .load(data.getPart_img_short())
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .crossFade()
                 .into(iv_product);
         if(data.isSelected()){
             view_cover.setVisibility(View.VISIBLE);
