@@ -92,10 +92,10 @@
             />
         <meta-data
             android:name="design_width"
-            android:value="2048" />
+            android:value="2560" />
         <meta-data
             android:name="design_height"
-            android:value="1536" />
+            android:value="1600" />
     </application>
 
 </manifest>

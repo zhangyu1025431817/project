@@ -11,6 +11,7 @@ import com.fangzhi.app.main.MainActivity;
 import com.fangzhi.app.main.custom.CustomActivity;
 import com.fangzhi.app.tools.AppUtils;
 import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.tools.ScreenUtils;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.StateEditText;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
@@ -67,6 +68,7 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
 
     @Override
     public void initView() {
+        Log.e("LoginActivityNew", ScreenUtils.getScreenWidth(this)+"--"+ScreenUtils.getScreenHeight(this));
         setSwipeBackEnable(false);
         Log.e("LoginActivityNew",AppUtils.getDeviceId(this));
         dialogDelegate = new SweetAlertDialogDelegate(this);

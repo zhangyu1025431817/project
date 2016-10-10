@@ -46,7 +46,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     private HousesAdapter adapter;
     private int page = 0;
-    boolean isSearch = false;
     String mKeyword = "";
     DialogDelegate dialogDelegate;
     /**

@@ -1,9 +1,9 @@
 package com.fangzhi.app.main.room;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -58,6 +58,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             return o1 - o2;
         }
     });
+
     private Map<Integer, Order> productMap = new HashMap<>();
     private PartAdapter mAdapter;
     private List<RoomProductType> mList = new ArrayList<>();
@@ -84,9 +85,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public void initView() {
-        Runtime rt=Runtime.getRuntime();
-        long maxMemory=rt.maxMemory();
-        Log.i("maxMemory:",Long.toString(maxMemory/(1024*1024)));
         layoutPart.setVisibility(View.GONE);
         Intent intent = getIntent();
         bgUrl = intent.getStringExtra("bg");
@@ -121,8 +119,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         });
         downLoadImageService = new DownLoadImageService( new DownLoadImageService.ImageDownLoadCallBack() {
             @Override
-            public void onDownLoadSuccess() {
-                drawImageService.startDraw(mapUrl);
+            public void onDownLoadSuccess(Map<Integer,Bitmap> map) {
+                drawImageService.startDraw(map);
             }
         },this);
         downLoadImageService.startDown(mapUrl);
@@ -144,13 +142,12 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             }
             mapUrl.put(number, url);
         }
+
         downLoadImageService.startDown(mapUrl);
     }
 
-
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         mAdapter = new PartAdapter(this);
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
@@ -176,7 +173,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
                 product.setSelected(!product.isSelected());
                 mLastSelectPosition = position;
-               // mAdapter.notifyDataSetChanged();
                 mAdapter.notifyItemChanged(position);
             }
         });
@@ -207,6 +203,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         productMap = null;
         mAdapter = null;
         mList = null;
+        downLoadImageService = null;
+        drawImageService = null;
         System.gc();
     }
 

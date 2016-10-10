@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.stream.HttpUrlGlideUrlLoader;
@@ -19,6 +20,7 @@ public class GlideConfiguration implements GlideModule {
     public void applyOptions(Context context, GlideBuilder builder) {
 
         builder.setDiskCache(new ExternalCacheDiskCacheFactory(context));
+        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
 //        MemorySizeCalculator calculator = new MemorySizeCalculator(context);
 //        builder.setMemoryCache(new LruResourceCache(calculator.getMemoryCacheSize()));
 //        builder.setBitmapPool(new LruBitmapPool(calculator.getBitmapPoolSize()));

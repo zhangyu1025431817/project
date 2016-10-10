@@ -1,12 +1,15 @@
 package com.fangzhi.app.download;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.bumptech.glide.Glide;
 import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.tools.ScreenUtils;
 
+import java.util.Comparator;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,6 +33,12 @@ public class DownLoadImageService{
     }
     private  int index;
     private Map<Integer,String> mapUrl;
+    private Map<Integer,Bitmap> bitmapMap = new TreeMap<>(new Comparator<Integer>() {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o1 - o2;
+        }
+    });
     private ImageDownLoadCallBack callBack;
     private int width;
     private int height;
@@ -42,36 +51,39 @@ public class DownLoadImageService{
     public void startDown(Map<Integer,String> mapUrl){
         this.mapUrl = mapUrl;
         for(Integer key : mapUrl.keySet()){
-            runOnQueueCache(new DownLoadThread(mapUrl.get(key)));
+            runOnQueueCache(new DownLoadThread(key,mapUrl.get(key)));
         }
     }
-    private void waitForComplete(){
+    private void waitForComplete(int number, Bitmap bitmap){
+        bitmapMap.put(number,bitmap);
         index++;
         if(index == mapUrl.size()){
-            callBack.onDownLoadSuccess();
+            callBack.onDownLoadSuccess(bitmapMap);
             index = 0;
         }
     }
     public interface ImageDownLoadCallBack {
-        void onDownLoadSuccess();
+        void onDownLoadSuccess(Map<Integer,Bitmap> map);
     }
 
     private class DownLoadThread implements Runnable {
         private String url;
-        public DownLoadThread(String url){
+        private int index;
+        public DownLoadThread(int index,String url){
+            this.index = index;
             this.url = url;
         }
         @Override
         public void run() {
             try {
                 final long startTime = System.nanoTime();  //開始時間
-                Glide.with(MyApplication.getContext())
+               Bitmap bitmap =  Glide.with(MyApplication.getContext())
                         .load(url)
                         .asBitmap()
-                        .into(width,height);
+                        .into(1280,720).get();
                 final long consumingTime = System.nanoTime() - startTime; //消耗時間
                 System.out.println("下载"+consumingTime / 1000/1000 + "毫秒");
-                waitForComplete();
+                waitForComplete(index,bitmap);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -3,6 +3,7 @@ package com.fangzhi.app;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.zhy.autolayout.config.AutoLayoutConifg;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
 
@@ -21,6 +22,7 @@ public class MyApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        AutoLayoutConifg.getInstance().useDeviceSize();
         Fresco.initialize(this);
         //配置
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
