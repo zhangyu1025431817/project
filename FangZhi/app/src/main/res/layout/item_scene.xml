@@ -2,7 +2,7 @@
 <com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="600px"
     android:layout_margin="8dp"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
@@ -30,6 +30,6 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="翡翠城"
-            android:textSize="20sp" />
+            android:textSize="40px" />
     </com.zhy.autolayout.AutoLinearLayout>
 </com.fangzhi.app.view.AutoCardView>

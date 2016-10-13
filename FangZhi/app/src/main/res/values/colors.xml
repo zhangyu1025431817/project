@@ -20,8 +20,10 @@
     <color name="gray_light">#dededc</color>
     <color name="gray_deep">#5c5c5c</color>
     <color name="alpha_gray">#CC646464</color>
+    <color name="alpha_light_gray">#11f4f4f4</color>
     <color name="theme_gray">#646464</color>
     <color name="common_white">#EEEFF3</color>
+    <color name="transparent">#00000000</color>
 
     <color name="black_semi_transparent">#B2000000</color>
     <color name="background">#e5e5e5</color>

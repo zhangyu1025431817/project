@@ -59,7 +59,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.room.RoomActivity"
+        <activity android:process=":Room" android:name=".main.room.RoomActivity"
             android:theme="@style/AppBaseTheme"
             android:screenOrientation="landscape"/>
         <activity android:name=".login.LoginActivityNew"
@@ -90,6 +90,8 @@
         <activity android:name=".login.ProtocolActivity"
             android:screenOrientation="landscape"
             />
+        <activity android:name=".main.room.ZoomActivity"
+            android:screenOrientation="landscape"/>
         <meta-data
             android:name="design_width"
             android:value="2560" />

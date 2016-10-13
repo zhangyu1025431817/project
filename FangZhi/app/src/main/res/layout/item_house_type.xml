@@ -2,7 +2,7 @@
 <com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="600dp"
+    android:layout_height="1000px"
     android:layout_margin="8dp"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
@@ -19,26 +19,27 @@
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="900px"
             android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="100px"
             android:layout_alignParentLeft="true"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="40px"
             android:layout_below="@id/iv_image"
             android:text="翡翠城" />
         <TextView
             android:id="@+id/tv_area"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="100px"
             android:layout_marginRight="10dp"
             android:visibility="gone"
             android:layout_alignParentRight="true"
             android:gravity="center"
+            android:textSize="40px"
             android:layout_below="@id/iv_image"
             android:text="面积:86㎡" />
     </com.zhy.autolayout.AutoRelativeLayout>

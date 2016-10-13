@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/common_white"
@@ -23,8 +23,8 @@
 
         <com.fangzhi.app.view.ClearEditText
             android:id="@+id/et_keyword"
-            android:layout_width="400px"
-            android:layout_height="60px"
+            android:layout_width="600px"
+            android:layout_height="80px"
             android:layout_centerInParent="true"
             android:background="@drawable/bg_layout_rectangle_circle_selector"
             android:drawableRight="@drawable/icon_search"
@@ -34,7 +34,7 @@
             android:paddingRight="10dp"
             android:textColor="#333"
             android:textColorHint="#aaa"
-            android:textSize="12sp" />
+            android:textSize="28px" />
         <CheckBox
             android:id="@+id/cb_all"
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:textColor="@color/colorTextCommonGray"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view"

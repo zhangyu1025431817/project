@@ -2,13 +2,14 @@ package com.fangzhi.app.main.room;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.Order;
@@ -25,6 +26,8 @@ import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
+import com.fangzhi.app.view.loading.AVLoadingIndicatorView;
+import com.fangzhi.app.view.loading.BallSpinFadeLoaderIndicator;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
@@ -50,6 +53,10 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     MyRadioGroup radioGroup;
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
+    @Bind(R.id.view_loading)
+    View layoutLoading;
+    @Bind(R.id.avi)
+    AVLoadingIndicatorView aviLoading;
 
     //当前图层urls
     private Map<Integer, String> mapUrl = new TreeMap<>(new Comparator<Integer>() {
@@ -75,25 +82,29 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     DialogDelegate dialogDelegate;
     private int mCurrentIndex = 0;//当前图层
 
-
-    Handler handler = new Handler();
     @Bind(R.id.iv_show)
-    ImageView ivShow;
+    SubsamplingScaleImageView ivShow;
     String bgUrl;
     DownLoadImageService downLoadImageService;
     DrawImageService drawImageService;
 
     @Override
     public void initView() {
+        //loading
+
+        BallSpinFadeLoaderIndicator indicator = new BallSpinFadeLoaderIndicator();
+        aviLoading.setIndicator(indicator);
+
         layoutPart.setVisibility(View.GONE);
         Intent intent = getIntent();
-        bgUrl = intent.getStringExtra("bg");
+        Bundle bundle = intent.getExtras();
+        bgUrl = bundle.getString("bg");
         //首先放置背景
         mapUrl.put(0, bgUrl);
-        mHotTypeId = intent.getStringExtra("hotType");
-        mSceneId = intent.getStringExtra("sceneId");
-        mHlCode = intent.getStringExtra("hlCode");
-        List<Scene.Part> list = (List<Scene.Part>) intent.getSerializableExtra("parts");
+        mHotTypeId = bundle.getString("hotType");
+        mSceneId = bundle.getString("sceneId");
+        mHlCode = bundle.getString("hlCode");
+        List<Scene.Part> list = (List<Scene.Part>) bundle.getSerializable("parts");
         //用于当背景的空bitmap
 
         for (Scene.Part part : list) {
@@ -111,19 +122,18 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         }
         dialogDelegate = new SweetAlertDialogDelegate(this);
         initRecyclerView();
-        drawImageService = new DrawImageService(this, ivShow, handler, new DrawImageService.OnDrawListener() {
-            @Override
-            public void onDrawSucceed() {
 
+        downLoadImageService = new DownLoadImageService(mapUrl, this, new DownLoadImageService.OnDrawListener() {
+            @Override
+            public void onDrawSucceed(Bitmap bitmap) {
+                if(ivShow == null){
+                    return;
+                }
+            //    ivShow.setImageBitmap(bitmap);
+                ivShow.setImage(ImageSource.bitmap(bitmap));
+                layoutLoading.setVisibility(View.INVISIBLE);
             }
         });
-        downLoadImageService = new DownLoadImageService( new DownLoadImageService.ImageDownLoadCallBack() {
-            @Override
-            public void onDownLoadSuccess(Map<Integer,Bitmap> map) {
-                drawImageService.startDraw(map);
-            }
-        },this);
-        downLoadImageService.startDown(mapUrl);
     }
 
     /**
@@ -134,16 +144,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
      * @param isCancel
      */
     private void change(int number, String url, boolean isCancel) {
-        if (isCancel) {
-            mapUrl.remove(number);
-        } else {
-            if (url.equals(mapUrl.get(number))) {
-                return;
-            }
-            mapUrl.put(number, url);
-        }
-
-        downLoadImageService.startDown(mapUrl);
+        layoutLoading.setVisibility(View.VISIBLE);
+        downLoadImageService.drawOne(number, url, isCancel);
     }
 
     private void initRecyclerView() {
@@ -262,10 +264,14 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @OnClick(R.id.iv_eye)
     public void onEye() {
-        mapUrl.clear();
         productMap.clear();
-        mapUrl.put(0, bgUrl);
-        downLoadImageService.startDown(mapUrl);
+        downLoadImageService.clearAll();
+
+//        Intent intent = new Intent(this,ZoomActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("map", (Serializable) mapUrl);
+//        intent.putExtras(bundle);
+//        startActivity(intent);
     }
 
     @OnClick(R.id.iv_close)
@@ -323,5 +329,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     public void onError(String msg) {
         T.showShort(this, msg);
     }
+
 
 }

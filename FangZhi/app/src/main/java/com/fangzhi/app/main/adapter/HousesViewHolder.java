@@ -9,6 +9,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.Houses;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.zhy.autolayout.utils.AutoUtils;
 
 /**
  * Created by smacr on 2016/9/1.
@@ -20,6 +21,7 @@ public class HousesViewHolder extends BaseViewHolder<Houses.House> {
 
     public HousesViewHolder(ViewGroup parent) {
         super(parent, R.layout.item_houses);
+        AutoUtils.autoSize(itemView);
         imageView = $(R.id.iv_image);
         tvName = $(R.id.tv_name);
         tvCount = $(R.id.tv_count);

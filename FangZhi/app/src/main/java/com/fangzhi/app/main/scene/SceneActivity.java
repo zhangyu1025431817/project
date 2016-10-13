@@ -1,6 +1,7 @@
 package com.fangzhi.app.main.scene;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.widget.TextView;
@@ -56,11 +57,15 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
             public void onItemClick(int position) {
                 Scene scene = mAdapter.getItem(position);
                 Intent intent = new Intent();
-                intent.putExtra("parts", scene.getSonList());
-                intent.putExtra("bg",scene.getHl_img());
-                intent.putExtra("hotType",mHotType);
-                intent.putExtra("hlCode",scene.getHl_code());
-                intent.putExtra("sceneId",scene.getScene_id());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("parts", scene.getSonList());
+
+             //   intent.putExtra("parts", scene.getSonList());
+                bundle.putString("bg",scene.getHl_img());
+                bundle.putString("hotType",mHotType);
+                bundle.putString("hlCode",scene.getHl_code());
+                bundle.putString("sceneId",scene.getScene_id());
+                intent.putExtras(bundle);
                 intent.setClass(SceneActivity.this, RoomActivity.class);
                 startActivity(intent);
             }

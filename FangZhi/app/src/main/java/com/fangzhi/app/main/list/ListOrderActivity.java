@@ -41,6 +41,7 @@ public class ListOrderActivity extends SwipeBackActivity {
     @Bind(R.id.tv_title)
     TextView tvTitle;
     TextView tvTotalMoney;
+    View viewFooter;
     private OrderAdapter mAdapter;
     private LayoutInflater mInflater;
     private Map<Integer, Float> moneyMap = new HashMap<>();
@@ -58,6 +59,8 @@ public class ListOrderActivity extends SwipeBackActivity {
         setContentView(R.layout.activity_order_list);
         ButterKnife.bind(this);
         mInflater = LayoutInflater.from(this);
+        viewFooter = mInflater.inflate(R.layout.view_order_list_footer, null);
+        tvTotalMoney = (TextView) viewFooter.findViewById(R.id.tv_total_money);
         tvTitle.setText("设计清单");
         Intent intent = getIntent();
         if (intent.hasExtra("list")) {
@@ -82,9 +85,7 @@ public class ListOrderActivity extends SwipeBackActivity {
 
                 @Override
                 public View onCreateView(ViewGroup parent) {
-                    View view = mInflater.inflate(R.layout.view_order_list_footer, null);
-                    tvTotalMoney = (TextView) view.findViewById(R.id.tv_total_money);
-                    return view;
+                    return viewFooter;
                 }
 
                 @Override
@@ -109,12 +110,12 @@ public class ListOrderActivity extends SwipeBackActivity {
                                               order.setPrice(priceStr);
                                               order.setTotalMoney(strT);
                                               moneyMap.put(money.position, strP);
-                                              mAdapter.notifyDataSetChanged();
+                                              mAdapter.notifyItemChanged(money.position+1);
                                               float totalMoney = 0;
                                               for (Integer key : moneyMap.keySet()) {
                                                   totalMoney += moneyMap.get(key);
                                               }
-                                              tvTotalMoney.setText(totalMoney + "");
+                                              tvTotalMoney.setText(String.valueOf(totalMoney));
                                           }
                                       }).show();
 

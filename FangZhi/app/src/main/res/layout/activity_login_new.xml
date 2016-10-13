@@ -13,7 +13,7 @@
 
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/layout_login"
-        android:layout_width="wrap_content"
+        android:layout_width="1000px"
         android:layout_height="800px"
         android:layout_marginTop="30px"
         android:background="@drawable/bg_login_box"
@@ -26,25 +26,22 @@
 
         <com.fangzhi.app.view.StateEditText
             android:id="@+id/et_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="180px"
+            android:layout_width="640px"
+            android:layout_height="100px"
             android:textCursorDrawable="@null"
-            android:layout_marginRight="180px"
             android:background="@drawable/bg_edit_login"
             android:hint="@string/input_phone_number"
             android:paddingLeft="20px"
+            android:inputType="text"
             android:textColorHint="@color/colorTextGrayBABABA"
             android:textScaleX="0.96"
             android:textSize="30px" />
 
         <com.fangzhi.app.view.StateEditText
             android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="180px"
+            android:layout_width="640px"
+            android:layout_height="100px"
             android:textCursorDrawable="@null"
-            android:layout_marginRight="180px"
             android:layout_marginTop="40px"
             android:background="@drawable/bg_edit_login"
             android:hint="@string/please_input_password"
@@ -85,16 +82,15 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="180px"
-            android:layout_marginRight="180px"
+            android:layout_width="640px"
+            android:layout_height="100px"
             android:layout_marginTop="40px"
+            android:textSize="30px"
             android:background="@drawable/btn_login"
             android:text="@string/login"
             android:textColor="@color/colorWhite" />
 
-        <LinearLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50px"
@@ -104,15 +100,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="26px"
                 android:text="@string/login_protocol_one" />
 
             <TextView
                 android:id="@+id/tv_protocol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="26px"
                 android:text="@string/login_protocol_two"
                 android:textColor="@color/text_green_light_green" />
-        </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>
