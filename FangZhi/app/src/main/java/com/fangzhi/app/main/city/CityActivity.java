@@ -77,7 +77,7 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
                     mCityAdapter.updateLocateState(LocateState.SUCCESS, name);
                     SPUtils.putString(CityActivity.this, SpKey.CITY_CODE, code);
                     SPUtils.putString(CityActivity.this, SpKey.CITY_NAME, name);
-                    back(RESULT_OK);
+                    back(1);
                 }
             } else {
                 mCityAdapter.updateLocateState(LocateState.FAILED, "");

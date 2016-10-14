@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     public void initView() {
         String currentCity = SPUtils.getString(this, SpKey.CITY_NAME, "");
         if (currentCity.isEmpty()) {
-            startActivityForResult(new Intent(this, CityActivity.class), RESULT_OK);
+            startActivityForResult(new Intent(this, CityActivity.class), 1);
         }
 
         setSwipeBackEnable(false);
