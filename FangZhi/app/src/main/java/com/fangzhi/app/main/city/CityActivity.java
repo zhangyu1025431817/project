@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -72,13 +71,18 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
                 //解析定位结果
                 String name = loc.getCity();
                 String code = loc.getAdCode();
-                mCityAdapter.updateLocateState(LocateState.SUCCESS, name);
-                SPUtils.putString(CityActivity.this, "city_code", code);
-                SPUtils.putString(CityActivity.this, "city_name", name);
-                LocationManager.getInstance().stopLocation();
+                if (name.isEmpty() || code.isEmpty()) {
+                    mCityAdapter.updateLocateState(LocateState.FAILED, "");
+                } else {
+                    mCityAdapter.updateLocateState(LocateState.SUCCESS, name);
+                    SPUtils.putString(CityActivity.this, SpKey.CITY_CODE, code);
+                    SPUtils.putString(CityActivity.this, SpKey.CITY_NAME, name);
+                    back(RESULT_OK);
+                }
             } else {
                 mCityAdapter.updateLocateState(LocateState.FAILED, "");
             }
+            LocationManager.getInstance().stopLocation();
         }
     };
 
@@ -101,9 +105,9 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String code = mResultAdapter.getItem(position).getId();
-                SPUtils.putString(CityActivity.this, "city_code", code);
-                SPUtils.putString(CityActivity.this, "city_name", mResultAdapter.getItem(position).getArea_cname());
-                back(RESULT_OK);
+                SPUtils.putString(CityActivity.this, SpKey.CITY_CODE, code);
+                SPUtils.putString(CityActivity.this, SpKey.CITY_NAME, mResultAdapter.getItem(position).getArea_cname());
+                back(1);
             }
         });
         mLetterBar.setOverlay(tvOverlay);
@@ -156,7 +160,7 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
 
     @OnClick(R.id.iv_back)
     public void onFinish() {
-        back(RESULT_CANCELED);
+        back(2);
     }
 
     @Override
@@ -183,9 +187,9 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
         mCityAdapter.setOnCityClickListener(new CityListAdapter.OnCityClickListener() {
             @Override
             public void onCityClick(City city) {
-                SPUtils.putString(CityActivity.this, "city_code", city.getId());
-                SPUtils.putString(CityActivity.this, "city_name", city.getArea_cname());
-                back(RESULT_OK);
+                SPUtils.putString(CityActivity.this, SpKey.CITY_CODE, city.getId());
+                SPUtils.putString(CityActivity.this, SpKey.CITY_NAME, city.getArea_cname());
+                back(1);
             }
 
             @Override
@@ -195,8 +199,13 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
             }
         });
         lvAllCity.setAdapter(mCityAdapter);
-        String name = SPUtils.getString(CityActivity.this, "city_name", "定位失败");
-        mCityAdapter.updateLocateState(LocateState.SUCCESS, name);
+        String name = SPUtils.getString(CityActivity.this, SpKey.CITY_NAME, "");
+        if (name.isEmpty()) {
+            mCityAdapter.updateLocateState(LocateState.FAILED, name);
+        } else {
+            mCityAdapter.updateLocateState(LocateState.SUCCESS, name);
+        }
+
         dialogDelegate.clearDialog();
     }
 

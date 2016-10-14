@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by smacr on 2016/9/25.
  */
-public class DownLoadImageService {
+public class DownLoadImageService2 {
     /**
      * 多线程下载
      */
@@ -72,7 +72,7 @@ public class DownLoadImageService {
     private Handler handler = new Handler();
     private int width;
     private int height;
-    public DownLoadImageService(Map<Integer, String> mapUrl,Context context, OnDrawListener listener) {
+    public DownLoadImageService2(Map<Integer, String> mapUrl, Context context, OnDrawListener listener) {
         mListener = listener;
         width = ScreenUtils.getScreenWidth(context);
         height = ScreenUtils.getScreenHeight(context);

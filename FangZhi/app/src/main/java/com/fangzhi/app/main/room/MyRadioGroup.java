@@ -8,6 +8,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.fangzhi.app.R;
+import com.fangzhi.app.bean.RoomProduct;
 import com.fangzhi.app.bean.RoomProductType;
 
 import java.util.HashMap;
@@ -31,10 +32,15 @@ public class MyRadioGroup extends RadioGroup {
 
 
 
-    public void addList(List<RoomProductType> list, final OnCheckedListener listener){
+    public void addList(List<RoomProductType> list,Map<Integer,Integer> indexMap, final OnCheckedListener listener){
         for (RoomProductType type : list) {
             RadioButton tempButton = new RadioButton(getContext());
             tempButton.setId(i);
+            List<RoomProduct> sonList =  type.getSonList();
+            if(sonList != null && !sonList.isEmpty()){
+                sonList.get(0).setSelected(true);
+                indexMap.put(type.getOrder_num(),0);
+            }
             tempButton.setBackgroundResource(R.drawable.radio_room_selector);   // 设置RadioButton的背景图片
             tempButton.setButtonDrawable(null);           // 设置按钮的样式
             tempButton.setPadding(0, 20, 0, 20);                 // 设置文字距离按钮四周的距离
@@ -57,6 +63,7 @@ public class MyRadioGroup extends RadioGroup {
             }
         });
         mapRadio.get(0).setChecked(true);
+
     }
     public interface OnCheckedListener{
         void onChecked(RoomProductType roomProductType);

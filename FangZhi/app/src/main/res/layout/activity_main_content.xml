@@ -18,7 +18,7 @@
             android:drawableLeft="@drawable/icon_location"
             android:drawablePadding="10px"
             android:gravity="center"
-            android:text="正在定位"
+            android:text="定位失败"
             android:textColor="@color/text_gray_white" />
 
         <com.fangzhi.app.view.ClearEditText
@@ -35,17 +35,7 @@
             android:textColor="#333"
             android:textColorHint="#aaa"
             android:textSize="28px" />
-        <CheckBox
-            android:id="@+id/cb_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/cb_gray_green_bg"
-            android:text="全部楼盘"
-            android:focusable="true"
-            android:checked="true"
-            android:textColor="@color/colorTextCommonGray"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.jude.easyrecyclerview.EasyRecyclerView

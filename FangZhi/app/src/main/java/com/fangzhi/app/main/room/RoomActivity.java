@@ -125,11 +125,11 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         downLoadImageService = new DownLoadImageService(mapUrl, this, new DownLoadImageService.OnDrawListener() {
             @Override
             public void onDrawSucceed(Bitmap bitmap) {
-                if(ivShow == null){
+                if (ivShow == null) {
                     return;
                 }
-               ivShow.setImageBitmap(bitmap);
-            //    ivShow.setImage(ImageSource.bitmap(bitmap));
+                ivShow.setImageBitmap(bitmap);
+                //    ivShow.setImage(ImageSource.bitmap(bitmap));
                 layoutLoading.setVisibility(View.INVISIBLE);
             }
         });
@@ -174,6 +174,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
                 product.setSelected(!product.isSelected());
                 mLastSelectPosition = position;
+                indexMap.put(mCurrentIndex,mLastSelectPosition);
                 mAdapter.notifyItemChanged(position);
             }
         });
@@ -181,17 +182,19 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         onRefresh();
     }
 
+    private Map<Integer,Integer> indexMap = new HashMap<>();
     private void addPartType(List<RoomProductType> list) {
-        radioGroup.addList(list, new MyRadioGroup.OnCheckedListener() {
+        radioGroup.addList(list,indexMap, new MyRadioGroup.OnCheckedListener() {
             @Override
             public void onChecked(RoomProductType roomProductType) {
-                if (mLastSelectPosition != -1) {
-                    mAdapter.getItem(mLastSelectPosition).setSelected(false);
-                }
+//                if (mLastSelectPosition != -1) {
+//                    mAdapter.getItem(mLastSelectPosition).setSelected(false);
+//                }
                 mAdapter.clear();
-                mAdapter.addAll(roomProductType.getSonList());
+                List<RoomProduct> list = roomProductType.getSonList();
+                mAdapter.addAll(list);
                 mCurrentIndex = roomProductType.getOrder_num();
-                mLastSelectPosition = -1;
+                mLastSelectPosition = indexMap.get(roomProductType.getOrder_num());
             }
         });
     }

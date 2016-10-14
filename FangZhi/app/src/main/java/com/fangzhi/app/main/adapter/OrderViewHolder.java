@@ -11,6 +11,7 @@ import com.fangzhi.app.R;
 import com.fangzhi.app.base.RxBus;
 import com.fangzhi.app.bean.Order;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.zhy.autolayout.utils.AutoUtils;
 
 /**
  * Created by smacr on 2016/9/1.
@@ -27,6 +28,7 @@ public class OrderViewHolder extends BaseViewHolder<Order> {
 
     public OrderViewHolder(ViewGroup parent) {
         super(parent, R.layout.item_order_list);
+        AutoUtils.autoSize(itemView);
         iv_image = $(R.id.iv_image);
         tv_brand = $(R.id.tv_brand);
         tv_type = $(R.id.tv_type);

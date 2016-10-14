@@ -73,8 +73,12 @@ public class ClearEditText extends EditText {
             Rect rect = new Rect();
             getGlobalVisibleRect(rect);
             rect.left = rect.right - 50;
-            if(rect.contains(eventX, eventY))
+            if(rect.contains(eventX, eventY)) {
                 setText("");
+                if(mListener != null){
+                    mListener.onClear();
+                }
+            }
         }
         return super.onTouchEvent(event);
     }
@@ -84,4 +88,11 @@ public class ClearEditText extends EditText {
         super.finalize();
     }
 
+    public interface OnClearListener{
+        void onClear();
+    }
+    private OnClearListener mListener;
+    public void addOnClearListener(OnClearListener listener){
+        mListener = listener;
+    }
 }

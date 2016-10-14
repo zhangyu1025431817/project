@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="200px"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -94,4 +94,4 @@
         android:text="小计" />
 
 
-</LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

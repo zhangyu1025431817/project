@@ -95,7 +95,9 @@ public class LoginActivityNew extends BaseActivity<LoginPresenter, LoginModel> i
     public void loginSucceed(String img) {
         dialogDelegate.clearDialog();
         if(img == null || img.isEmpty()) {
-            startActivity(new Intent(this, MainActivity.class));
+
+                startActivity(new Intent(this, MainActivity.class));
+
         }else{
             Intent intent = new Intent();
             intent.putExtra("url",img);

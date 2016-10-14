@@ -114,7 +114,7 @@ public class CityListAdapter extends BaseAdapter {
                         state.setText(mContext.getString(R.string.locating));
                         break;
                     case LocateState.FAILED:
-                        state.setText(R.string.located_failed);
+                        state.setText(mContext.getString(R.string.located_failed));
                         break;
                     case LocateState.SUCCESS:
                         state.setText(locatedCity);

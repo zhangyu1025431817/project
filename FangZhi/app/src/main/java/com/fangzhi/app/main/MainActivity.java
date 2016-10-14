@@ -6,8 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -23,6 +21,7 @@ import com.fangzhi.app.main.city.CityActivity;
 import com.fangzhi.app.main.house_type.HouseTypeActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
+import com.fangzhi.app.view.ClearEditText;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
@@ -31,18 +30,15 @@ import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity<MainPresenter, MainModel> implements MainContract.View, RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
     @Bind(R.id.et_keyword)
-    EditText etKeyword;
+    ClearEditText etKeyword;
     @Bind(R.id.tv_location)
     TextView tvLocation;
-    @Bind(R.id.cb_all)
-    CheckBox cbAll;
 
     private HousesAdapter adapter;
     private int page = 0;
@@ -80,6 +76,11 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     public void initView() {
+        String currentCity = SPUtils.getString(this, SpKey.CITY_NAME, "");
+        if (currentCity.isEmpty()) {
+            startActivityForResult(new Intent(this, CityActivity.class), RESULT_OK);
+        }
+
         setSwipeBackEnable(false);
         recyclerView.setRefreshListener(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -93,36 +94,36 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 String id = adapter.getItem(position).getId();
                 String name = adapter.getItem(position).getPre_cname();
                 Intent intent = new Intent();
-                intent.putExtra("id",id);
-                intent.putExtra("name",name);
+                intent.putExtra("id", id);
+                intent.putExtra("name", name);
                 intent.setClass(MainActivity.this, HouseTypeActivity.class);
                 startActivity(intent);
             }
         });
 
-        //开始定位
-        String currentCity = SPUtils.getString(this, SpKey.CITY_NAME, "");
-        if (currentCity.isEmpty()) {
-            tvLocation.setText("正在定位");
-            LocationManager.getInstance().startLocation(locationListener);
-        } else {
+//        //开始定位
+//        String currentCity = SPUtils.getString(this, SpKey.CITY_NAME, "");
+//        if (currentCity.isEmpty()) {
+//            tvLocation.setText("正在定位");
+//            LocationManager.getInstance().startLocation(locationListener);
+//        } else {
+        if (!currentCity.isEmpty()) {
             tvLocation.setText(currentCity);
             onRefresh();
         }
+        //     }
         dialogDelegate = new SweetAlertDialogDelegate(this);
+        etKeyword.addOnClearListener(new ClearEditText.OnClearListener() {
+            @Override
+            public void onClear() {
+                mKeyword = "";
+                isSearch = false;
+                onRefresh();
+                closeKeyboard();
+            }
+        });
     }
 
-    @OnCheckedChanged(R.id.cb_all)
-    public void onChanged(boolean isChecked){
-        if(isChecked){
-            onRefresh();
-        }else{
-            mKeyword = etKeyword.getText().toString().trim();
-            if (!mKeyword.isEmpty()) {
-                onSearch();
-            }
-        }
-    }
 
     @OnClick(R.id.tv_location)
     public void pickCity() {
@@ -133,13 +134,12 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String city = (String) SPUtils.get(this, SpKey.CITY_NAME, "定位失败");
         tvLocation.setText(city);
-        if (resultCode == RESULT_OK) {
+        if (resultCode == 1) {
+            mKeyword = "";
+            etKeyword.setText(mKeyword);
+            isSearch = false;
             recyclerView.setRefreshing(false);
-            if(cbAll.isChecked()){
-                onRefresh();
-            }else {
-                cbAll.setChecked(true);
-            }
+            onRefresh();
         }
     }
 
@@ -149,11 +149,8 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         if (KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction()) {
             mKeyword = etKeyword.getText().toString().trim();
             if (!mKeyword.isEmpty()) {
-                if(!cbAll.isChecked()) {
-                    onSearch();
-                }else{
-                    cbAll.setChecked(false);
-                }
+                isSearch = true;
+                onSearch();
                 closeKeyboard();
             }
             return true;
@@ -169,7 +166,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     public String getToken() {
-        return SPUtils.getString(this, SpKey.TOKEN,"");
+        return SPUtils.getString(this, SpKey.TOKEN, "");
     }
 
     @Override
@@ -193,12 +190,13 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         return page;
     }
 
+    private boolean isSearch = false;
     @Override
     public void onLoadMore() {
-        if (!cbAll.isChecked()) {
+        if (isSearch) {
             if (!mKeyword.isEmpty()) {
                 mPresenter.searchHouseList();
-            }else{
+            } else {
                 recyclerView.setRefreshing(false);
             }
         } else {
@@ -229,6 +227,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         dialogDelegate.clearDialog();
         LocationManager.getInstance().removeListener(locationListener);
     }
+
     public void closeKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm.isActive()) {
@@ -252,7 +251,8 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     public void onError(String msg) {
-        T.showShort(this,msg);
+        T.showShort(this, msg);
+        recyclerView.setRefreshing(false);
     }
 
 }
