@@ -6,9 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Handler;
 
+import com.bumptech.glide.Glide;
 import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.tools.ScreenUtils;
-import com.squareup.picasso.Picasso;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -56,7 +56,7 @@ public class DownLoadImageService {
     /**
      * 将bitmap缓存
      */
-    private Map<Integer, Bitmap> bitmapMap = new TreeMap<>(new Comparator<Integer>() {
+    private Map<Integer, String> bitmapMap = new TreeMap<>(new Comparator<Integer>() {
         @Override
         public int compare(Integer o1, Integer o2) {
             return o1 - o2;
@@ -107,7 +107,7 @@ public class DownLoadImageService {
      * 清除所有场景
      */
     public void clearAll(){
-        Bitmap bgBitmap = bitmapMap.get(0);
+        String bgBitmap = bitmapMap.get(0);
         bitmapMap.clear();
         bitmapMap.put(0,bgBitmap);
         runOnQueueSingle(new DrawImageThread());
@@ -119,7 +119,7 @@ public class DownLoadImageService {
      * @param number
      * @param bitmap
      */
-    private void waitForComplete(int number, Bitmap bitmap) {
+    private void waitForComplete(int number, String bitmap) {
         bitmapMap.put(number, bitmap);
         mIndex++;
         if (mIndex == mSize) {
@@ -143,15 +143,15 @@ public class DownLoadImageService {
         @Override
         public void run() {
             try {
-//                Bitmap bitmap = Glide.with(MyApplication.getContext())
-//                        .load(url)
-//                        .asBitmap()
-//                        .into(1280, 720).get();
-                Bitmap bitmap =  Picasso.with(MyApplication.getContext())
+                 Glide.with(MyApplication.getContext())
                         .load(url)
-                        .resize(width,height)
-                        .get();
-                waitForComplete(index, bitmap);
+                        .asBitmap()
+                        .into(width, height).get();
+//                Bitmap bitmap =  Picasso.with(MyApplication.getContext())
+//                        .load(url)
+//                        .resize(1280,720)
+//                        .get();
+                waitForComplete(index, url);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -168,10 +168,13 @@ public class DownLoadImageService {
            final Bitmap mResultBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
 
             Canvas canvas = new Canvas(mResultBitmap);
-
+         //   canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG));
             for (Integer key : bitmapMap.keySet()) {
                 try {
-                    Bitmap bitmap = bitmapMap.get(key);
+                    Bitmap bitmap = Glide.with(MyApplication.getContext())
+                            .load(bitmapMap.get(key))
+                            .asBitmap()
+                            .into(width, height).get();
 //                    Matrix mMatrix = new Matrix();
 //                    mMatrix.postScale(width / (float) bitmap.getWidth(),
 //                            height / (float) bitmap.getHeight());

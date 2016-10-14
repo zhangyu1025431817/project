@@ -3,15 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black_press">
-
-
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+    <ImageView
         android:id="@+id/iv_show"
         android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
          />
-
 
     <ImageView
         android:id="@+id/iv_home"

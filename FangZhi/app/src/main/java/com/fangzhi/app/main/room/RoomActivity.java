@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.Order;
@@ -58,6 +57,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     @Bind(R.id.avi)
     AVLoadingIndicatorView aviLoading;
 
+
     //当前图层urls
     private Map<Integer, String> mapUrl = new TreeMap<>(new Comparator<Integer>() {
         @Override
@@ -83,7 +83,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     private int mCurrentIndex = 0;//当前图层
 
     @Bind(R.id.iv_show)
-    SubsamplingScaleImageView ivShow;
+    ImageView ivShow;
     String bgUrl;
     DownLoadImageService downLoadImageService;
     DrawImageService drawImageService;
@@ -94,7 +94,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
         BallSpinFadeLoaderIndicator indicator = new BallSpinFadeLoaderIndicator();
         aviLoading.setIndicator(indicator);
-
         layoutPart.setVisibility(View.GONE);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -129,8 +128,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 if(ivShow == null){
                     return;
                 }
-            //    ivShow.setImageBitmap(bitmap);
-                ivShow.setImage(ImageSource.bitmap(bitmap));
+               ivShow.setImageBitmap(bitmap);
+            //    ivShow.setImage(ImageSource.bitmap(bitmap));
                 layoutLoading.setVisibility(View.INVISIBLE);
             }
         });
