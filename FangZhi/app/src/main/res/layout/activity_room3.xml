@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black_press">
+
     <ImageView
         android:id="@+id/iv_show"
-        android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-         />
+        android:scaleType="fitXY" />
 
     <ImageView
         android:id="@+id/iv_home"
@@ -45,18 +45,22 @@
         android:layout_marginTop="40dp"
         android:src="@drawable/icon_eye" />
 
-    <include layout="@layout/view_room_right_part" />
+      <!--<include layout="@layout/view_room_right_part" />-->
+    <com.fangzhi.app.main.room.ProductView
+        android:id="@+id/view_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
         android:id="@+id/view_loading"
-        android:gravity="center"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <com.fangzhi.app.view.loading.AVLoadingIndicatorView
             android:id="@+id/avi"
             android:layout_width="100dp"
-            android:layout_height="40dp"/>
+            android:layout_height="40dp" />
     </RelativeLayout>
 
 </RelativeLayout>

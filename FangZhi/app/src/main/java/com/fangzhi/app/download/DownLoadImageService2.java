@@ -8,9 +8,9 @@ import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Rect;
 import android.os.Handler;
 
-import com.bumptech.glide.Glide;
 import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.tools.ScreenUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -145,14 +145,13 @@ public class DownLoadImageService2 {
         @Override
         public void run() {
             try {
-                Bitmap bitmap = Glide.with(MyApplication.getContext())
-                        .load(url)
-                        .asBitmap()
-                        .into(1280, 720).get();
-//                Bitmap bitmap =  Picasso.with(MyApplication.getContext())
+//                Bitmap bitmap = Glide.with(MyApplication.getContext())
 //                        .load(url)
-//                        .resize(1280,720)
-//                        .get();
+//                        .asBitmap()
+//                        .into(1280, 720).get();
+                Bitmap bitmap =  Picasso.with(MyApplication.getContext())
+                        .load(url)
+                        .get();
                 waitForComplete(index, bitmap);
             } catch (Exception e) {
                 e.printStackTrace();

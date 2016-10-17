@@ -46,16 +46,19 @@ import butterknife.OnClick;
 public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View
         , RecyclerArrayAdapter.OnLoadMoreListener {
 
-    @Bind(R.id.layout_part)
+    //  @Bind(R.id.layout_part)
     LinearLayout layoutPart;
-    @Bind(R.id.gb_type)
+    //  @Bind(R.id.gb_type)
     MyRadioGroup radioGroup;
-    @Bind(R.id.recycler_view)
+    //  @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
     @Bind(R.id.view_loading)
     View layoutLoading;
     @Bind(R.id.avi)
     AVLoadingIndicatorView aviLoading;
+
+    @Bind(R.id.view_product)
+    ProductView productView;
 
 
     //当前图层urls
@@ -91,10 +94,11 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     @Override
     public void initView() {
         //loading
-
+        radioGroup = productView.getRadioGroup();
+        recyclerView = productView.getEasyRecyclerView();
         BallSpinFadeLoaderIndicator indicator = new BallSpinFadeLoaderIndicator();
         aviLoading.setIndicator(indicator);
-        layoutPart.setVisibility(View.GONE);
+        //    layoutPart.setVisibility(View.GONE);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         bgUrl = bundle.getString("bg");
@@ -132,7 +136,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 //    ivShow.setImage(ImageSource.bitmap(bitmap));
                 layoutLoading.setVisibility(View.INVISIBLE);
             }
-        });
+        }, false);
     }
 
     /**
@@ -163,18 +167,20 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 if (product.isSelected()) {
                     //清空对应图层
                     change(mCurrentIndex, null, true);
+                    mapUrl.remove(mCurrentIndex);
                     if (productMap.containsKey(mCurrentIndex)) {
                         productMap.remove(mCurrentIndex);
                     }
                 } else {
                     //添加对应图层
                     change(mCurrentIndex, product.getPart_img(), false);
+                    mapUrl.put(mCurrentIndex, product.getPart_img());
                     productToOrder(product);
                 }
 
                 product.setSelected(!product.isSelected());
                 mLastSelectPosition = position;
-                indexMap.put(mCurrentIndex,mLastSelectPosition);
+                indexMap.put(mCurrentIndex, mLastSelectPosition);
                 mAdapter.notifyItemChanged(position);
             }
         });
@@ -182,14 +188,13 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         onRefresh();
     }
 
-    private Map<Integer,Integer> indexMap = new HashMap<>();
+    private Map<Integer, Integer> indexMap = new HashMap<>();
+
     private void addPartType(List<RoomProductType> list) {
-        radioGroup.addList(list,indexMap, new MyRadioGroup.OnCheckedListener() {
+        radioGroup.addList(list, indexMap, new MyRadioGroup.OnCheckedListener() {
             @Override
             public void onChecked(RoomProductType roomProductType) {
-//                if (mLastSelectPosition != -1) {
-//                    mAdapter.getItem(mLastSelectPosition).setSelected(false);
-//                }
+
                 mAdapter.clear();
                 List<RoomProduct> list = roomProductType.getSonList();
                 mAdapter.addAll(list);
@@ -264,10 +269,18 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         layoutPart.setVisibility(View.VISIBLE);
     }
 
+    private boolean isClear = true;
+
     @OnClick(R.id.iv_eye)
     public void onEye() {
-        productMap.clear();
-        downLoadImageService.clearAll();
+        //  productMap.clear();
+        if (isClear) {
+            downLoadImageService.clearAll();
+        } else {
+            layoutLoading.setVisibility(View.VISIBLE);
+            downLoadImageService.drawAll(mapUrl);
+        }
+        isClear = !isClear;
 
 //        Intent intent = new Intent(this,ZoomActivity.class);
 //        Bundle bundle = new Bundle();
@@ -281,7 +294,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         finish();
     }
 
-    @OnClick({R.id.iv_cover, R.id.tv_hide})
+    //  @OnClick({R.id.iv_cover, R.id.tv_hide})
     public void onHide() {
         if (layoutPart.getVisibility() == View.VISIBLE) {
             layoutPart.setAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_in));
