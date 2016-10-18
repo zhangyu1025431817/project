@@ -2,6 +2,8 @@ package com.fangzhi.app.main.room;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,8 +73,12 @@ public class ProductView extends AutoLinearLayout {
 
         viewTitle = new TextView(getContext());
         viewTitle.setText("选择建材");
+        viewTitle.setPadding(0,30,0,0);
         Drawable drawable = getResources().getDrawable(R.drawable.icon_choose_product);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+
+        View line = new View(getContext());
+        line.setBackgroundColor(getResources().getColor(R.color.white));
         viewTitle.setCompoundDrawables(drawable,null,null,null);
         viewTitle.setCompoundDrawablePadding(12);
         viewTitle.setTextColor(getResources().getColor(R.color.white));
@@ -93,6 +99,7 @@ public class ProductView extends AutoLinearLayout {
         layoutBottom.addView(easyRecyclerView,layoutParamsRecyclerView);
         layoutBottom.addView(radioGroup,layoutParamsRadioGroup);
         layoutData.addView(viewTitle, LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+        layoutData.addView(line, LayoutParams.MATCH_PARENT,2);
         layoutData.addView(layoutBottom,LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 
         addView(viewCover,layoutParamsCover);
@@ -107,15 +114,105 @@ public class ProductView extends AutoLinearLayout {
         return radioGroup;
     }
     public void changeBottom(){
-        setGravity(VERTICAL);
+        setOrientation(VERTICAL);
         LayoutParams layoutParamsCover = (LayoutParams) viewCover.getLayoutParams();
         layoutParamsCover.width = LayoutParams.MATCH_PARENT;
         layoutParamsCover.height = 0;
+        layoutParamsCover.weight = 13;
         viewCover.setLayoutParams(layoutParamsCover);
 
         LayoutParams layoutParamsData = (LayoutParams) layoutData.getLayoutParams();
         layoutParamsData.width = LayoutParams.MATCH_PARENT;
         layoutParamsData.height = 0;
+        layoutParamsData.weight = 6;
         layoutData.setLayoutParams(layoutParamsData);
+        viewTitle.setPadding(0,0,0,0);
+        easyRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
+
+        LayoutParams layoutParamsRecyclerView = (LayoutParams) easyRecyclerView.getLayoutParams();
+        layoutParamsRecyclerView.width = LayoutParams.MATCH_PARENT;
+        layoutParamsRecyclerView.height = 0;
+        layoutParamsRecyclerView.weight = 5;
+        easyRecyclerView.setLayoutParams(layoutParamsRecyclerView);
+
+        LayoutParams layoutParamsRadioGroup = (LayoutParams) radioGroup.getLayoutParams();
+        layoutParamsRadioGroup.width = LayoutParams.MATCH_PARENT;
+        layoutParamsRadioGroup.height = 0;
+        layoutParamsRadioGroup.weight = 2;
+        radioGroup.setLayoutParams(layoutParamsRadioGroup);
+
+        layoutBottom.setOrientation(VERTICAL);
+        layoutBottom.bringChildToFront(easyRecyclerView);
+        radioGroup.setOrientation(HORIZONTAL);
+        bringChildToFront(layoutData);
+    }
+    public void changeRight(){
+        setOrientation(HORIZONTAL);
+        LayoutParams layoutParamsCover = (LayoutParams) viewCover.getLayoutParams();
+        layoutParamsCover.width = 0;
+        layoutParamsCover.height = LayoutParams.MATCH_PARENT;
+        layoutParamsCover.weight = 3;
+        viewCover.setLayoutParams(layoutParamsCover);
+
+        LayoutParams layoutParamsData = (LayoutParams) layoutData.getLayoutParams();
+        layoutParamsData.width = 0;
+        layoutParamsData.height = LayoutParams.MATCH_PARENT;
+        layoutParamsData.weight = 1;
+        layoutData.setLayoutParams(layoutParamsData);
+        viewTitle.setPadding(0,30,0,0);
+        easyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        LayoutParams layoutParamsRecyclerView = (LayoutParams) easyRecyclerView.getLayoutParams();
+        layoutParamsRecyclerView.width = 0;
+        layoutParamsRecyclerView.height = LayoutParams.MATCH_PARENT;
+        layoutParamsRecyclerView.weight = 2;
+        easyRecyclerView.setLayoutParams(layoutParamsRecyclerView);
+
+        LayoutParams layoutParamsRadioGroup = (LayoutParams) radioGroup.getLayoutParams();
+        layoutParamsRadioGroup.width = 0;
+        layoutParamsRadioGroup.height = LayoutParams.MATCH_PARENT;
+        layoutParamsRadioGroup.weight = 1;
+        radioGroup.setLayoutParams(layoutParamsRadioGroup);
+
+        layoutBottom.setOrientation(HORIZONTAL);
+        layoutBottom.bringChildToFront(radioGroup);
+        radioGroup.setOrientation(VERTICAL);
+        bringChildToFront(layoutData);
+    }
+    public void changeTop(){
+        setOrientation(VERTICAL);
+        LayoutParams layoutParamsCover = (LayoutParams) viewCover.getLayoutParams();
+        layoutParamsCover.width = LayoutParams.MATCH_PARENT;
+        layoutParamsCover.height = 0;
+        layoutParamsCover.weight = 13;
+        viewCover.setLayoutParams(layoutParamsCover);
+
+        LayoutParams layoutParamsData = (LayoutParams) layoutData.getLayoutParams();
+        layoutParamsData.width = LayoutParams.MATCH_PARENT;
+        layoutParamsData.height = 0;
+        layoutParamsData.weight = 6;
+        layoutData.setLayoutParams(layoutParamsData);
+        viewTitle.setPadding(0,0,0,0);
+        easyRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
+
+        LayoutParams layoutParamsRecyclerView = (LayoutParams) easyRecyclerView.getLayoutParams();
+        layoutParamsRecyclerView.width = LayoutParams.MATCH_PARENT;
+        layoutParamsRecyclerView.height = 0;
+        layoutParamsRecyclerView.weight = 5;
+        easyRecyclerView.setLayoutParams(layoutParamsRecyclerView);
+
+        LayoutParams layoutParamsRadioGroup = (LayoutParams) radioGroup.getLayoutParams();
+        layoutParamsRadioGroup.width = LayoutParams.MATCH_PARENT;
+        layoutParamsRadioGroup.height = 0;
+        layoutParamsRadioGroup.weight = 2;
+        radioGroup.setLayoutParams(layoutParamsRadioGroup);
+
+        layoutBottom.setOrientation(VERTICAL);
+        layoutBottom.bringChildToFront(easyRecyclerView);
+        radioGroup.setOrientation(HORIZONTAL);
+        bringChildToFront(viewCover);
+    }
+    public void changeLeft(){
+
     }
 }

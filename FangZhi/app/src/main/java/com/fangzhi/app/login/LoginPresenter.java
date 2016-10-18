@@ -37,7 +37,7 @@ public class LoginPresenter extends LoginContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mView.loginFailed(e.getMessage());
+                        mView.loginFailed("服务器连接失败");
                     }
                 }));
     }

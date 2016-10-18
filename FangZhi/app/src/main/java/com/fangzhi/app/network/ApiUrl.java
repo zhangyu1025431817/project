@@ -4,7 +4,8 @@ package com.fangzhi.app.network;
  * Created by zhangyu on 2016/6/15.
  */
 public class ApiUrl {
-    public static final String BASE_URL = "http://120.76.212.114:8050/";
+    //public static final String BASE_URL = "http://120.76.212.114:8050/";
+    public static final String BASE_URL = "http://120.76.209.107:8050/";
     /**
      * 获取城市列表
      */

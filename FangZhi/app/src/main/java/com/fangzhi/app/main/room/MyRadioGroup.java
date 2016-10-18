@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.RoomProduct;
 import com.fangzhi.app.bean.RoomProductType;
+import com.zhy.autolayout.utils.AutoLayoutHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.Map;
  * Created by smacr on 2016/9/23.
  */
 public class MyRadioGroup extends RadioGroup {
+    private final AutoLayoutHelper mHelper = new AutoLayoutHelper(this);
+
     private int i = 0;
     private Map<Integer,RoomProductType> mapType = new HashMap<>();
     private Map<Integer,RadioButton> mapRadio = new HashMap<>();
@@ -47,8 +50,8 @@ public class MyRadioGroup extends RadioGroup {
             tempButton.setText(type.getType_name());
             tempButton.setGravity(Gravity.CENTER);
             tempButton.setTextColor(getResources().getColor(R.color.white));
-            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.topMargin = 20;
+            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(200, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.topMargin = 10;
             mapType.put(i,type);
             mapRadio.put(i,tempButton);
             i++;
@@ -67,6 +70,22 @@ public class MyRadioGroup extends RadioGroup {
     }
     public interface OnCheckedListener{
         void onChecked(RoomProductType roomProductType);
+    }
+
+
+    @Override
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new LayoutParams(getContext(),attrs);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        if (!isInEditMode())
+        {
+            mHelper.adjustChildren();
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
 }

@@ -157,7 +157,7 @@ public class DownLoadImageService {
 
         @Override
         public void run() {
-            Bitmap bitmap;
+            Bitmap bitmap = null;
             try {
                 if (!isHigh) {
                     bitmap = Glide.with(MyApplication.getContext())
@@ -169,9 +169,10 @@ public class DownLoadImageService {
                             .load(url)
                             .get();
                 }
-                waitForComplete(index, bitmap);
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                waitForComplete(index, bitmap);
             }
         }
     }
@@ -187,22 +188,26 @@ public class DownLoadImageService {
             Canvas canvas = new Canvas(mResultBitmap);
             //抗锯齿
             canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
-            for (Integer key : bitmapMap.keySet()) {
-                try {
+            try {
+                for (Integer key : bitmapMap.keySet()) {
                     Bitmap bitmap = bitmapMap.get(key);
+                    if (bitmap == null) {
+                        continue;
+                    }
                     Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());// 截取bmp1中的矩形区域
                     Rect dstRect = new Rect(0, 0, width, height);// bmp1在目标画布中的位置
                     canvas.drawBitmap(bitmap, srcRect, dstRect, null);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mListener.onDrawSucceed(mResultBitmap);
+                    }
+                });
             }
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onDrawSucceed(mResultBitmap);
-                }
-            });
         }
     }
 

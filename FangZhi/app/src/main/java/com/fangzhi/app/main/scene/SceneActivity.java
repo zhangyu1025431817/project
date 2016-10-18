@@ -120,6 +120,7 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
                 Intent intent = new Intent(SceneActivity.this, LoginActivityNew.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(new Intent(SceneActivity.this, LoginActivityNew.class));
+                finish();
             }
         });
     }

@@ -5,9 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
@@ -46,8 +44,6 @@ import butterknife.OnClick;
 public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View
         , RecyclerArrayAdapter.OnLoadMoreListener {
 
-    //  @Bind(R.id.layout_part)
-    LinearLayout layoutPart;
     //  @Bind(R.id.gb_type)
     MyRadioGroup radioGroup;
     //  @Bind(R.id.recycler_view)
@@ -200,6 +196,25 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 mAdapter.addAll(list);
                 mCurrentIndex = roomProductType.getOrder_num();
                 mLastSelectPosition = indexMap.get(roomProductType.getOrder_num());
+
+                int position = roomProductType.getPosition();
+                switch (position){
+                    case 0:
+                        productView.changeRight();
+                        break;
+                    case 1:
+                        productView.changeBottom();
+                        break;
+                    case 2:
+                        productView.changeLeft();
+                        break;
+                    case 3:
+                        productView.changeTop();
+                        break;
+                    default:
+                        productView.changeRight();
+                        break;
+                }
             }
         });
     }
@@ -265,8 +280,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @OnClick(R.id.iv_home)
     public void onHome() {
-        layoutPart.setAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_out));
-        layoutPart.setVisibility(View.VISIBLE);
+     //   productView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_out));
+        productView.setVisibility(View.VISIBLE);
     }
 
     private boolean isClear = true;
@@ -294,14 +309,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         finish();
     }
 
-    //  @OnClick({R.id.iv_cover, R.id.tv_hide})
-    public void onHide() {
-        if (layoutPart.getVisibility() == View.VISIBLE) {
-            layoutPart.setAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_in));
-            layoutPart.setVisibility(View.GONE);
-        }
 
-    }
 
     @OnClick(R.id.iv_calculate)
     public void onShowOrder() {
@@ -336,6 +344,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 Intent intent = new Intent(RoomActivity.this, LoginActivityNew.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(new Intent(RoomActivity.this, LoginActivityNew.class));
+                finish();
             }
         });
     }

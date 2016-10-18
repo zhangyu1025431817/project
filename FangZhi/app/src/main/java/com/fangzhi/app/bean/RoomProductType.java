@@ -10,7 +10,16 @@ public class RoomProductType {
     String type_name;
     int order_num;
     int page_no;
+    int position;
     List<RoomProduct> sonList;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public int getOrder_num() {
         return order_num;

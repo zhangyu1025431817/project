@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
@@ -63,7 +62,6 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
         Glide.with(this)
                 .load(imgUrl)
                 .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(new GlideDrawableImageViewTarget(imageView) {
                     @Override
@@ -105,23 +103,13 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
                     finish();
                 }
             });
+        }else {
+            //添加热点
+            delegate.clearDialog();
+            for (HouseTypeDetails.HouseTypeDetail houseTypeDetail : list) {
+                drawHotArea(houseTypeDetail);
+            }
         }
-        //添加热点
-        for (HouseTypeDetails.HouseTypeDetail houseTypeDetail : list) {
-            drawHotArea(houseTypeDetail);
-        }
-//        int bgWidth = layoutBg.getWidth();
-//        int bgHeight = layoutBg.getHeight();
-//        TextView textView = new TextView(this);
-//        textView.setText(mName);
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-//                ViewGroup.LayoutParams.WRAP_CONTENT);
-//        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-//        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        layoutParams.rightMargin =20;
-//        layoutParams.bottomMargin = 20;
-//        layoutBg.addView(textView, layoutParams);
-        delegate.clearDialog();
     }
 
     private void drawHotArea(final HouseTypeDetails.HouseTypeDetail houseTypeDetail) {
@@ -164,6 +152,7 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
                 Intent intent = new Intent(HouseTypeDetailActivity.this, LoginActivityNew.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(new Intent(HouseTypeDetailActivity.this, LoginActivityNew.class));
+                finish();
             }
         });
     }
