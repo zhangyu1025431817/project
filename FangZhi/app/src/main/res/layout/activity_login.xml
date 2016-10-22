@@ -1,264 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/bg_login"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:gravity="center">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200px"
         android:src="@drawable/icon_login_logo" />
 
     <com.zhy.autolayout.AutoLinearLayout
-        android:id="@+id/layout_set_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30px"
-        android:background="@drawable/bg_login_box"
-        android:focusableInTouchMode="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="30px"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100px"
-            android:drawablePadding="10px"
-            android:drawableTop="@drawable/icon_login_succeed"
-            android:gravity="center"
-            android:text="登录成功"
-            android:textColor="@color/colorTextGrayBABABA"
-            android:textSize="30px" />
-
-        <com.fangzhi.app.view.StateEditText
-            android:id="@+id/et_set_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100px"
-            android:background="@drawable/bg_edit_login"
-            android:hint="@string/set_login_password"
-            android:inputType="textPassword"
-            android:paddingLeft="20px"
-            android:textScaleX="0.96"
-            android:textSize="30px" />
-
-        <Button
-            android:id="@+id/btn_finish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100px"
-            android:background="@drawable/btn_login"
-            android:text="@string/finish"
-            android:textColor="@color/colorWhite" />
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:id="@+id/layout_reset_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30px"
-        android:background="@drawable/bg_login_box"
-        android:focusableInTouchMode="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="30px"
-        android:visibility="gone">
-
-        <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10px"
-                android:scaleType="centerCrop"
-                android:src="@drawable/btn_close" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="重置密码"
-                android:textColor="@color/colorTextCommonGreen"
-                android:textSize="40px" />
-        </com.zhy.autolayout.AutoRelativeLayout>
-
-        <com.fangzhi.app.view.StateEditText
-            android:id="@+id/et_phone_reset_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
-            android:background="@drawable/bg_edit_login"
-            android:hint="@string/input_phone_number"
-            android:inputType="phone"
-            android:paddingLeft="20px"
-            android:textColorHint="@color/colorTextGrayBABABA"
-            android:textScaleX="0.96"
-            android:textSize="30px" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="600px"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.fangzhi.app.view.StateEditText
-                android:id="@+id/et_message_code"
-                android:layout_width="320px"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edit_login"
-                android:hint="@string/input_verification_code"
-                android:inputType="phone"
-                android:paddingLeft="20px"
-                android:textColorHint="@color/colorTextGrayBABABA"
-                android:textSize="30px" />
-
-            <Button
-                android:id="@+id/btn_get_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                android:background="@drawable/btn_get_msg_code"
-                android:text="@string/get_msg_code"
-                android:textColor="@color/colorWhite" />
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <com.fangzhi.app.view.StateEditText
-            android:id="@+id/et_new_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
-            android:background="@drawable/bg_edit_login"
-            android:hint="@string/input_new_password"
-            android:inputType="textPassword"
-            android:paddingLeft="20px"
-            android:textColorHint="@color/colorTextGrayBABABA"
-            android:textScaleX="0.96"
-            android:textSize="30px" />
-
-        <Button
-            android:id="@+id/btn_sure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
-            android:background="@drawable/btn_login"
-            android:text="@string/sure"
-            android:textColor="@color/colorWhite" />
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/layout_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="1000px"
+        android:layout_height="800px"
         android:layout_marginTop="30px"
         android:background="@drawable/bg_login_box"
         android:focusableInTouchMode="true"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="40px"
-        android:paddingLeft="90px"
-        android:paddingRight="90px"
-        android:paddingTop="40px">
-
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_request"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:button="@null"
-                android:checked="true"
-                android:gravity="center"
-                android:padding="40px"
-                android:text="@string/login_request_code"
-                android:textColor="@color/login_checkbox"
-                android:textSize="30px" />
-
-            <View
-                android:layout_width="1px"
-                android:layout_height="60px"
-                android:background="#a0a0a0" />
-
-            <RadioButton
-                android:id="@+id/rb_verification"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:button="@null"
-                android:gravity="center"
-                android:padding="40px"
-                android:text="@string/login_verification_code"
-                android:textColor="@color/login_checkbox"
-                android:textSize="30px" />
-
-        </RadioGroup>
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/layout_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <View
-                android:id="@+id/view_indicator"
-                android:layout_width="200px"
-                android:layout_height="6px"
-                android:background="@drawable/indicator" />
-        </com.zhy.autolayout.AutoLinearLayout>
-
+        android:paddingBottom="90px"
+        android:paddingTop="90px">
 
         <com.fangzhi.app.view.StateEditText
             android:id="@+id/et_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
-            android:background="@drawable/bg_edit_login"
+            android:layout_width="640px"
+            android:layout_height="100px"
+            android:background="@drawable/shape_edit_bg"
             android:hint="@string/input_phone_number"
-            android:inputType="phone"
+            android:inputType="text"
             android:paddingLeft="20px"
             android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
             android:textScaleX="0.96"
             android:textSize="30px" />
 
         <com.fangzhi.app.view.StateEditText
             android:id="@+id/et_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="640px"
+            android:layout_height="100px"
             android:layout_marginTop="40px"
-            android:background="@drawable/bg_edit_login"
-            android:hint="@string/input_request_code"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="@string/please_input_password"
+            android:inputType="textPassword"
             android:paddingLeft="20px"
             android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
             android:textScaleX="0.96"
             android:textSize="30px" />
-
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="640px"
+            android:layout_height="100px"
             android:layout_marginTop="40px"
             android:background="@drawable/btn_login"
             android:text="@string/login"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="30px" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="640px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px">
+
+            <TextView
+                android:id="@+id/tv_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20px"
+                android:paddingBottom="20px"
+                android:paddingRight="20px"
+                android:text="体验注册>>"
+                android:textColor="@color/text_green_light_green"
+                android:textSize="30px" />
+            <TextView
+                android:id="@+id/tv_forget_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20px"
+                android:paddingBottom="20px"
+                android:paddingLeft="20px"
+                android:text="忘记密码？"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/text_light_gray_white"
+                android:textSize="30px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
+            android:layout_marginTop="30px"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -277,13 +109,7 @@
                 android:textSize="26px" />
         </com.zhy.autolayout.AutoLinearLayout>
 
-        <TextView
-            android:id="@+id/tv_forget_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
-            android:text="@string/forget_password"
-            android:textColor="@color/text_green_light_green"
-            android:textSize="26px" />
     </com.zhy.autolayout.AutoLinearLayout>
+    <include layout="@layout/view_get_code"/>
+    <include layout="@layout/view_register"/>
 </com.zhy.autolayout.AutoLinearLayout>

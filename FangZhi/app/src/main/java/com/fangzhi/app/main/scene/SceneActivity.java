@@ -28,8 +28,7 @@ import butterknife.OnClick;
 /**
  * Created by smacr on 2016/9/22.
  */
-public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> implements SceneContract.View,
-        RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
+public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> implements SceneContract.View,SwipeRefreshLayout.OnRefreshListener{
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.recycler_view)
@@ -100,16 +99,12 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
         finish();
     }
 
-    @Override
-    public void onLoadMore() {
-        mPresenter.getScenes();
-    }
 
     @Override
     public void onRefresh() {
         recyclerView.setRefreshing(true);
         mAdapter.clear();
-        onLoadMore();
+        mPresenter.getScenes();
     }
 
     @Override
@@ -120,7 +115,6 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
                 Intent intent = new Intent(SceneActivity.this, LoginActivityNew.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(new Intent(SceneActivity.this, LoginActivityNew.class));
-                finish();
             }
         });
     }

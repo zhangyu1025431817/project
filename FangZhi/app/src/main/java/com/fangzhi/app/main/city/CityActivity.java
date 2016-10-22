@@ -149,6 +149,7 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
         });
         dialogDelegate.showProgressDialog(true, "正在加载城市信息...");
         mPresenter.getCityList();
+
     }
 
     private void back(int code) {
@@ -201,11 +202,13 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
         lvAllCity.setAdapter(mCityAdapter);
         String name = SPUtils.getString(CityActivity.this, SpKey.CITY_NAME, "");
         if (name.isEmpty()) {
-            mCityAdapter.updateLocateState(LocateState.FAILED, name);
+           // mCityAdapter.updateLocateState(LocateState.FAILED, name);
+            //定位
+            mCityAdapter.updateLocateState(LocateState.LOCATING, null);
+            LocationManager.getInstance().startLocation(locationListener);
         } else {
             mCityAdapter.updateLocateState(LocateState.SUCCESS, name);
         }
-
         dialogDelegate.clearDialog();
     }
 

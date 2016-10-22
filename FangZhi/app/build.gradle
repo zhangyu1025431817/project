@@ -11,8 +11,8 @@ android {
         applicationId "com.fangzhi.app"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 1
-        versionName "3.15"
+        versionCode 2
+        versionName "3.16"
     }
     signingConfigs {
         release {

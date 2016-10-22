@@ -4,7 +4,7 @@ package com.fangzhi.app.bean;
  * Created by smacr on 2016/9/1.
  */
 public class BaseResponseBean {
-    int code;
+    String error_code;
     String msg;
 
     public String getMsg() {
@@ -15,11 +15,11 @@ public class BaseResponseBean {
         this.msg = msg;
     }
 
-    public int getCode() {
-        return code;
+    public String getError_code() {
+        return error_code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setError_code(String error_code) {
+        this.error_code = error_code;
     }
 }

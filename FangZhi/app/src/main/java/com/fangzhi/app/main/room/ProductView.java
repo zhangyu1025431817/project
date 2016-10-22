@@ -42,6 +42,7 @@ public class ProductView extends AutoLinearLayout {
      * 透明遮罩
      */
     View viewCover;
+    View line;
     public ProductView(Context context) {
         super(context);
         init();
@@ -62,14 +63,14 @@ public class ProductView extends AutoLinearLayout {
             }
         });
         LayoutParams layoutParamsCover = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParamsCover.weight = 3;
+        layoutParamsCover.weight = 7;
 
         layoutData = new LinearLayout(getContext());
         layoutData.setPadding(20,20,20,20);
         layoutData.setOrientation(VERTICAL);
         layoutData.setBackgroundColor(getResources().getColor(R.color.alpha_gray_light));
         LayoutParams layoutParamsData =  new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParamsData.weight = 1;
+        layoutParamsData.weight = 2;
 
         viewTitle = new TextView(getContext());
         viewTitle.setText("选择建材");
@@ -77,7 +78,7 @@ public class ProductView extends AutoLinearLayout {
         Drawable drawable = getResources().getDrawable(R.drawable.icon_choose_product);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
 
-        View line = new View(getContext());
+        line = new View(getContext());
         line.setBackgroundColor(getResources().getColor(R.color.white));
         viewTitle.setCompoundDrawables(drawable,null,null,null);
         viewTitle.setCompoundDrawablePadding(12);
@@ -89,12 +90,12 @@ public class ProductView extends AutoLinearLayout {
 
         easyRecyclerView = new EasyRecyclerView(getContext());
         LayoutParams layoutParamsRecyclerView = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParamsRecyclerView.weight = 2;
+        layoutParamsRecyclerView.weight = 3;
 
         radioGroup = new MyRadioGroup(getContext());
         radioGroup.setOrientation(VERTICAL);
         LayoutParams layoutParamsRadioGroup = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParamsRadioGroup.weight = 1;
+        layoutParamsRadioGroup.weight = 2;
 
         layoutBottom.addView(easyRecyclerView,layoutParamsRecyclerView);
         layoutBottom.addView(radioGroup,layoutParamsRadioGroup);
@@ -118,15 +119,17 @@ public class ProductView extends AutoLinearLayout {
         LayoutParams layoutParamsCover = (LayoutParams) viewCover.getLayoutParams();
         layoutParamsCover.width = LayoutParams.MATCH_PARENT;
         layoutParamsCover.height = 0;
-        layoutParamsCover.weight = 13;
+        layoutParamsCover.weight = 14;
         viewCover.setLayoutParams(layoutParamsCover);
 
         LayoutParams layoutParamsData = (LayoutParams) layoutData.getLayoutParams();
         layoutParamsData.width = LayoutParams.MATCH_PARENT;
         layoutParamsData.height = 0;
-        layoutParamsData.weight = 6;
+        layoutParamsData.weight = 5;
         layoutData.setLayoutParams(layoutParamsData);
-        viewTitle.setPadding(0,0,0,0);
+        viewTitle.setVisibility(GONE);
+        line.setVisibility(GONE);
+        layoutData.setPadding(20,0,20,0);
         easyRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
 
         LayoutParams layoutParamsRecyclerView = (LayoutParams) easyRecyclerView.getLayoutParams();
@@ -151,27 +154,30 @@ public class ProductView extends AutoLinearLayout {
         LayoutParams layoutParamsCover = (LayoutParams) viewCover.getLayoutParams();
         layoutParamsCover.width = 0;
         layoutParamsCover.height = LayoutParams.MATCH_PARENT;
-        layoutParamsCover.weight = 3;
+        layoutParamsCover.weight = 7;
         viewCover.setLayoutParams(layoutParamsCover);
 
         LayoutParams layoutParamsData = (LayoutParams) layoutData.getLayoutParams();
         layoutParamsData.width = 0;
         layoutParamsData.height = LayoutParams.MATCH_PARENT;
-        layoutParamsData.weight = 1;
+        layoutParamsData.weight = 2;
+        viewTitle.setVisibility(VISIBLE);
+        line.setVisibility(VISIBLE);
         layoutData.setLayoutParams(layoutParamsData);
+        layoutData.setPadding(20,20,20,20);
         viewTitle.setPadding(0,30,0,0);
         easyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         LayoutParams layoutParamsRecyclerView = (LayoutParams) easyRecyclerView.getLayoutParams();
         layoutParamsRecyclerView.width = 0;
         layoutParamsRecyclerView.height = LayoutParams.MATCH_PARENT;
-        layoutParamsRecyclerView.weight = 2;
+        layoutParamsRecyclerView.weight = 5;
         easyRecyclerView.setLayoutParams(layoutParamsRecyclerView);
 
         LayoutParams layoutParamsRadioGroup = (LayoutParams) radioGroup.getLayoutParams();
         layoutParamsRadioGroup.width = 0;
         layoutParamsRadioGroup.height = LayoutParams.MATCH_PARENT;
-        layoutParamsRadioGroup.weight = 1;
+        layoutParamsRadioGroup.weight = 3;
         radioGroup.setLayoutParams(layoutParamsRadioGroup);
 
         layoutBottom.setOrientation(HORIZONTAL);
@@ -184,15 +190,17 @@ public class ProductView extends AutoLinearLayout {
         LayoutParams layoutParamsCover = (LayoutParams) viewCover.getLayoutParams();
         layoutParamsCover.width = LayoutParams.MATCH_PARENT;
         layoutParamsCover.height = 0;
-        layoutParamsCover.weight = 13;
+        layoutParamsCover.weight = 14;
         viewCover.setLayoutParams(layoutParamsCover);
 
         LayoutParams layoutParamsData = (LayoutParams) layoutData.getLayoutParams();
         layoutParamsData.width = LayoutParams.MATCH_PARENT;
         layoutParamsData.height = 0;
-        layoutParamsData.weight = 6;
+        layoutParamsData.weight = 5;
+        viewTitle.setVisibility(GONE);
+        line.setVisibility(GONE);
+        layoutData.setPadding(20,0,20,0);
         layoutData.setLayoutParams(layoutParamsData);
-        viewTitle.setPadding(0,0,0,0);
         easyRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
 
         LayoutParams layoutParamsRecyclerView = (LayoutParams) easyRecyclerView.getLayoutParams();

@@ -65,15 +65,15 @@ public class SweetAlertDialogDelegate implements DialogDelegate {
 
     @Override
     public void showNormalDialog(String option, String msg) {
-        new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE)
+        pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText(option)
-                .setContentText(msg)
-                .show();
+                .setContentText(msg);
+        pDialog.show();
     }
 
     @Override
     public void showWarningDialog(String option, String msg, final OnDialogListener listener) {
-        new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE)
+        pDialog =   new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText(option)
                 .setConfirmText("确定")
                 .setCancelText("取消")
@@ -83,13 +83,13 @@ public class SweetAlertDialogDelegate implements DialogDelegate {
                         listener.onClick();
                     }
                 })
-                .setContentText(msg)
-                .show();
+                .setContentText(msg);
+        pDialog.show();
     }
 
     @Override
     public void showSuccessDialog(String option, String msg, final OnDialogListener listener) {
-        new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE)
+        pDialog =  new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText(option)
                 .setConfirmText("确定")
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -98,13 +98,13 @@ public class SweetAlertDialogDelegate implements DialogDelegate {
                         listener.onClick();
                     }
                 })
-                .setContentText(msg)
-                .show();
+                .setContentText(msg);
+        pDialog.show();
     }
 
     @Override
     public void showErrorDialog(String option, String msg,final OnDialogListener listener) {
-        new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE)
+        pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText(option)
                 .setConfirmText("确定")
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -113,8 +113,8 @@ public class SweetAlertDialogDelegate implements DialogDelegate {
                         listener.onClick();
                     }
                 })
-                .setContentText(msg)
-                .show();
+                .setContentText(msg);
+        pDialog.show();
     }
 
     @Override
@@ -177,7 +177,7 @@ public class SweetAlertDialogDelegate implements DialogDelegate {
 
     @Override
     public void clearDialog() {
-        if(pDialog != null){
+        if(pDialog != null && pDialog.isShowing()){
             pDialog.dismiss();
         }
     }

@@ -103,6 +103,7 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
                     finish();
                 }
             });
+
         }else {
             //添加热点
             delegate.clearDialog();

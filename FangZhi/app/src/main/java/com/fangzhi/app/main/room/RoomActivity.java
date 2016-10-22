@@ -94,7 +94,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         recyclerView = productView.getEasyRecyclerView();
         BallSpinFadeLoaderIndicator indicator = new BallSpinFadeLoaderIndicator();
         aviLoading.setIndicator(indicator);
-        //    layoutPart.setVisibility(View.GONE);
+        productView.setVisibility(View.GONE);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         bgUrl = bundle.getString("bg");
@@ -344,7 +344,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 Intent intent = new Intent(RoomActivity.this, LoginActivityNew.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(new Intent(RoomActivity.this, LoginActivityNew.class));
-                finish();
             }
         });
     }

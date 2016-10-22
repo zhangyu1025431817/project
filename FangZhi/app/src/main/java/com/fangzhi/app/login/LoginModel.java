@@ -14,9 +14,4 @@ public class LoginModel implements LoginContract.Model {
         return NetWorkRequest.login(account,password,deviceCode);
     }
 
-    @Override
-    public Observable<LoginBean> login(String token) {
-        return NetWorkRequest.login(token);
-    }
-
 }

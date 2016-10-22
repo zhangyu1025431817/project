@@ -28,7 +28,7 @@ public class StateEditText extends EditText{
         addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                changeState(new StateEditText.EditState(R.drawable.bg_edit_login, defaultHint, R.color.colorTextGrayBABABA, null));
+                changeState(new StateEditText.EditState(R.drawable.shape_edit_bg, defaultHint, R.color.colorTextGrayBABABA, null));
             }
 
             @Override

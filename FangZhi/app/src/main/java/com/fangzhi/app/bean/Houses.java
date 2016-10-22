@@ -27,6 +27,7 @@ public class Houses {
 
     private List<House> premiseList;
 
+
     public List<House> getPremiseList() {
         return premiseList;
     }

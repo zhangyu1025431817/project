@@ -5,20 +5,24 @@ import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationListener;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
+import com.fangzhi.app.bean.County;
 import com.fangzhi.app.bean.Houses;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.location.LocationManager;
 import com.fangzhi.app.login.LoginActivityNew;
 import com.fangzhi.app.main.adapter.HousesAdapter;
 import com.fangzhi.app.main.city.CityActivity;
 import com.fangzhi.app.main.house_type.HouseTypeActivity;
+import com.fangzhi.app.main.sell_part.SellPartActivity;
+import com.fangzhi.app.tools.ActivityTaskManager;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.ClearEditText;
@@ -27,6 +31,7 @@ import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -39,35 +44,14 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     ClearEditText etKeyword;
     @Bind(R.id.tv_location)
     TextView tvLocation;
+    @Bind(R.id.sp_area)
+    Spinner spinner;
 
-    private HousesAdapter adapter;
-    private int page = 0;
+    private HousesAdapter mAdapter;
+    private int mPage = 0;
     String mKeyword = "";
     DialogDelegate dialogDelegate;
-    /**
-     * 定位监听
-     */
-    AMapLocationListener locationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation loc) {
-            if (null != loc) {
-                //解析定位结果
-                String code = loc.getAdCode();
-                String name = loc.getCity();
-                if (code.isEmpty() || name.isEmpty()) {
-                    tvLocation.setText("定位失败");
-                } else {
-                    tvLocation.setText(name);
-                    SPUtils.putString(MainActivity.this, SpKey.CITY_NAME, name);
-                    SPUtils.putString(MainActivity.this, SpKey.CITY_CODE, code);
-                    onRefresh();
-                }
-                LocationManager.getInstance().stopLocation();
-            } else {
-                tvLocation.setText("定位失败");
-            }
-        }
-    };
+
 
     @Override
     public int getLayoutId() {
@@ -80,19 +64,19 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         if (currentCity.isEmpty()) {
             startActivityForResult(new Intent(this, CityActivity.class), 1);
         }
-
+        //禁用滑动删除
         setSwipeBackEnable(false);
         recyclerView.setRefreshListener(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new HousesAdapter(this);
-        adapter.setMore(R.layout.view_more, this);
+        mAdapter = new HousesAdapter(this);
+        mAdapter.setMore(R.layout.view_more,this);
 
-        recyclerView.setAdapterWithProgress(adapter);
-        adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        recyclerView.setAdapterWithProgress(mAdapter);
+        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String id = adapter.getItem(position).getId();
-                String name = adapter.getItem(position).getPre_cname();
+                String id = mAdapter.getItem(position).getId();
+                String name = mAdapter.getItem(position).getPre_cname();
                 Intent intent = new Intent();
                 intent.putExtra("id", id);
                 intent.putExtra("name", name);
@@ -101,17 +85,10 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             }
         });
 
-//        //开始定位
-//        String currentCity = SPUtils.getString(this, SpKey.CITY_NAME, "");
-//        if (currentCity.isEmpty()) {
-//            tvLocation.setText("正在定位");
-//            LocationManager.getInstance().startLocation(locationListener);
-//        } else {
         if (!currentCity.isEmpty()) {
             tvLocation.setText(currentCity);
             onRefresh();
         }
-        //     }
         dialogDelegate = new SweetAlertDialogDelegate(this);
         etKeyword.addOnClearListener(new ClearEditText.OnClearListener() {
             @Override
@@ -139,6 +116,10 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             etKeyword.setText(mKeyword);
             isSearch = false;
             recyclerView.setRefreshing(false);
+            mCurrentCounty = null;
+            //重新选择城市后需要重新设置区县
+            spinner.setVisibility(View.GONE);
+            mPresenter.changeShowCounty(true);
             onRefresh();
         }
     }
@@ -160,8 +141,64 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     public void showHousesList(List<Houses.House> houses) {
-        adapter.addAll(houses);
+        mAdapter.addAll(houses);
         recyclerView.setRefreshing(false);
+    }
+
+    @Override
+    public void showNoMoreHouseList(List<Houses.House> houseList) {
+        mAdapter.addAll(houseList);
+        recyclerView.setRefreshing(false);
+        //这里又没分页了
+        mAdapter.stopMore();
+    }
+
+    private boolean isFirstSelect = true;
+    @Override
+    public void showCountyList(final List<County> countyList) {
+        if (countyList != null && !countyList.isEmpty()) {
+            spinner.setVisibility(View.VISIBLE);
+            List<String> list = new ArrayList<>();
+            list.add("全城");
+            for (County county : countyList) {
+                list.add(county.getArea_cname());
+            }
+
+            final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_simple_spinner, list);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    //第一次默认选中全城不做操作
+                    if(isFirstSelect){
+                        isFirstSelect = false;
+                        return;
+                    }
+                    if(position == 0){//全城
+                        mCurrentCounty = null;
+                        recyclerView.setRefreshing(true);
+                        mPage = 1;
+                        mAdapter.clear();
+                        //不需要再次设置区县
+                        mPresenter.getHousesList();
+                    }else {
+                        mCurrentCounty = countyList.get(position-1);
+                        recyclerView.setRefreshing(true);
+                        mAdapter.clear();
+                        mPresenter.getCountyHousesList();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } else {
+            spinner.setVisibility(View.GONE);
+            mCurrentCounty = null;
+        }
     }
 
     @Override
@@ -180,6 +217,13 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         return mKeyword;
     }
 
+    private County mCurrentCounty;
+
+    @Override
+    public String getCountyId() {
+        return mCurrentCounty.getId();
+    }
+
     @Override
     public int getPageSize() {
         return 20;
@@ -187,10 +231,11 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     public int getCurrentPage() {
-        return page;
+        return mPage;
     }
 
     private boolean isSearch = false;
+
     @Override
     public void onLoadMore() {
         if (isSearch) {
@@ -200,32 +245,35 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 recyclerView.setRefreshing(false);
             }
         } else {
-            mPresenter.getHousesList();
+            if (mCurrentCounty == null) {
+                //加载更多不需要更新区县列表
+                mPresenter.getHousesList();
+            }else{
+                mPresenter.getCountyHousesList();
+            }
         }
-        page++;
+        mPage++;
     }
 
     @Override
     public void onRefresh() {
         recyclerView.setRefreshing(true);
-        page = 1;
-        adapter.clear();
+        mPage = 1;
+        mAdapter.clear();
         onLoadMore();
     }
 
     private void onSearch() {
         recyclerView.setRefreshing(true);
-        page = 1;
-        adapter.clear();
+        mPage = 1;
+        mAdapter.clear();
         onLoadMore();
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         dialogDelegate.clearDialog();
-        LocationManager.getInstance().removeListener(locationListener);
     }
 
     public void closeKeyboard() {
@@ -255,4 +303,30 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         recyclerView.setRefreshing(false);
     }
 
+    @OnClick(R.id.btn_exit)
+    public void onExit() {
+        dialogDelegate.showWarningDialog("退出登录", "确定退出当前账号？", new DialogDelegate.OnDialogListener() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(MainActivity.this, LoginActivityNew.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            ActivityTaskManager.getActivityTaskManager().finishActivity();
+            finish();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+    @OnClick(R.id.btn_home_material)
+    public void onHomeMaterial(){
+        startActivity(new Intent(this, SellPartActivity.class));
+    }
 }

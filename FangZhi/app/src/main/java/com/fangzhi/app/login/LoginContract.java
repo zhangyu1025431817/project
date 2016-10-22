@@ -13,7 +13,6 @@ import rx.Observable;
 public interface LoginContract {
     interface Model extends BaseModel{
         Observable<LoginBean> login(String deviceCode, String account, String password);
-        Observable<LoginBean> login(String token);
     }
     interface View extends BaseView{
         String getDeviceId();

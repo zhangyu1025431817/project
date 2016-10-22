@@ -18,14 +18,33 @@
             android:drawableLeft="@drawable/icon_location"
             android:drawablePadding="10px"
             android:gravity="center"
-            android:text="定位失败"
             android:textColor="@color/text_gray_white" />
-
+        <Spinner
+            android:id="@+id/sp_area"
+            android:layout_marginLeft="20px"
+            android:layout_toRightOf="@id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/btn_home_material"
+            android:text="家装建材"
+            android:paddingLeft="30px"
+            android:paddingRight="30px"
+            android:paddingTop="16px"
+            android:paddingBottom="16px"
+            android:textColor="@color/text_gray_white"
+            android:background="@drawable/shape_gray_border"
+            android:layout_centerInParent="true"
+            android:textSize="30px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <com.fangzhi.app.view.ClearEditText
             android:id="@+id/et_keyword"
             android:layout_width="600px"
             android:layout_height="80px"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_exit"
             android:background="@drawable/bg_layout_rectangle_circle_selector"
             android:drawableRight="@drawable/icon_search"
             android:gravity="center_vertical"
@@ -35,7 +54,13 @@
             android:textColor="#333"
             android:textColorHint="#aaa"
             android:textSize="28px" />
-
+        <ImageButton
+            android:id="@+id/btn_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_exit"/>
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.jude.easyrecyclerview.EasyRecyclerView

@@ -169,6 +169,7 @@ public class DownLoadImageService {
                             .load(url)
                             .get();
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

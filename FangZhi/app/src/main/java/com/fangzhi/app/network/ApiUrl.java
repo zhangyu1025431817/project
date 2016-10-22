@@ -4,8 +4,14 @@ package com.fangzhi.app.network;
  * Created by zhangyu on 2016/6/15.
  */
 public class ApiUrl {
-    //public static final String BASE_URL = "http://120.76.212.114:8050/";
-    public static final String BASE_URL = "http://120.76.209.107:8050/";
+    /**
+     * 正式
+     */
+    public static final String BASE_URL = "http://120.76.212.114:8050/";
+    /**
+     * 测试
+     */
+    //public static final String BASE_URL = "http://120.76.209.107:8050/";
     /**
      * 获取城市列表
      */
@@ -43,23 +49,23 @@ public class ApiUrl {
      */
     public static final String USER_LOGIN = "fznet/fzapp/FangzhiAction/login.json";
     /**
-     * 自动登录
+     * 获取区县楼盘
      */
-    public static final String USER_LOGIN_TOKEN = "";
+    public static final String GET_COUNTY_HOUSE = "fznet/fzapp/FangzhiAction/getCountyPrimise.json";
     /**
-     * 邀请码登录后修改密码
+     * 获取指定用户售卖种类
      */
-    public static final String SET_PASSWORD = "";
+    public static final String GET_CATEGORY = "fznet/fzapp/FangzhiAction/getCategory.json";
     /**
-     * 获取验证码
+     * 获取指定种类的部件列表
      */
-    public static final String GET_MSG_CODE = "";
+    public static final String GET_CATEGORY_PART_LIST = "fznet/fzapp/FangzhiAction/getPartList.json";
     /**
-     * 重置密码
+     * 部件搜索
      */
-    public static final String RESET_PWD = "";
+    public static final String SEARCH_CATEGORY_PART = "fznet/fzapp/FangzhiAction/searchPart.json";
     /**
-     * 获取楼盘列表
+     * 获取指定部件对应的场景
      */
-    public static final String GET_HOUSES_LIST = "";
-}
+    public static final String GET_PART_SENCE = "fznet/fzapp/FangzhiAction/getScene.json";
+ }

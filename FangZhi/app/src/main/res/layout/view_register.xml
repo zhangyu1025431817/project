@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_register"
+    android:layout_width="1000px"
+    android:layout_height="800px"
+    android:layout_marginTop="30px"
+    android:background="@drawable/bg_login_box"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:padding="20px"
+    android:visibility="visible">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="640px"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="18723480205"
+            android:textSize="30px" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+
+        <com.fangzhi.app.view.StateEditText
+            android:id="@+id/et_register_psd"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="@string/set_login_password"
+            android:inputType="number"
+            android:paddingLeft="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="640px"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:background="@drawable/radio_room_selector"
+                android:text="男" />
+
+            <RadioButton
+                android:id="@+id/rb_woman"
+                android:layout_width="wrap_content"
+                android:background="@drawable/radio_room_selector"
+                android:layout_height="wrap_content"
+                android:text="女" />
+        </RadioGroup>
+
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+
+        <com.fangzhi.app.view.StateEditText
+            android:id="@+id/et_user_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="@string/set_user_name"
+            android:inputType="number"
+            android:paddingLeft="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="640px"
+        android:layout_height="100px"
+        android:layout_gravity="bottom|center_horizontal">
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="注册" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:text="取消" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoLinearLayout>

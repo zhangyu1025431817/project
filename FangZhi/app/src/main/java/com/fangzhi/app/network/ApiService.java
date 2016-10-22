@@ -1,12 +1,14 @@
 package com.fangzhi.app.network;
 
 import com.fangzhi.app.bean.Area;
+import com.fangzhi.app.bean.CountyHouses;
 import com.fangzhi.app.bean.HouseTypeDetails;
 import com.fangzhi.app.bean.HouseTypes;
 import com.fangzhi.app.bean.Houses;
 import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.bean.RoomProductTypes;
 import com.fangzhi.app.bean.Scenes;
+import com.fangzhi.app.bean.SellType;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -25,23 +27,22 @@ public interface ApiService {
     Observable<LoginBean> login(@Field("number") String username, @Field("password") String password,
                                 @Field("machine_code") String deviceId,@Field("machine_type") String type);
 
-    @POST(ApiUrl.USER_LOGIN_TOKEN)
-    Observable<LoginBean> loginToken(@Header("token") String token);
-
     @GET(ApiUrl.CITY_LIST)
     Observable<Area> getCities(@Header("token") String token);
 
     @GET(ApiUrl.CITY_HOUSE_LIST)
-    Observable<Houses> getHouses(@Header("token") String token,@Query("areaid") String id,
+    Observable<CountyHouses> getHouses(@Header("token") String token, @Query("areaid") String id,
                                  @Query("pageSize") int count,
                                  @Query("pageNO") int page);
     @POST(ApiUrl.SEARCH_HOUSE_INFO)
     @FormUrlEncoded
-    Observable<Houses> searchHouse(@Header("token") String token,
-                                   @Field("areaid") String id,
-                                   @Field("premiseName") String name,
-                                   @Field("pageSize") int count,
-                                   @Field("pageNO") int page);
+    Observable<CountyHouses> searchHouse(@Header("token") String token,
+                                         @Field("areaid") String id,
+                                         @Field("premiseName") String name,
+                                         @Field("pageSize") int count,
+                                         @Field("pageNO") int page);
+    @GET(ApiUrl.GET_COUNTY_HOUSE)
+    Observable<Houses> getCountyHouses(@Header("token")String token, @Query("countyID") String id);
     @POST(ApiUrl.GET_HOUSE_TYPE_LIST)
     @FormUrlEncoded
     Observable<HouseTypes> getHouseTypes(@Header("token") String token,
@@ -61,4 +62,8 @@ public interface ApiService {
                                                      @Query("userID") String userId,
                                                      @Query("scene_id") String sceneId,
                                                      @Query("hlCode") String hlCode);
+    @GET(ApiUrl.GET_CATEGORY)
+    Observable<SellType> getSellCategory(@Header("token") String token,
+                                         @Query("userID") String userId);
+
 }
