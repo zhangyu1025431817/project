@@ -10,7 +10,7 @@ import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.Scene;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.login.LoginActivityNew;
+import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.SceneAdapter;
 import com.fangzhi.app.main.room.RoomActivity;
 import com.fangzhi.app.tools.SPUtils;
@@ -112,9 +112,9 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
         dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
             @Override
             public void onClick() {
-                Intent intent = new Intent(SceneActivity.this, LoginActivityNew.class);
+                Intent intent = new Intent(SceneActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(SceneActivity.this, LoginActivityNew.class));
+                startActivity(new Intent(SceneActivity.this, LoginActivity.class));
             }
         });
     }

@@ -30,6 +30,7 @@ public class SceneViewHolder extends BaseViewHolder<Scene> {
         tvName.setText(data.getScene_name());
         Glide.with(getContext())
                 .load(data.getScene_img())
+                .placeholder(R.drawable.bg_image_placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(ivScene);

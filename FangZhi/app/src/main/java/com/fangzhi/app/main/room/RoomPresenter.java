@@ -24,16 +24,16 @@ public class RoomPresenter extends RoomContract.Presenter {
                 } else if (ErrorCode.SERVER_EXCEPTION.equals(roomProductTypes.getError_code())) {
                     mView.onError(roomProductTypes.getMsg());
                 } else if (ErrorCode.SUCCEED.equals(roomProductTypes.getError_code())) {
-                    mView.showRoomProductTypes(roomProductTypes.getPartTypeList());
+                    mView.showRoomProductTypes(roomProductTypes.getPartTypeList(),roomProductTypes.getPosition());
                 } else {
-                    mView.showRoomProductTypes(null);
+                    mView.showRoomProductTypes(null,roomProductTypes.getPosition());
                 }
 
             }
 
             @Override
             public void onError(Throwable e) {
-                mView.showRoomProductTypes(null);
+                mView.showRoomProductTypes(null,0);
             }
         }));
     }

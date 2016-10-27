@@ -18,10 +18,12 @@ import com.fangzhi.app.base.RxBus;
 import com.fangzhi.app.bean.Order;
 import com.fangzhi.app.main.adapter.OrderAdapter;
 import com.fangzhi.app.main.adapter.OrderViewHolder;
+import com.fangzhi.app.tools.BeanCloneUtil;
 import com.fangzhi.app.view.DialogInput;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,10 +67,19 @@ public class ListOrderActivity extends SwipeBackActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("list")) {
             List<Order> list = (List<Order>) intent.getSerializableExtra("list");
+            List<Order> tempOrderList = new ArrayList<>();
+            for(Order order : list){
+                String[] images = order.getPart_img_short().split(";");
+                for (String image : images){
+                    Order tempOrder = BeanCloneUtil.cloneTo(order);
+                    tempOrder.setPart_img_short(image);
+                    tempOrderList.add(tempOrder);
+                }
+            }
             mAdapter = new OrderAdapter(this);
             recyclerView.setAdapter(mAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            mAdapter.addAll(list);
+            mAdapter.addAll(tempOrderList);
             mAdapter.addHeader(new RecyclerArrayAdapter.ItemView() {
 
                 @Override

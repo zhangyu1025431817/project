@@ -2,75 +2,56 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_register"
     android:layout_width="1000px"
-    android:layout_height="800px"
-    android:layout_marginTop="30px"
+    android:layout_height="1400px"
     android:background="@drawable/bg_login_box"
     android:focusableInTouchMode="true"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="20px"
-    android:visibility="visible">
+    android:padding="40px"
+    android:visibility="gone">
 
     <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="640px"
+        android:layout_width="800px"
         android:layout_height="100px"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_phone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="18723480205"
+            android:gravity="center_vertical|right"
+            android:text="手机号:"
             android:textSize="30px" />
 
         <android.support.v4.widget.Space
             android:layout_width="20px"
             android:layout_height="match_parent" />
 
-        <com.fangzhi.app.view.StateEditText
-            android:id="@+id/et_register_psd"
+        <TextView
+            android:id="@+id/tv_phone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/shape_edit_bg"
-            android:hint="@string/set_login_password"
-            android:inputType="number"
-            android:paddingLeft="20px"
-            android:textColorHint="@color/colorTextGrayBABABA"
-            android:textCursorDrawable="@null"
-            android:textScaleX="0.96"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:text="18723480205"
             android:textSize="30px" />
     </com.zhy.autolayout.AutoLinearLayout>
 
     <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="640px"
+        android:layout_width="800px"
         android:layout_height="100px"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20px"
+        android:layout_marginTop="30px"
         android:orientation="horizontal">
 
-        <RadioGroup
+        <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_man"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:background="@drawable/radio_room_selector"
-                android:text="男" />
-
-            <RadioButton
-                android:id="@+id/rb_woman"
-                android:layout_width="wrap_content"
-                android:background="@drawable/radio_room_selector"
-                android:layout_height="wrap_content"
-                android:text="女" />
-        </RadioGroup>
+            android:gravity="center_vertical|right"
+            android:text="用户名:"
+            android:textSize="30px" />
 
         <android.support.v4.widget.Space
             android:layout_width="20px"
@@ -80,11 +61,287 @@
             android:id="@+id/et_user_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:background="@drawable/shape_edit_bg"
             android:hint="@string/set_user_name"
-            android:inputType="number"
+            android:inputType="text"
             android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="800px"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="密码:"
+            android:textSize="30px" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+
+        <com.fangzhi.app.view.ClearEditText
+            android:id="@+id/et_register_psd"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="@string/set_login_password"
+            android:inputType="textPassword"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="800px"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="重输密码:"
+            android:textSize="30px" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+
+        <com.fangzhi.app.view.ClearEditText
+            android:id="@+id/et_register_psd_confirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="@string/input_password_again"
+            android:inputType="textPassword"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="800px"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="性别:"
+            android:textSize="30px" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+
+        <RadioGroup
+            android:id="@+id/rb_sex"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_man"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_room_selector"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="男"
+                android:textColor="@color/check_gray_white"
+                android:textSize="30px" />
+
+            <RadioButton
+                android:id="@+id/rb_woman"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_room_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="女"
+                android:textColor="@color/check_gray_white"
+                android:textSize="30px" />
+        </RadioGroup>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="800px"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="所在地:"
+            android:textSize="30px" />
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/sp_province"
+                android:layout_width="0dp"
+                android:padding="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/sp_city"
+                android:layout_width="0dp"
+                android:padding="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/sp_county"
+                android:layout_width="0dp"
+                android:padding="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="800px"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="公司名称:"
+            android:textSize="30px" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+
+        <com.fangzhi.app.view.ClearEditText
+            android:id="@+id/et_company"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="@string/company_name"
+            android:inputType="text"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="800px"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="公司地址:"
+            android:textSize="30px" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+
+        <com.fangzhi.app.view.ClearEditText
+            android:id="@+id/et_address"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="@string/company_address"
+            android:inputType="text"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="800px"
+        android:layout_height="100px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:text="业务范围:"
+            android:textSize="30px" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+
+        <com.fangzhi.app.view.ClearEditText
+            android:id="@+id/et_business_area"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="3"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="@string/business_area"
+            android:inputType="text"
+            android:maxLines="3"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
             android:textColorHint="@color/colorTextGrayBABABA"
             android:textCursorDrawable="@null"
             android:textScaleX="0.96"
@@ -92,21 +349,25 @@
     </com.zhy.autolayout.AutoLinearLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="640px"
-        android:layout_height="100px"
-        android:layout_gravity="bottom|center_horizontal">
+        android:layout_width="800px"
+        android:layout_height="120px"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="30px">
 
         <Button
             android:id="@+id/btn_register"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="注册" />
+            android:text="注册"
+            android:textSize="30px" />
 
         <Button
-            android:id="@+id/btn_cancel"
+            android:id="@+id/btn_register_cancel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:text="取消" />
+            android:text="取消"
+            android:textSize="30px" />
     </com.zhy.autolayout.AutoRelativeLayout>
+
 </com.zhy.autolayout.AutoLinearLayout>

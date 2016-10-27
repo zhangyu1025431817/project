@@ -23,7 +23,7 @@
         android:paddingBottom="90px"
         android:paddingTop="90px">
 
-        <com.fangzhi.app.view.StateEditText
+        <com.fangzhi.app.view.ClearEditText
             android:id="@+id/et_phone"
             android:layout_width="640px"
             android:layout_height="100px"
@@ -31,12 +31,13 @@
             android:hint="@string/input_phone_number"
             android:inputType="text"
             android:paddingLeft="20px"
+            android:paddingRight="20px"
             android:textColorHint="@color/colorTextGrayBABABA"
             android:textCursorDrawable="@null"
             android:textScaleX="0.96"
             android:textSize="30px" />
 
-        <com.fangzhi.app.view.StateEditText
+        <com.fangzhi.app.view.ClearEditText
             android:id="@+id/et_password"
             android:layout_width="640px"
             android:layout_height="100px"
@@ -45,6 +46,7 @@
             android:hint="@string/please_input_password"
             android:inputType="textPassword"
             android:paddingLeft="20px"
+            android:paddingRight="20px"
             android:textColorHint="@color/colorTextGrayBABABA"
             android:textCursorDrawable="@null"
             android:textScaleX="0.96"
@@ -112,4 +114,5 @@
     </com.zhy.autolayout.AutoLinearLayout>
     <include layout="@layout/view_get_code"/>
     <include layout="@layout/view_register"/>
+    <include layout="@layout/view_find_password"/>
 </com.zhy.autolayout.AutoLinearLayout>

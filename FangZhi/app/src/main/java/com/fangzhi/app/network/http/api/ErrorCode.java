@@ -24,6 +24,7 @@ package com.fangzhi.app.network.http.api;
 public class ErrorCode {
     public static final String SUCCEED = "0000";
     public static final String USER_PASSWORD_ERROR = "0001";
+    public static final String PARENT_MULTIPLE = "6666";
     public static final String TOKEN_INVALID = "9999";
     public static final String SERVER_EXCEPTION= "8888";
     public static final String USER_INVALID = "0002";

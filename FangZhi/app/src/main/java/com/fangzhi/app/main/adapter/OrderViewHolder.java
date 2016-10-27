@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.RxBus;
 import com.fangzhi.app.bean.Order;
@@ -45,9 +44,7 @@ public class OrderViewHolder extends BaseViewHolder<Order> {
     public void setData(final Order data) {
         Glide.with(getContext())
                 .load(data.getPart_img_short())
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .crossFade()
-                .centerCrop()
                 .into(iv_image);
         tv_brand.setText(data.getPart_brand());
         tv_type.setText(data.getType());

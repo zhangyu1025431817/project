@@ -40,8 +40,11 @@ public class ClearEditText extends EditText {
     }
 
     private void init() {
+        Drawable[] drawables =  getCompoundDrawables();
+
+        imgLeft = drawables[0];
         imgAble = mContext.getResources().getDrawable(R.drawable.icon_edit_text_delete);
-        imgLeft = mContext.getResources().getDrawable(R.drawable.icon_search);
+     //   imgLeft = mContext.getResources().getDrawable(R.drawable.icon_search);
         addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -52,6 +55,7 @@ public class ClearEditText extends EditText {
                 setDrawable();
             }
         });
+
         setDrawable();
     }
 
@@ -72,7 +76,7 @@ public class ClearEditText extends EditText {
             Log.e(TAG, "eventX = " + eventX + "; eventY = " + eventY);
             Rect rect = new Rect();
             getGlobalVisibleRect(rect);
-            rect.left = rect.right - 50;
+            rect.left = rect.right - 80;
             if(rect.contains(eventX, eventY)) {
                 setText("");
                 if(mListener != null){

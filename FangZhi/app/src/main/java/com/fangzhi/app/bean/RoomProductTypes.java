@@ -8,6 +8,15 @@ import java.util.List;
 public class RoomProductTypes {
     String error_code;
     String msg;
+    int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public String getError_code() {
         return error_code;

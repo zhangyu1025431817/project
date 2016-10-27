@@ -16,7 +16,7 @@ import com.fangzhi.app.bean.Scene;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.download.DownLoadImageService;
 import com.fangzhi.app.download.DrawImageService;
-import com.fangzhi.app.login.LoginActivityNew;
+import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.PartAdapter;
 import com.fangzhi.app.main.list.ListOrderActivity;
 import com.fangzhi.app.tools.SPUtils;
@@ -41,8 +41,7 @@ import butterknife.OnClick;
 /**
  * Created by smacr on 2016/9/12.
  */
-public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View
-        , RecyclerArrayAdapter.OnLoadMoreListener {
+public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View {
 
     //  @Bind(R.id.gb_type)
     MyRadioGroup radioGroup;
@@ -86,7 +85,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     String bgUrl;
     DownLoadImageService downLoadImageService;
     DrawImageService drawImageService;
-
+    ArrayList<RoomProductType> partTypeList;
+    //菜单栏显示位置
+    private int position;
     @Override
     public void initView() {
         //loading
@@ -103,7 +104,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         mHotTypeId = bundle.getString("hotType");
         mSceneId = bundle.getString("sceneId");
         mHlCode = bundle.getString("hlCode");
+        position = bundle.getInt("position");
         List<Scene.Part> list = (List<Scene.Part>) bundle.getSerializable("parts");
+        partTypeList = (ArrayList<RoomProductType>) bundle.getSerializable("types");
         //用于当背景的空bitmap
 
         for (Scene.Part part : list) {
@@ -181,13 +184,18 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             }
         });
         recyclerView.setAdapterWithProgress(mAdapter);
-        onRefresh();
+        if(partTypeList == null || partTypeList.size() == 0){
+            mPresenter.getRoomPartTypeList();
+        }else{
+            showRoomProductTypes(partTypeList,position);
+        }
+
     }
 
     private Map<Integer, Integer> indexMap = new HashMap<>();
 
     private void addPartType(List<RoomProductType> list) {
-        radioGroup.addList(list, indexMap, new MyRadioGroup.OnCheckedListener() {
+        radioGroup.addList(list,indexMap, new MyRadioGroup.OnCheckedListener() {
             @Override
             public void onChecked(RoomProductType roomProductType) {
 
@@ -196,25 +204,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 mAdapter.addAll(list);
                 mCurrentIndex = roomProductType.getOrder_num();
                 mLastSelectPosition = indexMap.get(roomProductType.getOrder_num());
-
-                int position = roomProductType.getPosition();
-                switch (position){
-                    case 0:
-                        productView.changeRight();
-                        break;
-                    case 1:
-                        productView.changeBottom();
-                        break;
-                    case 2:
-                        productView.changeLeft();
-                        break;
-                    case 3:
-                        productView.changeTop();
-                        break;
-                    default:
-                        productView.changeRight();
-                        break;
-                }
             }
         });
     }
@@ -230,17 +219,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         downLoadImageService = null;
         drawImageService = null;
         System.gc();
-    }
-
-    @Override
-    public void onLoadMore() {
-        mPresenter.getRoomPartTypeList();
-    }
-
-    public void onRefresh() {
-        recyclerView.setRefreshing(true);
-        mAdapter.clear();
-        onLoadMore();
     }
 
     @Override
@@ -269,9 +247,25 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     }
 
     @Override
-    public void showRoomProductTypes(List<RoomProductType> list) {
-        recyclerView.setRefreshing(false);
+    public void showRoomProductTypes(List<RoomProductType> list,int position) {
         if (list != null && !list.isEmpty()) {
+            switch (position){
+                case 0:
+                    productView.changeRight();
+                    break;
+                case 1:
+                    productView.changeBottom();
+                    break;
+                case 2:
+                    productView.changeLeft();
+                    break;
+                case 3:
+                    productView.changeTop();
+                    break;
+                default:
+                    productView.changeRight();
+                    break;
+            }
             //初始化右侧控件类型
             addPartType(list);
             mList.addAll(list);
@@ -280,7 +274,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @OnClick(R.id.iv_home)
     public void onHome() {
-     //   productView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_out));
+        //   productView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_out));
         productView.setVisibility(View.VISIBLE);
     }
 
@@ -341,9 +335,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
             @Override
             public void onClick() {
-                Intent intent = new Intent(RoomActivity.this, LoginActivityNew.class);
+                Intent intent = new Intent(RoomActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(RoomActivity.this, LoginActivityNew.class));
+                startActivity(new Intent(RoomActivity.this, LoginActivity.class));
             }
         });
     }

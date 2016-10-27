@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.amap.api.location.AMapLocationClient;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.login.LoginActivityNew;
+import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.tools.SPUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -59,7 +59,7 @@ public class LoadingActivity extends AppCompatActivity {
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                        startActivity(new Intent(LoadingActivity.this, LoginActivityNew.class));
+                        startActivity(new Intent(LoadingActivity.this, LoginActivity.class));
                         finish();
                     }
                 });

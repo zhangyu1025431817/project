@@ -33,6 +33,7 @@ public class HousesViewHolder extends BaseViewHolder<Houses.House> {
         tvCount.setText("户型:"+data.getCount());
         Glide.with(getContext())
                 .load(data.getPre_img())
+                .placeholder(R.drawable.bg_image_placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(imageView);

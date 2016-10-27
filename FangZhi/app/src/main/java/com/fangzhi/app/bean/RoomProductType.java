@@ -1,17 +1,18 @@
 package com.fangzhi.app.bean;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by smacr on 2016/9/9.
  */
-public class RoomProductType {
+public class RoomProductType implements Serializable {
     String type_id;
     String type_name;
     int order_num;
     int page_no;
     int position;
-    List<RoomProduct> sonList;
+    ArrayList<RoomProduct> sonList;
 
     public int getPosition() {
         return position;
@@ -53,11 +54,11 @@ public class RoomProductType {
         this.type_name = type_name;
     }
 
-    public List<RoomProduct> getSonList() {
+    public ArrayList<RoomProduct> getSonList() {
         return sonList;
     }
 
-    public void setSonList(List<RoomProduct> sonList) {
+    public void setSonList(ArrayList<RoomProduct> sonList) {
         this.sonList = sonList;
     }
 }

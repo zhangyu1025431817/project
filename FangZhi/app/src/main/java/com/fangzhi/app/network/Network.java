@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by zhangyu on 2016/6/15.
  */
- class Network {
+ public class Network {
     private static ApiService apiService;
 
     private static final Converter.Factory gsonConverterFactory = GsonConverterFactory.create();

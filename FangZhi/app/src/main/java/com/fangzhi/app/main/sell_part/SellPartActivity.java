@@ -8,8 +8,9 @@ import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.SellType;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.login.LoginActivityNew;
+import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HomeCategoryAdapter;
+import com.fangzhi.app.main.sell_part.product.ProductActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
@@ -46,7 +47,13 @@ public class SellPartActivity extends BaseActivity<SellPartPresenter, SellPartMo
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                SellType.Category category = mAdapter.getItem(position);
+                if (category.getIs_use() == 1) {
+                    Intent intent = new Intent(SellPartActivity.this, ProductActivity.class);
+                    intent.putExtra("title", category.getCate_name());
+                    intent.putExtra("categoryId", category.getId());
+                    startActivity(intent);
+                }
             }
         });
         dialogDelegate = new SweetAlertDialogDelegate(this);
@@ -68,20 +75,26 @@ public class SellPartActivity extends BaseActivity<SellPartPresenter, SellPartMo
     @Override
     public void showCategoryList(List<SellType.Category> list) {
         int i = 0;
+        SellType.Category onlyCategory = null;
         for (SellType.Category category : list) {
             if (category.getIs_use() == 1) {
+                onlyCategory = category;
                 i++;
             }
         }
         if (i == 1) {
+            Intent intent = new Intent(this, ProductActivity.class);
+            intent.putExtra("title", onlyCategory.getCate_name());
+            intent.putExtra("categoryId", onlyCategory.getId());
+            startActivity(intent);
             //直接跳转
             mAdapter.addAll(list);
-            recyclerView.setRefreshing(false);
-       //     finish();
+
+            finish();
         } else {
             mAdapter.addAll(list);
-            recyclerView.setRefreshing(false);
         }
+        recyclerView.setRefreshing(false);
     }
 
     @Override
@@ -89,15 +102,16 @@ public class SellPartActivity extends BaseActivity<SellPartPresenter, SellPartMo
         dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
             @Override
             public void onClick() {
-                Intent intent = new Intent(SellPartActivity.this, LoginActivityNew.class);
+                Intent intent = new Intent(SellPartActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(SellPartActivity.this, LoginActivityNew.class));
+                startActivity(new Intent(SellPartActivity.this, LoginActivity.class));
             }
         });
     }
 
     @Override
     public void onError(String msg) {
+        recyclerView.setRefreshing(false);
         T.showShort(this, msg);
     }
 

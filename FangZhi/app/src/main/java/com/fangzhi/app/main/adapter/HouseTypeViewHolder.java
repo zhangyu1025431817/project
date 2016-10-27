@@ -33,6 +33,7 @@ public class HouseTypeViewHolder extends BaseViewHolder<HouseTypes.HouseType> {
         tvArea.setText(data.getHouse_room());
         Glide.with(getContext())
                 .load(data.getHouse_img())
+                .placeholder(R.drawable.bg_image_placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(imageView);

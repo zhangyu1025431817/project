@@ -25,7 +25,7 @@ public interface RoomContract {
         String getUserId();
         String getSceneId();
         String getHlCode();
-        void showRoomProductTypes(List<RoomProductType> list);
+        void showRoomProductTypes(List<RoomProductType> list,int position);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

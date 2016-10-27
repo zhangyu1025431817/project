@@ -27,7 +27,7 @@ public class PartViewHolder extends BaseViewHolder<RoomProduct> {
     @Override
     public void setData(RoomProduct data) {
         Glide.with(getContext())
-                .load(data.getPart_img_short())
+                .load(data.getPart_img_short().split(";")[0])
                 .into(iv_product);
         view_cover.setText(data.getPart_name());
         if(data.isSelected()){

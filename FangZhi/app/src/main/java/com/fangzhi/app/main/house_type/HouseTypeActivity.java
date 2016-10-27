@@ -9,7 +9,7 @@ import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.HouseTypes;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.login.LoginActivityNew;
+import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HouseTypeAdapter;
 import com.fangzhi.app.main.type_detail.HouseTypeDetailActivity;
 import com.fangzhi.app.tools.SPUtils;
@@ -115,9 +115,9 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
         dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
             @Override
             public void onClick() {
-                Intent intent = new Intent(HouseTypeActivity.this, LoginActivityNew.class);
+                Intent intent = new Intent(HouseTypeActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(HouseTypeActivity.this, LoginActivityNew.class));
+                startActivity(new Intent(HouseTypeActivity.this, LoginActivity.class));
             }
         });
     }

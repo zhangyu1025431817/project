@@ -20,7 +20,7 @@ import com.fangzhi.app.bean.City;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.db.DBManager;
 import com.fangzhi.app.location.LocationManager;
-import com.fangzhi.app.login.LoginActivityNew;
+import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.view.ClearEditText;
 import com.fangzhi.app.view.DialogDelegate;
@@ -222,9 +222,9 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
         dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
             @Override
             public void onClick() {
-                Intent intent = new Intent(CityActivity.this, LoginActivityNew.class);
+                Intent intent = new Intent(CityActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(CityActivity.this, LoginActivityNew.class));
+                startActivity(new Intent(CityActivity.this, LoginActivity.class));
             }
         });
     }

@@ -7,11 +7,11 @@ public class ApiUrl {
     /**
      * 正式
      */
-    public static final String BASE_URL = "http://120.76.212.114:8050/";
+  //  public static final String BASE_URL = "http://120.76.212.114:8050/";
     /**
      * 测试
      */
-    //public static final String BASE_URL = "http://120.76.209.107:8050/";
+    public static final String BASE_URL = "http://120.76.209.107:8050/";
     /**
      * 获取城市列表
      */
@@ -49,6 +49,10 @@ public class ApiUrl {
      */
     public static final String USER_LOGIN = "fznet/fzapp/FangzhiAction/login.json";
     /**
+     * 新登录接口
+     */
+    public static final String USER_LOGIN_NEW = "fznet/fzmangge/FzUser/loginNew.json";
+    /**
      * 获取区县楼盘
      */
     public static final String GET_COUNTY_HOUSE = "fznet/fzapp/FangzhiAction/getCountyPrimise.json";
@@ -59,7 +63,7 @@ public class ApiUrl {
     /**
      * 获取指定种类的部件列表
      */
-    public static final String GET_CATEGORY_PART_LIST = "fznet/fzapp/FangzhiAction/getPartList.json";
+    public static final String GET_CATEGORY_PART_LIST = "fznet/fzapp/FangzhiAction/newGetPartList.json";
     /**
      * 部件搜索
      */
@@ -68,4 +72,32 @@ public class ApiUrl {
      * 获取指定部件对应的场景
      */
     public static final String GET_PART_SENCE = "fznet/fzapp/FangzhiAction/getScene.json";
+    /**
+     * 发送验证码
+     */
+    public static final String GET_MSG_CODE = "fznet/fzmangge/FzUser/sendSms.json";
+    /**
+     * 查询验证码是否有效
+     */
+    public static final String CHECK_MSG_CODE = "fznet/fzmangge/FzUser/queryVerCode.json";
+    /**
+     * 修改密码
+     */
+    public static final String MODIFI_PASSWORD = "fznet/fzmangge/FzUser/modifyPassword.json";
+    /**
+     * 插入体验号用户
+     */
+    public static final String REGISTER_EXPERIENCE_ACCOUNT = "fznet/fzmangge/FzUser/newUserExperience.json";
+    /**
+     * 查询用户的所属厂家
+     */
+    public static final String QUERY_PARENT_FACTORY = "fznet/fzmangge/FzUser/queryParentFac.json";
+    /**
+     * 选择父级id登陆
+     */
+    public static final String PARENT_LOGIN_NEW = "fznet/fzmangge/FzUser/parentLoginNew.json";
+    /**
+     * 查询省市县
+     */
+    public static final String QUERY_LOCATION = "fznet/fzmangge/FzUser/loginArea.json";
  }

@@ -29,11 +29,12 @@ public class HomeCategoryViewHolder extends BaseViewHolder<SellType.Category> {
     public void setData(SellType.Category data) {
         Glide.with(getContext())
                 .load(data.getCate_img())
+                .placeholder(R.drawable.bg_image_placeholder)
                 .crossFade()
                 .into(iv_image);
-        if(data.getIs_use() == 0){
+        if (data.getIs_use() == 0) {
             tv_cover.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             tv_cover.setVisibility(View.GONE);
         }
     }

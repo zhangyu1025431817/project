@@ -57,7 +57,7 @@
         <activity android:process=":Room" android:name=".main.room.RoomActivity"
             android:theme="@style/AppBaseTheme"
             android:screenOrientation="landscape"/>
-        <activity android:name=".login.LoginActivityNew"
+        <activity android:name=".login.LoginActivity"
             android:theme="@style/AppBaseThemeMain"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"/>
@@ -89,6 +89,11 @@
         <activity android:name=".main.room.ZoomActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".main.sell_part.SellPartActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".main.sell_part.product.ProductActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".main.parent.ParentActivity"
             android:screenOrientation="landscape"/>
         <meta-data
             android:name="design_width"

@@ -2,13 +2,16 @@ package com.fangzhi.app.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -17,13 +20,15 @@ import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.County;
 import com.fangzhi.app.bean.Houses;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.login.LoginActivityNew;
+import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HousesAdapter;
 import com.fangzhi.app.main.city.CityActivity;
 import com.fangzhi.app.main.house_type.HouseTypeActivity;
+import com.fangzhi.app.main.parent.ParentActivity;
 import com.fangzhi.app.main.sell_part.SellPartActivity;
 import com.fangzhi.app.tools.ActivityTaskManager;
 import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.tools.ScreenUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.ClearEditText;
 import com.fangzhi.app.view.DialogDelegate;
@@ -69,7 +74,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         recyclerView.setRefreshListener(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new HousesAdapter(this);
-        mAdapter.setMore(R.layout.view_more,this);
+        mAdapter.setMore(R.layout.view_more, this);
 
         recyclerView.setAdapterWithProgress(mAdapter);
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
@@ -154,6 +159,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     }
 
     private boolean isFirstSelect = true;
+
     @Override
     public void showCountyList(final List<County> countyList) {
         if (countyList != null && !countyList.isEmpty()) {
@@ -171,19 +177,19 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     //第一次默认选中全城不做操作
-                    if(isFirstSelect){
+                    if (isFirstSelect) {
                         isFirstSelect = false;
                         return;
                     }
-                    if(position == 0){//全城
+                    if (position == 0) {//全城
                         mCurrentCounty = null;
                         recyclerView.setRefreshing(true);
                         mPage = 1;
                         mAdapter.clear();
                         //不需要再次设置区县
                         mPresenter.getHousesList();
-                    }else {
-                        mCurrentCounty = countyList.get(position-1);
+                    } else {
+                        mCurrentCounty = countyList.get(position - 1);
                         recyclerView.setRefreshing(true);
                         mAdapter.clear();
                         mPresenter.getCountyHousesList();
@@ -248,7 +254,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             if (mCurrentCounty == null) {
                 //加载更多不需要更新区县列表
                 mPresenter.getHousesList();
-            }else{
+            } else {
                 mPresenter.getCountyHousesList();
             }
         }
@@ -289,9 +295,9 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         dialogDelegate.showErrorDialog(msg, msg, new DialogDelegate.OnDialogListener() {
             @Override
             public void onClick() {
-                Intent intent = new Intent(MainActivity.this, LoginActivityNew.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(MainActivity.this, LoginActivityNew.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
         });
     }
@@ -303,12 +309,16 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         recyclerView.setRefreshing(false);
     }
 
-    @OnClick(R.id.btn_exit)
+    @OnClick(R.id.btn_more)
+    public void onMore(View view) {
+        showPopupWindow(view);
+    }
+
     public void onExit() {
         dialogDelegate.showWarningDialog("退出登录", "确定退出当前账号？", new DialogDelegate.OnDialogListener() {
             @Override
             public void onClick() {
-                Intent intent = new Intent(MainActivity.this, LoginActivityNew.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -325,8 +335,42 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         return super.onKeyDown(keyCode, event);
 
     }
+
     @OnClick(R.id.btn_home_material)
-    public void onHomeMaterial(){
+    public void onHomeMaterial() {
         startActivity(new Intent(this, SellPartActivity.class));
+    }
+
+    private PopupWindow popupWindow;
+
+    private void showPopupWindow(View parent) {
+        if (popupWindow == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.view_popup_window, null);
+            view.findViewById(R.id.btn_logout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onExit();
+                }
+            });
+            view.findViewById(R.id.btn_change_parent).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onChangeParent();
+                }
+            });
+            popupWindow = new PopupWindow(view, ScreenUtils.getScreenWidth(this) / 10, ScreenUtils.getScreenHeight(this) / 4);
+        }
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        int xPos = -popupWindow.getWidth() / 2;
+
+        popupWindow.showAsDropDown(parent, xPos, 4);
+
+    }
+    private void onChangeParent(){
+        startActivity(new Intent(this, ParentActivity.class));
     }
 }

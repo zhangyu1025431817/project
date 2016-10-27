@@ -44,7 +44,7 @@
             android:layout_width="600px"
             android:layout_height="80px"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/btn_exit"
+            android:layout_toLeftOf="@+id/btn_more"
             android:background="@drawable/bg_layout_rectangle_circle_selector"
             android:drawableRight="@drawable/icon_search"
             android:gravity="center_vertical"
@@ -55,12 +55,12 @@
             android:textColorHint="#aaa"
             android:textSize="28px" />
         <ImageButton
-            android:id="@+id/btn_exit"
+            android:id="@+id/btn_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_exit"/>
+            android:src="@drawable/icon_more"/>
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.jude.easyrecyclerview.EasyRecyclerView
