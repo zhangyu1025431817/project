@@ -70,7 +70,7 @@ public class LoginPresenter extends LoginContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mView.loginFailed("服务器连接失败");
+                        mView.loginFailed("网络连接失败");
                     }
                 }));
     }

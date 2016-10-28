@@ -1,5 +1,6 @@
 package com.fangzhi.app.main.city;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
@@ -26,6 +27,9 @@ import com.fangzhi.app.view.ClearEditText;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SideLetterBar;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +65,7 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
     private ResultListAdapter mResultAdapter;
     private List<City> cityList = new ArrayList<>();
     DialogDelegate dialogDelegate;
+    private static final int REQUECT_CODE_SDCARD = 2;
     /**
      * 定位监听
      */
@@ -196,16 +201,26 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
             @Override
             public void onLocateClick() {
                 mCityAdapter.updateLocateState(LocateState.LOCATING, null);
-                LocationManager.getInstance().startLocation(locationListener);
+                //请求权限
+                if(!MPermissions.shouldShowRequestPermissionRationale(CityActivity.this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,REQUECT_CODE_SDCARD))
+                {
+                    MPermissions.requestPermissions(CityActivity.this, REQUECT_CODE_SDCARD,
+                            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION);
+                }
+            //    LocationManager.getInstance().startLocation(locationListener);
             }
         });
         lvAllCity.setAdapter(mCityAdapter);
         String name = SPUtils.getString(CityActivity.this, SpKey.CITY_NAME, "");
         if (name.isEmpty()) {
            // mCityAdapter.updateLocateState(LocateState.FAILED, name);
+            //请求权限
+            MPermissions.requestPermissions(this,REQUECT_CODE_SDCARD,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION);
             //定位
             mCityAdapter.updateLocateState(LocateState.LOCATING, null);
-            LocationManager.getInstance().startLocation(locationListener);
+
         } else {
             mCityAdapter.updateLocateState(LocateState.SUCCESS, name);
         }
@@ -245,5 +260,23 @@ public class CityActivity extends BaseActivity<CityPresenter, CityModel> impleme
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    @PermissionGrant(REQUECT_CODE_SDCARD)
+    public void requestSdcardSuccess()
+    {
+      //  Toast.makeText(this, "GRANT ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
+        LocationManager.getInstance().startLocation(locationListener);
+    }
+
+    @PermissionDenied(REQUECT_CODE_SDCARD)
+    public void requestSdcardFailed()
+    {
+      //  Toast.makeText(this, "DENY ACCESS SDCARD!", Toast.LENGTH_SHORT).show();
     }
 }

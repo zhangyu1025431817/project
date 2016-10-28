@@ -49,6 +49,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     DialogDelegate dialogDelegate;
     private String mCategoryId;
     private String mCurrentPartId;
+    private String mCurrentTypeId;
     CategoryPart.HotType mCurrentCategoryType;
     HomeCategoryTypeAdapter homeCategoryTypeAdapter;
     HomeCategoryTypePartAdapter homeCategoryTypePartAdapter;
@@ -83,6 +84,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
             public void onItemClick(int position) {
                 dialogDelegate.showProgressDialog(true,"初始化场景...");
                 mCurrentPartId = homeCategoryTypePartAdapter.getItem(position).getId();
+                mCurrentTypeId = homeCategoryTypePartAdapter.getItem(position).getType_id();
                 mPresenter.getScene();
             }
         });
@@ -178,6 +180,8 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
         bundle.putInt("position",categoryPartRoomBean.getPosition());
         bundle.putString("bg",scene.getHl_img());
         bundle.putString("hotType","");
+        bundle.putString("select_type_id",mCurrentTypeId);
+        bundle.putString("select_product_id",mCurrentPartId);
         bundle.putString("hlCode",scene.getHl_code());
         bundle.putString("sceneId",scene.getScene_id());
         intent.putExtras(bundle);

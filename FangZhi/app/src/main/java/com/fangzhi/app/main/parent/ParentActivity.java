@@ -92,7 +92,7 @@ public class ParentActivity extends AppCompatActivity {
                     @Override
                     public void onNext(LoginBean loginBean) {
                         if (ErrorCode.SUCCEED.equals(loginBean.getError_code())) {
-                         //   SPUtils.put(ParentActivity.this,SpKey.TOKEN,loginBean.getToken());
+                            SPUtils.put(ParentActivity.this,SpKey.TOKEN,loginBean.getToken());
                             dialogDelegate.clearDialog();
                             Intent intent = new Intent();
                             if(loginBean.getImg() == null || loginBean.getImg().isEmpty()){

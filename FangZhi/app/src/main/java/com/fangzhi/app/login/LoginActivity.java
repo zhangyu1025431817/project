@@ -259,6 +259,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void loginSucceed(String img) {
+        FactoryListInfo.parentList.clear();
         dialogDelegate.clearDialog();
         if (img == null || img.isEmpty()) {
             startActivity(new Intent(this, MainActivity.class));
@@ -273,7 +274,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     public void loginSucceedMultiple(List<LoginNewBean.Parent> list) {
         dialogDelegate.clearDialog();
-        FactoryListInfo.parentList.clear();
+
         FactoryListInfo.parentList.addAll(list);
 
         startActivity(new Intent(this, ParentActivity.class));
@@ -455,9 +456,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     private void clearCodeLayout() {
         etCodePhone.setText("");
         etMessageCode.setText("");
-        mTimer.cancel();
-        mTimer.onFinish();
-        mCount = 60;
+//        mTimer.cancel();
+//        mTimer.onFinish();
+//        mCount = 60;
     }
 
     @OnClick(R.id.btn_register_cancel)

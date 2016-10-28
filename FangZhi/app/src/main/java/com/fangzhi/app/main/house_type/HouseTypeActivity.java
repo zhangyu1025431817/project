@@ -28,14 +28,13 @@ import butterknife.OnClick;
  * Created by smacr on 2016/9/21.
  */
 public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseTypeModel> implements HouseTypeContract.View
-,RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener{
+,SwipeRefreshLayout.OnRefreshListener{
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
     @Bind(R.id.tv_title)
     TextView tvTitle;
     private String mHouseId;
     private HouseTypeAdapter mAdapter;
-    private int page;
     DialogDelegate dialogDelegate;
     @Override
     public int getLayoutId() {
@@ -55,7 +54,6 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         mAdapter = new HouseTypeAdapter(this);
-        mAdapter.setMore(R.layout.view_more, this);
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -97,17 +95,9 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
     }
 
     @Override
-    public void onLoadMore() {
-        mPresenter.getHouseTypes();
-        page++;
-    }
-
-    @Override
     public void onRefresh() {
         recyclerView.setRefreshing(true);
-        page = 1;
-        mAdapter.clear();
-        onLoadMore();
+        mPresenter.getHouseTypes();
     }
 
     @Override

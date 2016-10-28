@@ -66,8 +66,8 @@ public class DialogInput extends Dialog implements View.OnClickListener {
         Window dialogWindow = getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         DisplayMetrics d = context.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
-        lp.width = (int) (d.widthPixels * 0.3); // 高度设置为屏幕的0.6
-        lp.height = (int) (d.heightPixels * 0.3); // 高度设置为屏幕的0.6
+        lp.width = (int) (d.widthPixels * 0.4); // 高度设置为屏幕的0.6
+        lp.height = (int) (d.heightPixels * 0.4); // 高度设置为屏幕的0.6
         dialogWindow.setAttributes(lp);
     }
 

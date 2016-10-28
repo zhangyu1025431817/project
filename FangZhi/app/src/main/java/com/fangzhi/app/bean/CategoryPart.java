@@ -62,6 +62,15 @@ public class CategoryPart extends BaseResponseBean {
         String part_brand;
         String type_name;
         String part_img_short;
+        String type_id;
+
+        public String getType_id() {
+            return type_id;
+        }
+
+        public void setType_id(String type_id) {
+            this.type_id = type_id;
+        }
 
         public String getId() {
             return id;

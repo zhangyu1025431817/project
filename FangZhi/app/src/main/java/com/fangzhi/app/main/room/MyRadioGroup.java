@@ -36,22 +36,40 @@ public class MyRadioGroup extends RadioGroup {
 
 
 
-    public void addList(List<RoomProductType> list,Map<Integer,Integer> indexMap, final OnCheckedListener listener){
+    public void addList(String defaultSelectTypeId,String defaultSelectProductId,List<RoomProductType> list,Map<Integer,Integer> indexMap, final OnCheckedListener listener){
+       int checkedId = 0;
         for (RoomProductType type : list) {
             RadioButton tempButton = new RadioButton(getContext());
             tempButton.setId(i);
+            if(type.getType_id().equals(defaultSelectTypeId)){
+                checkedId = i;
+            }
             List<RoomProduct> sonList =  type.getSonList();
             if(sonList != null && !sonList.isEmpty()){
-                sonList.get(0).setSelected(true);
-                indexMap.put(type.getOrder_num(),0);
+                if(type.getType_id().equals(defaultSelectTypeId)){
+                    for(int i =0;i<sonList.size();i++){
+                        if(sonList.get(i).getId().equals(defaultSelectProductId)){
+                            indexMap.put(type.getOrder_num(),i);
+                            sonList.get(i).setSelected(true);
+                            break;
+                        }
+                    }
+                }else {
+                    sonList.get(0).setSelected(true);
+                    indexMap.put(type.getOrder_num(), 0);
+                }
             }
             tempButton.setBackgroundResource(R.drawable.radio_room_selector);   // 设置RadioButton的背景图片
-            tempButton.setButtonDrawable(null);           // 设置按钮的样式
-            tempButton.setPadding(0, 20, 0, 20);                 // 设置文字距离按钮四周的距离
-            tempButton.setText(type.getType_name());
+            tempButton.setButtonDrawable(android.R.color.transparent);           // 设置按钮的样式
+           tempButton.setText(type.getType_name());
+            tempButton.setPadding(0,4,0,4);
+            tempButton.setTextSize(12);
             tempButton.setGravity(Gravity.CENTER);
             tempButton.setTextColor(getResources().getColor(R.color.white));
-            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(ScreenUtils.getScreenWidth(getContext())/14, LinearLayout.LayoutParams.WRAP_CONTENT);
+            tempButton.setMinWidth(ScreenUtils.getScreenWidth(getContext())/13);
+            tempButton.setMinHeight(ScreenUtils.getScreenHeight(getContext())/13);
+            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
             layoutParams.topMargin = 10;
             mapType.put(i,type);
             mapRadio.put(i,tempButton);
@@ -66,7 +84,8 @@ public class MyRadioGroup extends RadioGroup {
                 }
             }
         });
-        mapRadio.get(0).setChecked(true);
+        //mapRadio.get(0).setChecked(true);
+        mapRadio.get(checkedId).setChecked(true);
 
     }
     public interface OnCheckedListener{

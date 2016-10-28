@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.County;
 import com.fangzhi.app.bean.Houses;
+import com.fangzhi.app.config.FactoryListInfo;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HousesAdapter;
@@ -280,6 +282,9 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     protected void onDestroy() {
         super.onDestroy();
         dialogDelegate.clearDialog();
+        if(popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
     }
 
     public void closeKeyboard() {
@@ -344,21 +349,31 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     private PopupWindow popupWindow;
 
     private void showPopupWindow(View parent) {
+        Button btnLogout;
+        Button btnChangeParent = null;
         if (popupWindow == null) {
             LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.view_popup_window, null);
-            view.findViewById(R.id.btn_logout).setOnClickListener(new View.OnClickListener() {
+            btnLogout = (Button) view.findViewById(R.id.btn_logout);
+            btnLogout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onExit();
                 }
             });
-            view.findViewById(R.id.btn_change_parent).setOnClickListener(new View.OnClickListener() {
+
+            btnChangeParent = (Button) view.findViewById(R.id.btn_change_parent);
+            btnChangeParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onChangeParent();
                 }
             });
+            if(FactoryListInfo.parentList.size() <= 1){
+                btnChangeParent.setVisibility(View.INVISIBLE);
+            }else{
+                btnChangeParent.setVisibility(View.VISIBLE);
+            }
             popupWindow = new PopupWindow(view, ScreenUtils.getScreenWidth(this) / 10, ScreenUtils.getScreenHeight(this) / 4);
         }
         popupWindow.setFocusable(true);

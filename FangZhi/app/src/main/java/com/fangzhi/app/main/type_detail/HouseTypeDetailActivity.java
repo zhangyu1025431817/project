@@ -62,6 +62,7 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
         Glide.with(this)
                 .load(imgUrl)
                 .fitCenter()
+                .placeholder(R.drawable.bg_image_placeholder)
                 .crossFade()
                 .into(new GlideDrawableImageViewTarget(imageView) {
                     @Override

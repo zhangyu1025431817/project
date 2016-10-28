@@ -28,7 +28,7 @@ public class HomeCategoryTypePartViewHolder extends BaseViewHolder<CategoryPart.
     public void setData(CategoryPart.Part data) {
         textView.setText(data.getPart_name());
         Glide.with(getContext())
-                .load(data.getPart_img())
+                .load(data.getPart_img_short())
                 .placeholder(R.drawable.bg_image_placeholder)
                 .crossFade()
                 .into(imageView);

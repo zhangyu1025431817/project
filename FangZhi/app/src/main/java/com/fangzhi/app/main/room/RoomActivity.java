@@ -88,6 +88,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     ArrayList<RoomProductType> partTypeList;
     //菜单栏显示位置
     private int position;
+    private String mDefaultSelectTypeId;
+    private String mDefaultSelectProductId;
+    private String token;
     @Override
     public void initView() {
         //loading
@@ -105,6 +108,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         mSceneId = bundle.getString("sceneId");
         mHlCode = bundle.getString("hlCode");
         position = bundle.getInt("position");
+        token = bundle.getString("token");
+        mDefaultSelectTypeId = bundle.getString("select_type_id");
+        mDefaultSelectProductId = bundle.getString("select_product_id");
         List<Scene.Part> list = (List<Scene.Part>) bundle.getSerializable("parts");
         partTypeList = (ArrayList<RoomProductType>) bundle.getSerializable("types");
         //用于当背景的空bitmap
@@ -195,7 +201,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     private Map<Integer, Integer> indexMap = new HashMap<>();
 
     private void addPartType(List<RoomProductType> list) {
-        radioGroup.addList(list,indexMap, new MyRadioGroup.OnCheckedListener() {
+        radioGroup.addList(mDefaultSelectTypeId,mDefaultSelectProductId,list,indexMap, new MyRadioGroup.OnCheckedListener() {
             @Override
             public void onChecked(RoomProductType roomProductType) {
 
@@ -204,6 +210,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 mAdapter.addAll(list);
                 mCurrentIndex = roomProductType.getOrder_num();
                 mLastSelectPosition = indexMap.get(roomProductType.getOrder_num());
+                recyclerView.scrollToPosition(mLastSelectPosition);
             }
         });
     }
@@ -223,7 +230,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public String getToken() {
-        return SPUtils.getString(this, SpKey.TOKEN, "");
+        return token;
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by smacr on 2016/9/9.
  */
 public class RoomProduct implements Serializable{
+    String id;
     int type_id;//部件排序号
     String part_img;//部件图片
     String part_img_short;//部件缩略图
@@ -15,6 +16,14 @@ public class RoomProduct implements Serializable{
     String part_brand;//部件品牌
     String type_name;
     boolean isSelected;//是否选中
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getType_name() {
         return type_name;

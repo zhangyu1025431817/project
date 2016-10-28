@@ -135,13 +135,13 @@ public class ProductView extends AutoLinearLayout {
         LayoutParams layoutParamsRecyclerView = (LayoutParams) easyRecyclerView.getLayoutParams();
         layoutParamsRecyclerView.width = LayoutParams.MATCH_PARENT;
         layoutParamsRecyclerView.height = 0;
-        layoutParamsRecyclerView.weight = 5;
+        layoutParamsRecyclerView.weight = 7;
         easyRecyclerView.setLayoutParams(layoutParamsRecyclerView);
 
         LayoutParams layoutParamsRadioGroup = (LayoutParams) radioGroup.getLayoutParams();
         layoutParamsRadioGroup.width = LayoutParams.MATCH_PARENT;
         layoutParamsRadioGroup.height = 0;
-        layoutParamsRadioGroup.weight = 2;
+        layoutParamsRadioGroup.weight = 3;
         radioGroup.setLayoutParams(layoutParamsRadioGroup);
 
         layoutBottom.setOrientation(VERTICAL);
@@ -206,13 +206,13 @@ public class ProductView extends AutoLinearLayout {
         LayoutParams layoutParamsRecyclerView = (LayoutParams) easyRecyclerView.getLayoutParams();
         layoutParamsRecyclerView.width = LayoutParams.MATCH_PARENT;
         layoutParamsRecyclerView.height = 0;
-        layoutParamsRecyclerView.weight = 5;
+        layoutParamsRecyclerView.weight = 7;
         easyRecyclerView.setLayoutParams(layoutParamsRecyclerView);
 
         LayoutParams layoutParamsRadioGroup = (LayoutParams) radioGroup.getLayoutParams();
         layoutParamsRadioGroup.width = LayoutParams.MATCH_PARENT;
         layoutParamsRadioGroup.height = 0;
-        layoutParamsRadioGroup.weight = 2;
+        layoutParamsRadioGroup.weight = 3;
         radioGroup.setLayoutParams(layoutParamsRadioGroup);
 
         layoutBottom.setOrientation(VERTICAL);

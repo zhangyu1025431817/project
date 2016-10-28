@@ -64,6 +64,7 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
                 bundle.putString("hotType",mHotType);
                 bundle.putString("hlCode",scene.getHl_code());
                 bundle.putString("sceneId",scene.getScene_id());
+                bundle.putString("token",getToken());
                 intent.putExtras(bundle);
                 intent.setClass(SceneActivity.this, RoomActivity.class);
                 startActivity(intent);

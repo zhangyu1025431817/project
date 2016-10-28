@@ -60,6 +60,7 @@
         <activity android:name=".login.LoginActivity"
             android:theme="@style/AppBaseThemeMain"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:screenOrientation="landscape"/>
         <activity android:name=".main.city.CityActivity"
             android:screenOrientation="landscape"
@@ -82,6 +83,7 @@
             android:theme="@style/AppBaseTheme"
             android:screenOrientation="landscape"/>
         <activity android:name=".main.custom.CustomActivity"
+            android:theme="@style/AppBaseTheme"
             android:screenOrientation="landscape"/>
         <activity android:name=".login.ProtocolActivity"
             android:screenOrientation="landscape"

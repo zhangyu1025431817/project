@@ -11,8 +11,8 @@ android {
         applicationId "com.fangzhi.app"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 2
-        versionName "3.16"
+        versionCode 3
+        versionName "3.17"
     }
     signingConfigs {
         release {
@@ -66,4 +66,7 @@ dependencies {
     compile files('libs/slidingmenulibary.jar')
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
     compile project(':library')
+    /*运行时权限*/
+    apt 'com.zhy:mpermission-compiler:1.0.0'
+    compile 'com.zhy:mpermission-api:1.0.0'
 }
