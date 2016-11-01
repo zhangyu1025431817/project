@@ -68,7 +68,7 @@
         android:layout_height="1dp"
         android:layout_marginBottom="10px"
         android:layout_marginTop="10px"
-        android:background="@color/divider" />
+        android:background="#AAEBEBEB" />
 
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view_product"

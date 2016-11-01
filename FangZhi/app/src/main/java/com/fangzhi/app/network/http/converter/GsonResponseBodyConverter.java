@@ -42,7 +42,6 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, Obje
     public Object convert(ResponseBody value) throws IOException {
         try {
             ApiModel apiModel = (ApiModel) adapter.fromJson(value.charStream());
-
             if (ErrorCode.TOKEN_INVALID.equals(apiModel.error_code)) {
                 throw new TokenInvalidException(apiModel.msg);
             } else if (ErrorCode.DEVICE_INVALID.equals(apiModel.error_code)) {
@@ -53,8 +52,7 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, Obje
                 throw new UserInvalidException(apiModel.msg);
             } else if (ErrorCode.TIME_INVALID.equals(apiModel.error_code)) {
                 throw new TimeException(apiModel.msg);
-            } else if (ErrorCode.SUCCEED.equals(apiModel.error_code)
-                    || apiModel.error_code == null || apiModel.error_code.isEmpty()) {
+            } else if (ErrorCode.SUCCEED.equals(apiModel.error_code)) {
                 return value;
             }
         } finally {

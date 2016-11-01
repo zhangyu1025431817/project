@@ -274,7 +274,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     public void loginSucceedMultiple(List<LoginNewBean.Parent> list) {
         dialogDelegate.clearDialog();
-
+        FactoryListInfo.parentList.clear();
         FactoryListInfo.parentList.addAll(list);
 
         startActivity(new Intent(this, ParentActivity.class));

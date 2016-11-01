@@ -2,20 +2,17 @@
 <com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="520px"
-    android:layout_margin="8dp"
+    android:layout_height="600px"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="8dp"
-    app:cardElevation="10dp">
+    android:layout_margin="16px"
+    app:cardElevation="16px">
 
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/tv_name"

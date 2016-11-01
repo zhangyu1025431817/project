@@ -9,7 +9,6 @@ import android.graphics.Rect;
 import android.os.Handler;
 
 import com.bumptech.glide.Glide;
-import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.tools.ScreenUtils;
 import com.squareup.picasso.Picasso;
 
@@ -77,10 +76,12 @@ public class DownLoadImageService {
     private int width;
     private int height;
     private boolean isHigh;
+    private Context mContext;
 
     public DownLoadImageService(Map<Integer, String> mapUrl, Context context, OnDrawListener listener, boolean isHigh) {
         mListener = listener;
         this.isHigh = isHigh;
+        mContext = context;
         width = ScreenUtils.getScreenWidth(context);
         height = ScreenUtils.getScreenHeight(context);
         drawAll(mapUrl);
@@ -160,12 +161,12 @@ public class DownLoadImageService {
             Bitmap bitmap = null;
             try {
                 if (!isHigh) {
-                    bitmap = Glide.with(MyApplication.getContext())
+                    bitmap = Glide.with(mContext)
                             .load(url)
                             .asBitmap()
                             .into(1280, 720).get();
                 } else {
-                    bitmap = Picasso.with(MyApplication.getContext())
+                    bitmap = Picasso.with(mContext)
                             .load(url)
                             .get();
                 }

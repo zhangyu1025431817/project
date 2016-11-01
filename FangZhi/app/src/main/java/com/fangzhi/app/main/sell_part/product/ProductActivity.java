@@ -77,7 +77,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
             }
         });
         recyclerViewType.setAdapterWithProgress(homeCategoryTypeAdapter);
-        recyclerViewProduct.setLayoutManager(new GridLayoutManager(this,3));
+        recyclerViewProduct.setLayoutManager(new GridLayoutManager(this,4));
         homeCategoryTypePartAdapter = new HomeCategoryTypePartAdapter(this);
         homeCategoryTypePartAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
