@@ -28,14 +28,16 @@ import butterknife.OnClick;
 /**
  * Created by smacr on 2016/9/22.
  */
-public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> implements SceneContract.View,SwipeRefreshLayout.OnRefreshListener{
+public class SceneActivity extends BaseActivity<ScenePresenter, SceneModel> implements SceneContract.View, SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
     private SceneAdapter mAdapter;
-    private String mHotType = "30011002";
+    private String mHotType;
+    private String mDecorateId;
     DialogDelegate dialogDelegate;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_scene_list;
@@ -45,9 +47,9 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
     public void initView() {
         tvTitle.setText("选择场景");
         Intent intent = getIntent();
-        if(intent.hasExtra("type")){
-            mHotType = intent.getStringExtra("type");
-        }
+        Bundle bundle = intent.getExtras();
+        mHotType = bundle.getString("type");
+        mDecorateId = bundle.getString("decorateId","");
         recyclerView.setRefreshListener(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new SceneAdapter(this);
@@ -58,13 +60,12 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("parts", scene.getSonList());
-
-             //   intent.putExtra("parts", scene.getSonList());
-                bundle.putString("bg",scene.getHl_img());
-                bundle.putString("hotType",mHotType);
-                bundle.putString("hlCode",scene.getHl_code());
-                bundle.putString("sceneId",scene.getScene_id());
-                bundle.putString("token",getToken());
+                //   intent.putExtra("parts", scene.getSonList());
+                bundle.putString("bg", scene.getHl_img());
+                bundle.putString("hotType", mHotType);
+                bundle.putString("hlCode", scene.getHl_code());
+                bundle.putString("sceneId", scene.getScene_id());
+                bundle.putString("token", getToken());
                 intent.putExtras(bundle);
                 intent.setClass(SceneActivity.this, RoomActivity.class);
                 startActivity(intent);
@@ -77,7 +78,7 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
 
     @Override
     public String getToken() {
-        return SPUtils.getString(this, SpKey.TOKEN,"");
+        return SPUtils.getString(this, SpKey.TOKEN, "");
     }
 
     @Override
@@ -86,8 +87,13 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
     }
 
     @Override
+    public String getDecorateId() {
+        return mDecorateId;
+    }
+
+    @Override
     public String getUserId() {
-        return SPUtils.getString(this,SpKey.USER_ID,"");
+        return SPUtils.getString(this, SpKey.USER_ID, "");
     }
 
     @Override
@@ -95,8 +101,9 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
         mAdapter.addAll(list);
         recyclerView.setRefreshing(false);
     }
+
     @OnClick(R.id.iv_back)
-    public void onFinish(){
+    public void onFinish() {
         finish();
     }
 
@@ -122,6 +129,6 @@ public class SceneActivity extends BaseActivity<ScenePresenter,SceneModel> imple
 
     @Override
     public void onError(String msg) {
-        T.showShort(this,msg);
+        T.showShort(this, msg);
     }
 }

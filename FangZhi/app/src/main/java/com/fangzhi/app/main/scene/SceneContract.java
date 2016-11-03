@@ -15,12 +15,13 @@ import rx.Observable;
  */
 public interface SceneContract {
     interface Model extends BaseModel {
-        Observable<Scenes> getScene(String token, String userId, String hotType);
+        Observable<Scenes> getScene(String token, String userId, String hotType,String decorateId);
     }
 
     interface View extends BaseView {
         String getToken();
         String getHouseHotTypeId();
+        String getDecorateId();
         String getUserId();
         void showScene(List<Scene> list);
 

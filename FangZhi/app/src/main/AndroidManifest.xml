@@ -26,9 +26,9 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
 
@@ -40,8 +40,7 @@
             android:value="9ecad00ea95543d902c3820868a03d03" />
         <meta-data
             android:name="com.fangzhi.app.config.GlideConfiguration"
-            android:value="GlideModule"
-            />
+            android:value="GlideModule" />
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
@@ -54,49 +53,71 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:process=":Room" android:name=".main.room.RoomActivity"
-            android:theme="@style/AppBaseTheme"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".login.LoginActivity"
-            android:theme="@style/AppBaseThemeMain"
+        <activity
+            android:name=".main.room.RoomActivity"
+            android:process=":Room"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity
+            android:name=".login.LoginActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".main.city.CityActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppBaseTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity android:name=".main.MainActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseThemeMain"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity android:name=".main.house_type.HouseTypeActivity"
-            android:theme="@style/AppBaseTheme"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".main.type_detail.HouseTypeDetailActivity"
-            android:theme="@style/AppBaseTheme"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".main.scene.SceneActivity"
-            android:theme="@style/AppBaseTheme"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".main.list.ListOrderActivity"
-            android:theme="@style/AppBaseTheme"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".main.custom.CustomActivity"
-            android:theme="@style/AppBaseTheme"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".login.ProtocolActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".main.city.CityActivity"
             android:screenOrientation="landscape"
-            />
-        <activity android:name=".main.room.ZoomActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".main.sell_part.SellPartActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".main.sell_part.product.ProductActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".main.parent.ParentActivity"
-            android:screenOrientation="landscape"/>
+            android:theme="@style/AppBaseTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".main.MainActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseThemeMain"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".main.house_type.HouseTypeActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity
+            android:name=".main.type_detail.HouseTypeDetailActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity
+            android:name=".main.scene.SceneActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity
+            android:name=".main.list.ListOrderActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity
+            android:name=".main.custom.CustomActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity
+            android:name=".login.ProtocolActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".main.room.ZoomActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".main.sell_part.SellPartActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".main.sell_part.product.ProductActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".main.parent.ParentActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".main.room.search.ProductSearchActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".main.window_type.WindowTypeActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme"/>
         <meta-data
             android:name="design_width"
             android:value="2560" />

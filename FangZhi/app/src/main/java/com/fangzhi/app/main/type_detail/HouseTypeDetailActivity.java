@@ -2,6 +2,7 @@ package com.fangzhi.app.main.type_detail;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.fangzhi.app.bean.HouseTypeDetails;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.scene.SceneActivity;
+import com.fangzhi.app.main.window_type.WindowTypeActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
@@ -106,7 +108,7 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
                 }
             });
 
-        }else {
+        } else {
             //添加热点
             delegate.clearDialog();
             for (HouseTypeDetails.HouseTypeDetail houseTypeDetail : list) {
@@ -139,8 +141,15 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
             public void onClick(View v) {
                 Intent intent = new Intent();
                 String type = houseTypeDetail.getHot_type();
-                intent.putExtra("type", type);
-                intent.setClass(HouseTypeDetailActivity.this, SceneActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("type", type);
+                if (houseTypeDetail.getSonList() != null && houseTypeDetail.getSonList().size() > 0) {
+                    bundle.putSerializable("window_types", houseTypeDetail.getSonList());
+                    intent.setClass(HouseTypeDetailActivity.this, WindowTypeActivity.class);
+                } else {
+                    intent.setClass(HouseTypeDetailActivity.this, SceneActivity.class);
+                }
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -162,6 +171,12 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
 
     @Override
     public void onError(String msg) {
-        T.showShort(this, msg);
+        delegate.stopProgressWithWarning(msg, msg, new DialogDelegate.OnDialogListener() {
+            @Override
+            public void onClick() {
+                delegate.clearDialog();
+                finish();
+            }
+        });
     }
 }

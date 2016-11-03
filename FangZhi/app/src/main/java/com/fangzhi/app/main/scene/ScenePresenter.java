@@ -10,7 +10,8 @@ import com.fangzhi.app.network.http.api.ErrorCode;
 public class ScenePresenter extends SceneContract.Presenter {
     @Override
     public void getScenes() {
-        mRxManager.add(mModel.getScene(mView.getToken(), mView.getUserId(), mView.getHouseHotTypeId()).
+        mRxManager.add(mModel.getScene(mView.getToken(), mView.getUserId(),
+                mView.getHouseHotTypeId(), mView.getDecorateId()).
                 subscribe(new MySubscriber<Scenes>() {
                     @Override
                     public void onNext(Scenes scenes) {

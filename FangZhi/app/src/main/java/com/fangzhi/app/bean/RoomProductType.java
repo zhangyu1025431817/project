@@ -12,7 +12,16 @@ public class RoomProductType implements Serializable {
     int order_num;
     int page_no;
     int position;
+    boolean isSelected;
     ArrayList<RoomProduct> sonList;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public int getPosition() {
         return position;
@@ -54,7 +63,7 @@ public class RoomProductType implements Serializable {
         this.type_name = type_name;
     }
 
-    public ArrayList<RoomProduct> getSonList() {
+    public ArrayList<? extends CategoryPart.Part> getSonList() {
         return sonList;
     }
 

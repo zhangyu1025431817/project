@@ -32,11 +32,13 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<LoginBean> login(@Field("number") String username, @Field("password") String password,
                                 @Field("machine_code") String deviceId, @Field("machine_type") String type);
+
     @GET(ApiUrl.USER_LOGIN_NEW)
     Observable<LoginNewBean> loginNew(@Query("number") String username, @Query("password") String password,
                                       @Query("machine_code") String deviceId, @Query("machine_type") String type);
+
     @GET(ApiUrl.PARENT_LOGIN_NEW)
-    Observable<LoginBean> loginParent(@Header("token") String token,@Query("parentId") String parentId,@Query("userID") String userId);
+    Observable<LoginBean> loginParent(@Header("token") String token, @Query("parentId") String parentId, @Query("userID") String userId);
 
     @GET(ApiUrl.CITY_LIST)
     Observable<Area> getCities(@Header("token") String token);
@@ -71,7 +73,8 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<Scenes> getScenes(@Header("token") String token,
                                  @Field("hot_type") String hotType,
-                                 @Field("userID") String userId);
+                                 @Field("userID") String userId,
+                                 @Field("decorate_id") String decorateId);
 
     @GET(ApiUrl.GET_SCNEN_PART_TYPE)
     Observable<RoomProductTypes> getRoomProductTypes(@Header("token") String token,
@@ -109,15 +112,18 @@ public interface ApiService {
     @GET(ApiUrl.MODIFI_PASSWORD)
     Observable<BaseResponseBean> modificationPassword(@Query("phone") String phone, @Query("passWord") String password,
                                                       @Query("key") String key);
+
     @GET(ApiUrl.GET_CATEGORY_PART_LIST)
     Observable<CategoryPart> getCategoryPartList(@Header("token") String token, @Query("categoryID") String categoryId,
                                                  @Query("userID") String userId);
+
     @GET(ApiUrl.SEARCH_CATEGORY_PART)
-    Observable<SearchPartBean> searchCategoryPart(@Header("token")String token,
-                                                 @Query("categoryName") String categoryName,
-                                                 @Query("userID") String userId,
-                                                 @Query("hot_type") String id, @Query("cate_id") String cateId);
+    Observable<SearchPartBean> searchCategoryPart(@Header("token") String token,
+                                                  @Query("categoryName") String categoryName,
+                                                  @Query("userID") String userId,
+                                                  @Query("hot_type") String id, @Query("cate_id") String cateId);
+
     @GET(ApiUrl.GET_PART_SENCE)
-    Observable<CategoryPartRoomBean> getCategoryScene(@Header("token") String token,@Query("userID") String userId,
+    Observable<CategoryPartRoomBean> getCategoryScene(@Header("token") String token, @Query("userID") String userId,
                                                       @Query("partID") String partId);
 }

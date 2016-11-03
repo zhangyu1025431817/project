@@ -28,5 +28,8 @@ public class SpKey {
      * 城市名称
      */
     public static final String CITY_NAME="city_name";
-
+    /**
+     * 厂家地址
+     */
+    public static final String FACTORY_ADDRESS = "factory_address";
 }

@@ -44,7 +44,7 @@ public class MyRadioGroup extends RadioGroup {
             if(type.getType_id().equals(defaultSelectTypeId)){
                 checkedId = i;
             }
-            List<RoomProduct> sonList =  type.getSonList();
+            List<RoomProduct> sonList = (List<RoomProduct>) type.getSonList();
             if(sonList != null && !sonList.isEmpty()){
                 if(type.getType_id().equals(defaultSelectTypeId)){
                     for(int i =0;i<sonList.size();i++){

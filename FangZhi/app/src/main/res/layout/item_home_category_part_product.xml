@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="600px"
     android:clickable="true"
-    android:foreground="?attr/selectableItemBackground"
     android:layout_margin="16px"
+    android:foreground="?attr/selectableItemBackground"
     app:cardElevation="16px">
 
     <ImageView

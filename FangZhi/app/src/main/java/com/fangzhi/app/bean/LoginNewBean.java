@@ -46,7 +46,16 @@ public class LoginNewBean extends BaseResponseBean {
     public class Parent{
         String NAME;
         String ID;
+        String URL;
         boolean isSelected;
+
+        public String getURL() {
+            return URL;
+        }
+
+        public void setURL(String URL) {
+            this.URL = URL;
+        }
 
         public boolean isSelected() {
             return isSelected;

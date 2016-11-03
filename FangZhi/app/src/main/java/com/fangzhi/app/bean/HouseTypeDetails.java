@@ -1,6 +1,7 @@
 package com.fangzhi.app.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,13 +37,22 @@ public class HouseTypeDetails {
         this.hotList = hotList;
     }
 
-    public class HouseTypeDetail implements Serializable{
-       String id;//热点ID
-       String hot_top;//热点离图片顶部距离占图片的长度的百分比
-       String hot_left;//热点离图片左边距离占图片的宽度的百分比
-       String hot_long;//热点长度占图片长度的百分比
-       String hot_wide;//热点宽度占图片宽度的百分比
-       String hot_type;//热点类型
+    public class HouseTypeDetail implements Serializable {
+        String id;//热点ID
+        String hot_top;//热点离图片顶部距离占图片的长度的百分比
+        String hot_left;//热点离图片左边距离占图片的宽度的百分比
+        String hot_long;//热点长度占图片长度的百分比
+        String hot_wide;//热点宽度占图片宽度的百分比
+        String hot_type;//热点类型
+        ArrayList<WindowType> sonList;
+
+        public ArrayList<WindowType> getSonList() {
+            return sonList;
+        }
+
+        public void setSonList(ArrayList<WindowType> sonList) {
+            this.sonList = sonList;
+        }
 
         public String getId() {
             return id;

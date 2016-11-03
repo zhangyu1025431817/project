@@ -84,7 +84,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
             public void onItemClick(int position) {
                 dialogDelegate.showProgressDialog(true,"初始化场景...");
                 mCurrentPartId = homeCategoryTypePartAdapter.getItem(position).getId();
-                mCurrentTypeId = homeCategoryTypePartAdapter.getItem(position).getType_id();
+                mCurrentTypeId = String.valueOf(homeCategoryTypePartAdapter.getItem(position).getType_id());
                 mPresenter.getScene();
             }
         });
@@ -154,7 +154,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
         type.setSelected(true);
         homeCategoryTypeAdapter.notifyDataSetChanged();
         mCurrentCategoryType = type;
-        List<CategoryPart.Part>  partList =  type.getSonList();
+        List<CategoryPart.Part>  partList = (List<CategoryPart.Part>) type.getSonList();
         homeCategoryTypePartAdapter.clear();
         homeCategoryTypePartAdapter.addAll(partList);
     }
@@ -167,7 +167,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     @Override
     public void showSceneSucceed(CategoryPartRoomBean categoryPartRoomBean) {
         List<Scene> sceneList = categoryPartRoomBean.getSceneList();
-        ArrayList<RoomProductType> partTypeList = categoryPartRoomBean.getPartTypeList();
+        ArrayList<RoomProductType>  partTypeList = categoryPartRoomBean.getPartTypeList();
         if(sceneList == null || sceneList.size() == 0 ){
             dialogDelegate.stopProgressWithFailed("场景数据为空","场景数据为空");
             return;

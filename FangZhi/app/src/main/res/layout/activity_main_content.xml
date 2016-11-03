@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:drawableLeft="@drawable/icon_location"
             android:drawablePadding="10px"
-            android:textSize="30px"
+            android:textSize="40px"
             android:gravity="center"
             android:textColor="@color/text_gray_white" />
         <Spinner

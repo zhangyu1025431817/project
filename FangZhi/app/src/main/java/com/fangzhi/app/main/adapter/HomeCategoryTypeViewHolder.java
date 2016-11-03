@@ -1,7 +1,7 @@
 package com.fangzhi.app.main.adapter;
 
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.CategoryPart;
@@ -12,7 +12,7 @@ import com.zhy.autolayout.utils.AutoUtils;
  * Created by smacr on 2016/9/1.
  */
 public class HomeCategoryTypeViewHolder extends BaseViewHolder<CategoryPart.HotType> {
-    Button textView;
+    TextView textView;
 
     public HomeCategoryTypeViewHolder(ViewGroup parent) {
         super(parent, R.layout.item_text_view);

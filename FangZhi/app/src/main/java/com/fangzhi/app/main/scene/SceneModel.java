@@ -10,7 +10,7 @@ import rx.Observable;
  */
 public class SceneModel implements SceneContract.Model {
     @Override
-    public Observable<Scenes> getScene(String token, String userId, String hotType) {
-        return NetWorkRequest.getScenes(token,userId,hotType);
+    public Observable<Scenes> getScene(String token, String userId, String hotType,String decorateId  ) {
+        return NetWorkRequest.getScenes(token,userId,hotType,decorateId);
     }
 }

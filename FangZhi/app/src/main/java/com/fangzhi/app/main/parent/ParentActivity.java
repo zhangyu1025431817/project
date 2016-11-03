@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.bean.LoginNewBean;
@@ -67,8 +68,8 @@ public class ParentActivity extends AppCompatActivity {
                 }
                 mAdapter.getItem(position).setSelected(true);
                 mAdapter.notifyDataSetChanged();
-                dialogDelegate.showProgressDialog(true,"正在提交...");
-                loginParent(mAdapter.getItem(position).getID());
+                dialogDelegate.showProgressDialog(true, "正在提交...");
+                loginParent(mAdapter.getItem(position).getID(), mAdapter.getItem(position).getURL());
             }
         });
         tvTitle.setText("厂商选择");
@@ -82,7 +83,7 @@ public class ParentActivity extends AppCompatActivity {
         finish();
     }
 
-    private void loginParent(String parentId) {
+    private void loginParent(String parentId, final String url) {
         String token = SPUtils.getString(this, SpKey.TOKEN, "");
         String userId = SPUtils.getString(this, SpKey.USER_ID, "");
         Network.getApiService().loginParent(token, parentId, userId)
@@ -92,26 +93,29 @@ public class ParentActivity extends AppCompatActivity {
                     @Override
                     public void onNext(LoginBean loginBean) {
                         if (ErrorCode.SUCCEED.equals(loginBean.getError_code())) {
-                            SPUtils.put(ParentActivity.this,SpKey.TOKEN,loginBean.getToken());
+                            SPUtils.put(ParentActivity.this, SpKey.TOKEN, loginBean.getToken());
                             dialogDelegate.clearDialog();
                             Intent intent = new Intent();
-                            if(loginBean.getImg() == null || loginBean.getImg().isEmpty()){
+                            if (loginBean.getImg() == null || loginBean.getImg().isEmpty()) {
                                 intent.setClass(ParentActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            }else{
+                            } else {
                                 intent.putExtra("url", loginBean.getImg());
                                 intent.setClass(ParentActivity.this, CustomActivity.class);
                             }
+                            SPUtils.put(MyApplication.getContext(),
+                                    SpKey.FACTORY_ADDRESS, url == null ? "" : url)
+                            ;
                             startActivity(intent);
                             ParentActivity.this.finish();
                         } else {
-                            dialogDelegate.stopProgressWithFailed("提交失败",loginBean.getMsg());
+                            dialogDelegate.stopProgressWithFailed("提交失败", loginBean.getMsg());
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        dialogDelegate.stopProgressWithFailed("提交失败","服务器连接失败！");
+                        dialogDelegate.stopProgressWithFailed("提交失败", "服务器连接失败！");
                     }
                 });
     }

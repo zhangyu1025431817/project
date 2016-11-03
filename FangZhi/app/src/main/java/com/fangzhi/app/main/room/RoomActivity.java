@@ -18,7 +18,9 @@ import com.fangzhi.app.download.DownLoadImageService;
 import com.fangzhi.app.download.DrawImageService;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.PartAdapter;
+import com.fangzhi.app.main.adapter.ProductTypeAdapter;
 import com.fangzhi.app.main.list.ListOrderActivity;
+import com.fangzhi.app.main.room.search.ProductSearchActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
@@ -29,6 +31,7 @@ import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -44,9 +47,9 @@ import butterknife.OnClick;
 public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View {
 
     //  @Bind(R.id.gb_type)
-    MyRadioGroup radioGroup;
+    EasyRecyclerView typeRecyclerView;
     //  @Bind(R.id.recycler_view)
-    EasyRecyclerView recyclerView;
+    EasyRecyclerView productRecyclerView;
     @Bind(R.id.view_loading)
     View layoutLoading;
     @Bind(R.id.avi)
@@ -65,8 +68,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     });
 
     private Map<Integer, Order> productMap = new HashMap<>();
-    private PartAdapter mAdapter;
-    private List<RoomProductType> mList = new ArrayList<>();
+    private PartAdapter partAdapter;
+    private ProductTypeAdapter productTypeAdapter;
 
     @Override
     public int getLayoutId() {
@@ -76,7 +79,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     String mHotTypeId;
     String mSceneId;
     String mHlCode;
-    private int mLastSelectPosition = -1;
     DialogDelegate dialogDelegate;
     private int mCurrentIndex = 0;//当前图层
 
@@ -85,7 +87,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     String bgUrl;
     DownLoadImageService downLoadImageService;
     DrawImageService drawImageService;
-    ArrayList<RoomProductType> partTypeList;
+
     //菜单栏显示位置
     private int position;
     private String mDefaultSelectTypeId;
@@ -94,8 +96,19 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     @Override
     public void initView() {
         //loading
-        radioGroup = productView.getRadioGroup();
-        recyclerView = productView.getEasyRecyclerView();
+        typeRecyclerView = productView.getTypeRecyclerView();
+        productRecyclerView = productView.getProductRecyclerView();
+        productView.getTvSearch().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<RoomProduct> list = (ArrayList<RoomProduct>) partAdapter.getAllData();
+                Intent intent = new Intent(RoomActivity.this, ProductSearchActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("parts",list);
+                intent.putExtras(bundle);
+                startActivityForResult(intent,1);
+            }
+        });
         BallSpinFadeLoaderIndicator indicator = new BallSpinFadeLoaderIndicator();
         aviLoading.setIndicator(indicator);
         productView.setVisibility(View.GONE);
@@ -109,10 +122,10 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         mHlCode = bundle.getString("hlCode");
         position = bundle.getInt("position");
         token = bundle.getString("token");
-        mDefaultSelectTypeId = bundle.getString("select_type_id");
-        mDefaultSelectProductId = bundle.getString("select_product_id");
+        mDefaultSelectTypeId = bundle.getString("select_type_id","-1");
+        mDefaultSelectProductId = bundle.getString("select_product_id","-1");
         List<Scene.Part> list = (List<Scene.Part>) bundle.getSerializable("parts");
-        partTypeList = (ArrayList<RoomProductType>) bundle.getSerializable("types");
+        ArrayList<RoomProductType> partTypeList = (ArrayList<RoomProductType>) bundle.getSerializable("types");
         //用于当背景的空bitmap
 
         for (Scene.Part part : list) {
@@ -129,7 +142,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             productMap.put(part.getOrder_num(), order);
         }
         dialogDelegate = new SweetAlertDialogDelegate(this);
-        initRecyclerView();
+        initRecyclerView( partTypeList);
 
         downLoadImageService = new DownLoadImageService(mapUrl, this, new DownLoadImageService.OnDrawListener() {
             @Override
@@ -156,40 +169,36 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         downLoadImageService.drawOne(number, url, isCancel);
     }
 
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new PartAdapter(this);
-        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+    private void initRecyclerView(ArrayList<RoomProductType> partTypeList) {
+        productRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        partAdapter = new PartAdapter(this);
+        partAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                if (mLastSelectPosition != -1 && mLastSelectPosition != position) {
-                    RoomProduct lastProduct = mAdapter.getItem(mLastSelectPosition);
-                    lastProduct.setSelected(false);
-                    mAdapter.notifyItemChanged(mLastSelectPosition);
-                }
-                RoomProduct product = mAdapter.getItem(position);
-
-                if (product.isSelected()) {
-                    //清空对应图层
-                    change(mCurrentIndex, null, true);
-                    mapUrl.remove(mCurrentIndex);
-                    if (productMap.containsKey(mCurrentIndex)) {
-                        productMap.remove(mCurrentIndex);
-                    }
-                } else {
-                    //添加对应图层
-                    change(mCurrentIndex, product.getPart_img(), false);
-                    mapUrl.put(mCurrentIndex, product.getPart_img());
-                    productToOrder(product);
-                }
-
-                product.setSelected(!product.isSelected());
-                mLastSelectPosition = position;
-                indexMap.put(mCurrentIndex, mLastSelectPosition);
-                mAdapter.notifyItemChanged(position);
+                selectPart(position);
             }
         });
-        recyclerView.setAdapterWithProgress(mAdapter);
+        productRecyclerView.setAdapterWithProgress(partAdapter);
+        productTypeAdapter = new ProductTypeAdapter(this);
+        productTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                for(RoomProductType type : productTypeAdapter.getAllData()){
+                    type.setSelected(false);
+                }
+                RoomProductType roomProductType = productTypeAdapter.getAllData().get(position);
+                roomProductType.setSelected(true);
+
+                partAdapter.clear();
+                List<RoomProduct> list = (List<RoomProduct>) roomProductType.getSonList();
+                partAdapter.addAll(list);
+                mCurrentIndex = roomProductType.getOrder_num();
+                int productPosition = indexMap.get(mCurrentIndex);
+                productRecyclerView.scrollToPosition(productPosition);
+                productTypeAdapter.notifyDataSetChanged();
+            }
+        });
+        typeRecyclerView.setAdapter(productTypeAdapter);
         if(partTypeList == null || partTypeList.size() == 0){
             mPresenter.getRoomPartTypeList();
         }else{
@@ -198,21 +207,71 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     }
 
+    private void selectPart(int position){
+        int lastPosition = indexMap.get(mCurrentIndex);
+        if (lastPosition != position) {
+            RoomProduct lastProduct = partAdapter.getItem(lastPosition);
+            lastProduct.setSelected(false);
+            partAdapter.notifyItemChanged(lastPosition);
+        }
+        RoomProduct product = partAdapter.getItem(position);
+
+        if (product.isSelected()) {
+            //清空对应图层
+            change(mCurrentIndex, null, true);
+            mapUrl.remove(mCurrentIndex);
+            if (productMap.containsKey(mCurrentIndex)) {
+                productMap.remove(mCurrentIndex);
+            }
+        } else {
+            //添加对应图层
+            change(mCurrentIndex, product.getPart_img(), false);
+            mapUrl.put(mCurrentIndex, product.getPart_img());
+            productToOrder(product);
+        }
+
+        product.setSelected(!product.isSelected());
+        indexMap.put(mCurrentIndex, position);
+        partAdapter.notifyItemChanged(position);
+        productRecyclerView.scrollToPosition(position);
+    }
+
     private Map<Integer, Integer> indexMap = new HashMap<>();
 
     private void addPartType(List<RoomProductType> list) {
-        radioGroup.addList(mDefaultSelectTypeId,mDefaultSelectProductId,list,indexMap, new MyRadioGroup.OnCheckedListener() {
-            @Override
-            public void onChecked(RoomProductType roomProductType) {
-
-                mAdapter.clear();
-                List<RoomProduct> list = roomProductType.getSonList();
-                mAdapter.addAll(list);
-                mCurrentIndex = roomProductType.getOrder_num();
-                mLastSelectPosition = indexMap.get(roomProductType.getOrder_num());
-                recyclerView.scrollToPosition(mLastSelectPosition);
+        boolean hasFind = false;
+        //定位到当前选中项
+        for(RoomProductType type : list){
+            List<RoomProduct> sonList = (List<RoomProduct>) type.getSonList();
+            if(sonList != null && !sonList.isEmpty()){
+                //产品是在当前type下面的
+                if(type.getType_id().equals(mDefaultSelectTypeId)){
+                    type.setSelected(true);
+                    mCurrentIndex = type.getOrder_num();
+                    //默认选中
+                    hasFind = true;
+                    partAdapter.addAll(sonList);
+                    for(int i =0;i<sonList.size();i++){
+                        if(sonList.get(i).getId().equals(mDefaultSelectProductId)){
+                            indexMap.put(type.getOrder_num(),i);
+                            sonList.get(i).setSelected(true);
+                            break;
+                        }
+                    }
+                }else {
+                    sonList.get(0).setSelected(true);
+                    indexMap.put(type.getOrder_num(), 0);
+                }
             }
-        });
+        }
+
+        if(!hasFind){//没找到
+            partAdapter.addAll((Collection<? extends RoomProduct>) list.get(0).getSonList());
+            list.get(0).setSelected(true);
+            mCurrentIndex = list.get(0).getOrder_num();
+        }
+        productTypeAdapter.clear();
+        productTypeAdapter.addAll(list);
     }
 
     @Override
@@ -221,8 +280,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         dialogDelegate.clearDialog();
         mapUrl = null;
         productMap = null;
-        mAdapter = null;
-        mList = null;
         downLoadImageService = null;
         drawImageService = null;
         System.gc();
@@ -275,7 +332,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             }
             //初始化右侧控件类型
             addPartType(list);
-            mList.addAll(list);
         }
     }
 
@@ -297,12 +353,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             downLoadImageService.drawAll(mapUrl);
         }
         isClear = !isClear;
-
-//        Intent intent = new Intent(this,ZoomActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("map", (Serializable) mapUrl);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
     }
 
     @OnClick(R.id.iv_close)
@@ -355,4 +405,14 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1) {
+            Bundle bundle = data.getExtras();
+            int position = bundle.getInt("index");
+            if(position != -1) {
+                selectPart(position);
+            }
+        }
+    }
 }

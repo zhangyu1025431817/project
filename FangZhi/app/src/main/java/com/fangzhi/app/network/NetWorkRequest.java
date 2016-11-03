@@ -19,8 +19,8 @@ import rx.schedulers.Schedulers;
  */
 public class NetWorkRequest {
 
-    public static Observable<LoginBean> login(String account, String password,String deviceId) {
-        return Network.getApiService().login(account, password,deviceId,"A")
+    public static Observable<LoginBean> login(String account, String password, String deviceId) {
+        return Network.getApiService().login(account, password, deviceId, "A")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -43,8 +43,8 @@ public class NetWorkRequest {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Observable<Houses> getCountyHouse(String token, String id){
-        return Network.getApiService().getCountyHouses(token,id)
+    public static Observable<Houses> getCountyHouse(String token, String id) {
+        return Network.getApiService().getCountyHouses(token, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -61,20 +61,21 @@ public class NetWorkRequest {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Observable<Scenes> getScenes(String token, String userId, String hotType) {
-        return Network.getApiService().getScenes(token, hotType, userId)
+    public static Observable<Scenes> getScenes(String token, String userId, String hotType, String decorateId) {
+        return Network.getApiService().getScenes(token, hotType, userId, decorateId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Observable<RoomProductTypes> getRoomProductTypes(String token, String hotType,
-                                                                   String userId, String sceneId,String hlCode) {
-        return Network.getApiService().getRoomProductTypes(token, hotType, userId, sceneId,hlCode)
+                                                                   String userId, String sceneId, String hlCode) {
+        return Network.getApiService().getRoomProductTypes(token, hotType, userId, sceneId, hlCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
-    public static Observable<SellType> getSellCategory(String token,String userId){
-        return Network.getApiService().getSellCategory(token,userId)
+
+    public static Observable<SellType> getSellCategory(String token, String userId) {
+        return Network.getApiService().getSellCategory(token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

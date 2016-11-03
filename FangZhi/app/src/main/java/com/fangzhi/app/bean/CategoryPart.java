@@ -1,5 +1,7 @@
 package com.fangzhi.app.bean;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,11 +19,11 @@ public class CategoryPart extends BaseResponseBean {
         this.partList = partList;
     }
 
-    public class HotType{
+    public static class HotType {
         String code_id;
         String code_desc;
         boolean isSelected;//是否选中
-        List<Part> sonList;
+        ArrayList<? extends Part> sonList;
 
         public boolean isSelected() {
             return isSelected;
@@ -31,11 +33,11 @@ public class CategoryPart extends BaseResponseBean {
             isSelected = selected;
         }
 
-        public List<Part> getSonList() {
+        public List<? extends Part> getSonList() {
             return sonList;
         }
 
-        public void setSonList(List<Part> sonList) {
+        public void setSonList(ArrayList<? extends Part> sonList) {
             this.sonList = sonList;
         }
 
@@ -55,20 +57,30 @@ public class CategoryPart extends BaseResponseBean {
             this.code_desc = code_desc;
         }
     }
-    public class Part{
+
+    public static class Part implements Serializable {
         String id;
         String part_name;
         String part_img;
         String part_brand;
         String type_name;
         String part_img_short;
-        String type_id;
+        int type_id;
+        boolean isSelected;//是否选中
 
-        public String getType_id() {
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
+
+        public int getType_id() {
             return type_id;
         }
 
-        public void setType_id(String type_id) {
+        public void setType_id(int type_id) {
             this.type_id = type_id;
         }
 

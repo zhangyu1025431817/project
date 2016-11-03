@@ -1,6 +1,7 @@
 package com.fangzhi.app.tools;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.TypedValue;
 
 /**
@@ -53,6 +54,7 @@ public class DensityUtils
 	public static float px2dp(Context context, float pxVal)
 	{
 		final float scale = context.getResources().getDisplayMetrics().density;
+		Log.e("px2dp",scale+"");
 		return (pxVal / scale);
 	}
 
