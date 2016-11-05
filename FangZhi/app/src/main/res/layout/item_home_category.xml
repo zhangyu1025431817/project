@@ -27,7 +27,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#88000000"
-            android:text="未开通"
             android:padding="20px"
             android:textColor="@color/white"
             android:textSize="30px" />

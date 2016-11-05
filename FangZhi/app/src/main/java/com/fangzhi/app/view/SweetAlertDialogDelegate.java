@@ -64,10 +64,23 @@ public class SweetAlertDialogDelegate implements DialogDelegate {
     }
 
     @Override
-    public void showNormalDialog(String option, String msg) {
+    public void showNormalDialog(String option, String msg,final OnDialogListener listener,
+                                 final OnDialogListener listenerCancel) {
         pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText(option)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        listener.onClick();
+                    }
+                }).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        listenerCancel.onClick();
+                    }
+                })
                 .setContentText(msg);
+        pDialog.setCancelable(false);
         pDialog.show();
     }
 
@@ -99,6 +112,7 @@ public class SweetAlertDialogDelegate implements DialogDelegate {
                     }
                 })
                 .setContentText(msg);
+        pDialog.setCancelable(false);
         pDialog.show();
     }
 

@@ -4,10 +4,11 @@ package com.fangzhi.app.network;
  * Created by zhangyu on 2016/6/15.
  */
 public class ApiUrl {
+
     /**
      * 正式
      */
-    public static final String BASE_URL = "http://120.76.212.114:8050/";
+    public static final String BASE_URL = "http://51fangz.com:8050/";
     /**
      * 测试
      */
@@ -100,4 +101,8 @@ public class ApiUrl {
      * 查询省市县
      */
     public static final String QUERY_LOCATION = "fznet/fzmangge/FzUser/loginArea.json";
+    /**
+     * 版本更新
+     */
+    public static final String UPDATE_VERSION = "fznet/fzmangge/FzUser/getEdition.json";
  }

@@ -342,8 +342,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void showProvince(List<LocationArea.Location> list) {
-        mProvinceNames = new String[list.size()];
-        mProvinceIds = new String[list.size()];
+        if(list == null){
+            return;
+        }
+        mProvinceNames = new String[list.size()+1];
+        mProvinceIds = new String[list.size()+1];
         for (int i = 0; i < list.size(); i++) {
             mProvinceIds[i] = list.get(i).getID();
             mProvinceNames[i] = list.get(i).getAREA_CNAME();
@@ -355,8 +358,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void showCity(List<LocationArea.Location> list) {
-        mCityNames = new String[list.size()];
-        mCityIds = new String[list.size()];
+        mCityNames = new String[list.size()+1];
+        mCityIds = new String[list.size()+1];
         for (int i = 0; i < list.size(); i++) {
             mCityIds[i] = list.get(i).getID();
             mCityNames[i] = list.get(i).getAREA_CNAME();
@@ -368,8 +371,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void showCounty(List<LocationArea.Location> list) {
-        mAreaNames = new String[list.size()];
-        mAreaIds = new String[list.size()];
+        mAreaNames = new String[list.size()+1];
+        mAreaIds = new String[list.size()+1];
         for (int i = 0; i < list.size(); i++) {
             mAreaIds[i] = list.get(i).getID();
             mAreaNames[i] = list.get(i).getAREA_CNAME();

@@ -1,11 +1,11 @@
 package com.fangzhi.app.main.adapter;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.WindowType;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -17,12 +17,14 @@ import com.zhy.autolayout.utils.AutoUtils;
 public class WindowTypeViewHolder extends BaseViewHolder<WindowType> {
     ImageView ivScene;
     TextView tvName;
+    TextView tvCover;
 
     public WindowTypeViewHolder(ViewGroup parent) {
         super(parent, R.layout.item_scene);
         AutoUtils.autoSize(itemView);
         ivScene = $(R.id.iv_image_scene);
         tvName = $(R.id.tv_name);
+        tvCover = $(R.id.tv_cover);
     }
 
     @Override
@@ -33,6 +35,10 @@ public class WindowTypeViewHolder extends BaseViewHolder<WindowType> {
                 .placeholder(R.drawable.bg_image_placeholder)
                 .crossFade()
                 .into(ivScene);
-
+        if(data.getIs_use() == 0){
+            tvCover.setVisibility(View.VISIBLE);
+        }else{
+            tvCover.setVisibility(View.GONE);
+        }
     }
 }

@@ -115,9 +115,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".main.window_type.WindowTypeActivity"
+        <activity
+            android:name=".main.window_type.WindowTypeActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppBaseTheme"/>
+            android:theme="@style/AppBaseTheme" />
+
         <meta-data
             android:name="design_width"
             android:value="2560" />

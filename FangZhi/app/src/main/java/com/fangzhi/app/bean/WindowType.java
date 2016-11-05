@@ -10,6 +10,15 @@ public class WindowType implements Serializable{
     String decorate_code;//窗型code
     String decorate_img;// 窗型图片
     String decorate_name;//窗型名称
+    int is_use;
+
+    public int getIs_use() {
+        return is_use;
+    }
+
+    public void setIs_use(int is_use) {
+        this.is_use = is_use;
+    }
 
     public String getDecorate_id() {
         return decorate_id;

@@ -15,6 +15,7 @@ import com.fangzhi.app.bean.RoomProductTypes;
 import com.fangzhi.app.bean.Scenes;
 import com.fangzhi.app.bean.SearchPartBean;
 import com.fangzhi.app.bean.SellType;
+import com.fangzhi.app.bean.UpdateVersion;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -126,4 +127,6 @@ public interface ApiService {
     @GET(ApiUrl.GET_PART_SENCE)
     Observable<CategoryPartRoomBean> getCategoryScene(@Header("token") String token, @Query("userID") String userId,
                                                       @Query("partID") String partId);
+    @GET(ApiUrl.UPDATE_VERSION)
+    Observable<UpdateVersion> updateVersion(@Query("type") String type);
 }

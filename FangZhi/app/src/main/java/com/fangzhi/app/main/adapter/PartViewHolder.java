@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.RoomProduct;
+import com.fangzhi.app.config.GlideRoundTransform;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -28,6 +29,7 @@ public class PartViewHolder extends BaseViewHolder<RoomProduct> {
     public void setData(RoomProduct data) {
         Glide.with(getContext())
                 .load(data.getPart_img_short().split(";")[0])
+                .transform(new GlideRoundTransform(getContext(), 8))
                 .into(iv_product);
         view_cover.setText(data.getPart_name());
         if(data.isSelected()){

@@ -134,10 +134,10 @@ public class ProductView extends LinearLayout {
         layoutSearch.addView(tvSearch, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         LayoutParams layoutParamsTvSearch = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         layoutParamsTvSearch.weight = 1;
-        layoutParamsTvSearch.rightMargin = 10;
-        layoutParamsTvSearch.leftMargin = 10;
-        layoutParamsTvSearch.topMargin = 16;
-        layoutParamsTvSearch.bottomMargin = 16;
+        layoutParamsTvSearch.rightMargin = 16;
+        layoutParamsTvSearch.leftMargin = 16;
+        layoutParamsTvSearch.topMargin = 6;
+        layoutParamsTvSearch.bottomMargin = 20;
 
 
         layoutType.addView(typeRecyclerView, layoutParamsRadioGroup);

@@ -31,6 +31,7 @@ public class WindowTypeActivity extends AppCompatActivity {
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
     WindowTypeAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,20 +48,24 @@ public class WindowTypeActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String decorateId =  adapter.getItem(position).getDecorate_id();
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putString("type" ,hotType);
-                bundle.putString("decorateId",decorateId);
-                intent.putExtras(bundle);
-                intent.setClass(WindowTypeActivity.this, SceneActivity.class);
-                startActivity(intent);
+                WindowType windowType = adapter.getItem(position);
+                if (windowType.getIs_use() == 1) {
+                    String decorateId = adapter.getItem(position).getDecorate_id();
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type", hotType);
+                    bundle.putString("decorateId", decorateId);
+                    intent.putExtras(bundle);
+                    intent.setClass(WindowTypeActivity.this, SceneActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         adapter.addAll(list);
         recyclerView.setAdapter(adapter);
 
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -75,8 +80,9 @@ public class WindowTypeActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
+
     @OnClick(R.id.iv_back)
-    public void onFinish(){
+    public void onFinish() {
         finish();
     }
 }

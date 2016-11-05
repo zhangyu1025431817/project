@@ -91,6 +91,9 @@ public class SDCardUtils
 	{
 		return Environment.getRootDirectory().getAbsolutePath();
 	}
-
+	public static String getPublicDirectory(){
+		return Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+	}
 
 }
