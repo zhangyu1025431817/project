@@ -33,6 +33,7 @@ public class SceneActivity extends BaseActivity<ScenePresenter, SceneModel> impl
     TextView tvTitle;
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
+
     private SceneAdapter mAdapter;
     private String mHotType;
     private String mDecorateId;
@@ -45,11 +46,12 @@ public class SceneActivity extends BaseActivity<ScenePresenter, SceneModel> impl
 
     @Override
     public void initView() {
+
         tvTitle.setText("选择场景");
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         mHotType = bundle.getString("type");
-        mDecorateId = bundle.getString("decorateId","");
+        mDecorateId = bundle.getString("decorateId", "");
         recyclerView.setRefreshListener(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new SceneAdapter(this);

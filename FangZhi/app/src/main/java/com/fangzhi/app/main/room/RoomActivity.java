@@ -68,6 +68,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     });
 
     private Map<Integer, Order> productMap = new HashMap<>();
+    private Map<Integer, Integer> mapIdToOrder = new HashMap<>();
     private PartAdapter partAdapter;
     private ProductTypeAdapter productTypeAdapter;
 
@@ -129,22 +130,24 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         ArrayList<RoomProductType> partTypeList = (ArrayList<RoomProductType>) bundle.getSerializable("types");
         //用于当背景的空bitmap
 
-        for (Scene.Part part : list) {
-            mapUrl.put(part.getOrder_num(), part.getPart_img());
-            Order order = new Order();
-            order.setPart_img_short(part.getPart_img_short());
-            order.setPart_brand(part.getPart_brand());
-            order.setType(part.getType_name());
-            order.setPart_code(part.getPart_name());
-            order.setPrice("0.0");
-            order.setCount("1");
-            order.setTotalMoney("0.0");
-            order.setPart_unit(part.getPart_unit());
-            productMap.put(part.getOrder_num(), order);
+        if(list != null) {
+            for (Scene.Part part : list) {
+                mapUrl.put(part.getOrder_num(), part.getPart_img());
+                mapIdToOrder.put(part.getType_id(), part.getOrder_num());
+                Order order = new Order();
+                order.setPart_img_short(part.getPart_img_short());
+                order.setPart_brand(part.getPart_brand());
+                order.setType(part.getType_name());
+                order.setPart_code(part.getPart_name());
+                order.setPrice("0.0");
+                order.setCount("1");
+                order.setTotalMoney("0.0");
+                order.setPart_unit(part.getPart_unit());
+                productMap.put(part.getOrder_num(), order);
+            }
         }
         dialogDelegate = new SweetAlertDialogDelegate(this);
         initRecyclerView(partTypeList);
-
         downLoadImageService = new DownLoadImageService(mapUrl, this, new DownLoadImageService.OnDrawListener() {
             @Override
             public void onDrawSucceed(Bitmap bitmap) {
@@ -171,7 +174,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     }
 
     private void initRecyclerView(ArrayList<RoomProductType> partTypeList) {
-        productRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        productRecyclerView.setLayoutManager(linearLayoutManager);
         partAdapter = new PartAdapter(this);
         partAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
@@ -179,7 +184,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 selectPart(position);
             }
         });
-        productRecyclerView.setAdapterWithProgress(partAdapter);
+        productRecyclerView.setAdapter(partAdapter);
         productTypeAdapter = new ProductTypeAdapter(this);
         productTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
@@ -189,14 +194,15 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 }
                 RoomProductType roomProductType = productTypeAdapter.getAllData().get(position);
                 roomProductType.setSelected(true);
-
-                partAdapter.clear();
                 List<RoomProduct> list = (List<RoomProduct>) roomProductType.getSonList();
+                partAdapter.clear();
                 partAdapter.addAll(list);
                 mCurrentIndex = roomProductType.getOrder_num();
-                int productPosition = indexMap.get(mCurrentIndex);
-                productRecyclerView.scrollToPosition(productPosition);
                 productTypeAdapter.notifyDataSetChanged();
+                int selectPosition = indexMap.get(mCurrentIndex);
+                if(selectPosition >7) {
+                    productRecyclerView.scrollToPosition(selectPosition);
+                }
             }
         });
         typeRecyclerView.setAdapter(productTypeAdapter);
@@ -208,6 +214,16 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     }
 
+    //帘头
+    private Bitmap mBitmapWindow0ne;
+    private Order orderWindowOne;
+    //帘身
+    private Bitmap mBitmapWindowTwo;
+    private Order orderWindowTwo;
+    //帘沙
+    private Bitmap mBitmapWindowThree;
+    private Order orderWindowThree;
+
     private void selectPart(int position) {
         int lastPosition = indexMap.get(mCurrentIndex);
         if (lastPosition != position) {
@@ -216,13 +232,139 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             partAdapter.notifyItemChanged(lastPosition);
         }
         RoomProduct product = partAdapter.getItem(position);
+        /**添加窗帘、帘头、帘身、帘沙选中规则*/
+        if (mapIdToOrder.containsKey(3) && (mapIdToOrder.containsKey(12)
+                || mapIdToOrder.containsKey(13)
+                || mapIdToOrder.containsKey(14))) {
+            Map<Integer, Bitmap> bitmapMap = downLoadImageService.getBitmapMap();
+            if (product.getType_id() == 3 && mapIdToOrder.containsKey(3)) {
+                //选中窗帘 清除帘头、帘身、帘沙
+                if (mapIdToOrder.containsKey(12)) {
+                    int order = mapIdToOrder.get(12);
+                    if (bitmapMap.containsKey(order)) {
+                        mBitmapWindow0ne = bitmapMap.get(order);
+                        orderWindowOne = productMap.get(order);
+                        bitmapMap.remove(order);
+                        productMap.remove(order);
+                    }
+                }
+                if (mapIdToOrder.containsKey(13)) {
+                    int order = mapIdToOrder.get(13);
+                    if (bitmapMap.containsKey(order)) {
+                        mBitmapWindowTwo = bitmapMap.get(order);
+                        orderWindowTwo = productMap.get(order);
+                        bitmapMap.remove(order);
+                        productMap.remove(order);
+                    }
+                }
+                if (mapIdToOrder.containsKey(14)) {
+                    int order = mapIdToOrder.get(14);
+                    if (bitmapMap.containsKey(order)) {
+                        mBitmapWindowThree = bitmapMap.get(order);
+                        orderWindowThree = productMap.get(order);
+                        bitmapMap.remove(order);
+                        productMap.remove(order);
+                    }
+                }
+            } else if (product.getType_id() == 12 && mapIdToOrder.containsKey(12)) {
+                // 帘头
+                if (mapIdToOrder.containsKey(3)) {
+                    int order = mapIdToOrder.get(3);
+                    if (bitmapMap.containsKey(order)) {
+                        bitmapMap.remove(order);
+                        productMap.remove(order);
+                    }
+                }
+                if (mapIdToOrder.containsKey(13)) {
+                    int order = mapIdToOrder.get(13);
+                    if(mBitmapWindowTwo != null) {
+                        bitmapMap.put(order, mBitmapWindowTwo);
+                    }
+                    if(orderWindowTwo != null){
+                        productMap.put(order,orderWindowTwo);
+                    }
+                }
+                if (mapIdToOrder.containsKey(14)) {
+                    int order = mapIdToOrder.get(14);
+                    if(mBitmapWindowThree != null) {
+                        bitmapMap.put(order, mBitmapWindowThree);
+                    }
+                    if(orderWindowThree != null){
+                        productMap.put(order,orderWindowThree);
+                    }
+                }
 
+            } else if (product.getType_id() == 13) {
+                // 帘身
+                if (mapIdToOrder.containsKey(3)) {
+                    int order = mapIdToOrder.get(3);
+                    if (bitmapMap.containsKey(order)) {
+                        bitmapMap.remove(order);
+                        productMap.remove(order);
+                    }
+                }
+                if (mapIdToOrder.containsKey(12)) {
+                    int order = mapIdToOrder.get(12);
+                    if(mBitmapWindow0ne != null) {
+                        bitmapMap.put(order, mBitmapWindow0ne);
+                    }
+                    if(orderWindowOne != null){
+                        productMap.put(order,orderWindowOne);
+                    }
+                }
+                if (mapIdToOrder.containsKey(14)) {
+                    int order = mapIdToOrder.get(14);
+                    if(mBitmapWindowThree != null) {
+                        bitmapMap.put(order, mBitmapWindowThree);
+                    }
+                    if(orderWindowThree != null){
+                        productMap.put(order,orderWindowThree);
+                    }
+                }
+
+            } else if (product.getType_id() == 14) {
+                // 帘纱
+                if (mapIdToOrder.containsKey(3)) {
+                    int order = mapIdToOrder.get(3);
+                    if (bitmapMap.containsKey(order)) {
+                        bitmapMap.remove(order);
+                        productMap.remove(order);
+                    }
+                }
+                if (mapIdToOrder.containsKey(12)) {
+                    int order = mapIdToOrder.get(12);
+                    if(mBitmapWindow0ne != null) {
+                        bitmapMap.put(order, mBitmapWindow0ne);
+                    }
+                    if(orderWindowOne != null){
+                        productMap.put(order,orderWindowOne);
+                    }
+                }
+                if (mapIdToOrder.containsKey(13)) {
+                    int order = mapIdToOrder.get(13);
+                    if(mBitmapWindowTwo != null) {
+                        bitmapMap.put(order, mBitmapWindowTwo);
+                    }
+                    if(orderWindowTwo != null){
+                        productMap.put(order,orderWindowTwo);
+                    }
+                }
+            }
+        }
+        /**************************************************************/
         if (product.isSelected()) {
             //清空对应图层
             change(mCurrentIndex, null, true);
             mapUrl.remove(mCurrentIndex);
             if (productMap.containsKey(mCurrentIndex)) {
                 productMap.remove(mCurrentIndex);
+            }
+            if(product.getType_id() == 12){
+                mBitmapWindow0ne = null;
+            }else if(product.getType_id() == 13){
+                mBitmapWindowTwo = null;
+            }else if(product.getType_id() == 14){
+                mBitmapWindowThree = null;
             }
         } else {
             //添加对应图层
@@ -256,6 +398,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                         if (sonList.get(i).getId().equals(mDefaultSelectProductId)) {
                             indexMap.put(type.getOrder_num(), i);
                             sonList.get(i).setSelected(true);
+                            productRecyclerView.scrollToPosition(i);
                             break;
                         }
                     }
@@ -266,7 +409,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             }
         }
 
-        if (!hasFind) {//没找到
+        if (!hasFind) {//没找到默认选择第一个
             partAdapter.addAll((Collection<? extends RoomProduct>) list.get(0).getSonList());
             list.get(0).setSelected(true);
             mCurrentIndex = list.get(0).getOrder_num();

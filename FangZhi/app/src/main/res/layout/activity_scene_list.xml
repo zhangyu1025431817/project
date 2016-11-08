@@ -4,11 +4,94 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/common_title_bar" />
+    <com.zhy.autolayout.AutoLinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/common_bg">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                style="@style/Widget.AppCompat.ActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_back"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="选择城市"
+                android:textColor="#646464"
+                android:textSize="40px" />
+
+            <TextView
+                android:id="@+id/bai_ye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20px"
+                android:background="@drawable/shape_gray_border"
+                android:paddingBottom="16px"
+                android:paddingLeft="30px"
+                android:paddingRight="30px"
+                android:paddingTop="16px"
+                android:text="百叶"
+                android:textColor="@color/text_gray_white"
+                android:textSize="30px" />
+
+            <TextView
+                android:id="@+id/gua_gan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20px"
+                android:layout_toLeftOf="@id/bai_ye"
+                android:background="@drawable/shape_gray_border"
+                android:paddingBottom="16px"
+                android:paddingLeft="30px"
+                android:paddingRight="30px"
+                android:paddingTop="16px"
+                android:text="挂杆"
+                android:textColor="@color/text_gray_white"
+                android:textSize="30px" />
+
+            <TextView
+                android:id="@+id/lian_tou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20px"
+                android:layout_toLeftOf="@id/gua_gan"
+                android:background="@drawable/shape_gray_border"
+                android:paddingBottom="16px"
+                android:paddingLeft="30px"
+                android:paddingRight="30px"
+                android:paddingTop="16px"
+                android:text="帘头"
+                android:textColor="@color/text_gray_white"
+                android:textSize="30px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#AAEBEBEB" />
+    </com.zhy.autolayout.AutoLinearLayout>
 
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view"
-        android:background="@drawable/bg_login"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_login" />
 </LinearLayout>

@@ -186,7 +186,8 @@ public class ProductView extends LinearLayout {
         viewTitle.setVisibility(GONE);
         line.setVisibility(GONE);
         layoutData.setPadding(20, 0, 20, 0);
-        productRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+        StaggeredGridLayoutManager staggeredGridLayoutManager =  new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
+        productRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         LayoutParams layoutParamsRecyclerView = (LayoutParams) productRecyclerView.getLayoutParams();
         layoutParamsRecyclerView.width = LayoutParams.MATCH_PARENT;

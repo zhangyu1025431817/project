@@ -26,6 +26,7 @@ import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -45,6 +46,7 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
     //户型图id
     String mHouseTypeId;
     DialogDelegate delegate;
+    ArrayList<HouseTypeDetails.HouseTypeDetail> mList = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -97,6 +99,8 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
         return mHouseTypeId;
     }
 
+    private ArrayList<HouseTypeDetails.HouseTypeDetail> mHasSonList = new ArrayList<>();
+
     @Override
     public void showHouseTypeDetails(List<HouseTypeDetails.HouseTypeDetail> list) {
         if (list == null || list.isEmpty()) {
@@ -113,9 +117,14 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
             delegate.clearDialog();
             for (HouseTypeDetails.HouseTypeDetail houseTypeDetail : list) {
                 drawHotArea(houseTypeDetail);
+                if (houseTypeDetail.getSonList() != null && !houseTypeDetail.getSonList().isEmpty()) {
+                    mHasSonList.add(houseTypeDetail);
+                }
             }
+            mList.addAll(list);
         }
     }
+
 
     private void drawHotArea(final HouseTypeDetails.HouseTypeDetail houseTypeDetail) {
         int bgWidth = layoutBg.getWidth();
@@ -143,9 +152,21 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
                 String type = houseTypeDetail.getHot_type();
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
-                if (houseTypeDetail.getSonList() != null && houseTypeDetail.getSonList().size() > 0) {
-                    bundle.putSerializable("window_types", houseTypeDetail.getSonList());
-                    intent.setClass(HouseTypeDetailActivity.this, WindowTypeActivity.class);
+//                if (houseTypeDetail.getSonList() != null && houseTypeDetail.getSonList().size() > 0) {
+//                    bundle.putSerializable("window_types", houseTypeDetail.getSonList());
+//                    intent.setClass(HouseTypeDetailActivity.this, WindowTypeActivity.class);
+//                } else {
+//                    intent.setClass(HouseTypeDetailActivity.this, SceneActivity.class);
+//                }
+                if (!mHasSonList.isEmpty() ) {
+                    if(houseTypeDetail.getSonList() != null
+                            && !houseTypeDetail.getSonList().isEmpty()){
+                        bundle.putSerializable("window_types", mHasSonList);
+                        intent.setClass(HouseTypeDetailActivity.this, WindowTypeActivity.class);
+                    }else{
+                        T.showShort(HouseTypeDetailActivity.this,"该房间暂无场景，请选择其他房间");
+                        return;
+                    }
                 } else {
                     intent.setClass(HouseTypeDetailActivity.this, SceneActivity.class);
                 }

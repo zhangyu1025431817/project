@@ -16,7 +16,7 @@ import com.fangzhi.app.R;
  * Created by zhangyu on 2016/8/15.
  */
 public class ClearEditText extends EditText {
-    private final static String TAG = "EditTextWithDel";
+    private final static String TAG = "ClearEditText";
     private Drawable imgAble;
     private Drawable imgLeft;
     private Context mContext;

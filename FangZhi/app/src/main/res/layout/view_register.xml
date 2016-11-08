@@ -2,7 +2,7 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_register"
     android:layout_width="1000px"
-    android:layout_height="1400px"
+    android:layout_height="1000px"
     android:background="@drawable/bg_login_box"
     android:focusableInTouchMode="true"
     android:gravity="center"
@@ -145,6 +145,7 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="800px"
         android:layout_height="100px"
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30px"
         android:orientation="horizontal">
@@ -199,6 +200,7 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="800px"
         android:layout_height="100px"
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30px"
         android:orientation="horizontal">
@@ -256,7 +258,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|right"
-            android:text="公司名称:"
+            android:text="品牌:"
             android:textSize="30px" />
 
         <android.support.v4.widget.Space
@@ -270,7 +272,7 @@
             android:layout_weight="3"
             android:maxLength="100"
             android:background="@drawable/shape_edit_bg"
-            android:hint="@string/company_name"
+            android:hint="品牌"
             android:inputType="text"
             android:paddingLeft="20px"
             android:paddingRight="20px"
@@ -283,6 +285,7 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="800px"
         android:layout_height="100px"
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30px"
         android:orientation="horizontal">
@@ -328,6 +331,44 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|right"
+            android:text="邀请码:"
+            android:textSize="30px" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="20px"
+            android:layout_height="match_parent" />
+
+        <com.fangzhi.app.view.ClearEditText
+            android:id="@+id/et_register_v_code"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="3"
+            android:background="@drawable/shape_edit_bg"
+            android:hint="请输入邀请码"
+            android:inputType="text"
+            android:maxLength="100"
+            android:maxLines="3"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:textColorHint="@color/colorTextGrayBABABA"
+            android:textCursorDrawable="@null"
+            android:textScaleX="0.96"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="800px"
+        android:layout_height="100px"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
             android:text="业务范围:"
             android:textSize="30px" />
 
@@ -353,12 +394,11 @@
             android:textScaleX="0.96"
             android:textSize="30px" />
     </com.zhy.autolayout.AutoLinearLayout>
-
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="800px"
         android:layout_height="120px"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginTop="30px">
+        android:layout_marginTop="20px">
 
         <Button
             android:id="@+id/btn_register"

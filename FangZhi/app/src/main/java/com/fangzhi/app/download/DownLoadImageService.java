@@ -217,4 +217,7 @@ public class DownLoadImageService {
     public interface OnDrawListener {
         void onDrawSucceed(Bitmap bitmap);
     }
+    public Map<Integer, Bitmap> getBitmapMap(){
+        return bitmapMap;
+    }
 }

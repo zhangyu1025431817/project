@@ -27,7 +27,7 @@ public interface LoginContract {
         Observable<LocationArea> getLocationArea(String id);
 
         Observable<BaseResponseBean> register(String phone,String pwd,String userName,int sex
-        ,String companyName,String address,String province,String city,String county,String scope,String key);
+        ,String companyName,String address,String province,String city,String county,String scope,String key,String code);
         Observable<BaseResponseBean> modificationPassword(String phone,String password,String key);
     }
 
@@ -54,6 +54,7 @@ public interface LoginContract {
         String getCityCode();
         String getCountyCode();
         String getScope();
+        String getRegisterVcode();
 
         String getNewPassword();
 

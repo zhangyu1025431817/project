@@ -108,7 +108,8 @@ public interface ApiService {
                                                         @Query("city") String city,
                                                         @Query("county") String county,
                                                         @Query("scope") String scope,
-                                                        @Query("key") String key);
+                                                        @Query("key") String key,
+                                                        @Query("invitationCode") String code);
 
     @GET(ApiUrl.MODIFI_PASSWORD)
     Observable<BaseResponseBean> modificationPassword(@Query("phone") String phone, @Query("passWord") String password,

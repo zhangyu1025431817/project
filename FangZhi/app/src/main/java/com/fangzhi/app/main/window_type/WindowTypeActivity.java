@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
 import com.fangzhi.app.R;
+import com.fangzhi.app.bean.HouseTypeDetails;
 import com.fangzhi.app.bean.WindowType;
+import com.fangzhi.app.main.adapter.WindowHotTypeAdapter;
 import com.fangzhi.app.main.adapter.WindowTypeAdapter;
 import com.fangzhi.app.main.scene.SceneActivity;
 import com.jude.easyrecyclerview.EasyRecyclerView;
@@ -30,19 +33,37 @@ public class WindowTypeActivity extends AppCompatActivity {
     TextView tvTitle;
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
+    @Bind(R.id.recycler_view_type)
+    EasyRecyclerView recyclerViewType;
     WindowTypeAdapter adapter;
+    WindowHotTypeAdapter windowHotTypeAdapter;
+    String hotType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scene_list);
+        setContentView(R.layout.activity_window_type);
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        ArrayList<WindowType> list = (ArrayList<WindowType>) bundle.getSerializable("window_types");
-        final String hotType = bundle.getString("type");
+        ArrayList<HouseTypeDetails.HouseTypeDetail> list = (ArrayList<HouseTypeDetails.HouseTypeDetail>) bundle.getSerializable("window_types");
+        hotType = bundle.getString("type");
         tvTitle.setText("窗型");
+        recyclerViewType.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
+        windowHotTypeAdapter = new WindowHotTypeAdapter(this);
+        windowHotTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                for(HouseTypeDetails.HouseTypeDetail data : windowHotTypeAdapter.getAllData()){
+                    data.setSelected(false);
+                }
+                selectHotType(position);
+                windowHotTypeAdapter.notifyDataSetChanged();
+            }
+        });
+
+
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new WindowTypeAdapter(this);
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
@@ -61,11 +82,28 @@ public class WindowTypeActivity extends AppCompatActivity {
                 }
             }
         });
-        adapter.addAll(list);
+        //  adapter.addAll(list);
+        windowHotTypeAdapter.addAll(list);
+        recyclerViewType.setAdapter(windowHotTypeAdapter);
         recyclerView.setAdapter(adapter);
-
+        if(list == null){
+            return;
+        }
+        for(int i =0;i<list.size();i++){
+            if(hotType.equals(list.get(i).getHot_type())){
+                selectHotType(i);
+                break;
+            }
+        }
     }
 
+    private void selectHotType(int position){
+        HouseTypeDetails.HouseTypeDetail houseTypeDetail =  windowHotTypeAdapter.getItem(position);
+        houseTypeDetail.setSelected(true);
+        hotType = houseTypeDetail.getHot_type();
+        adapter.clear();
+        adapter.addAll(houseTypeDetail.getSonList());
+    }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);

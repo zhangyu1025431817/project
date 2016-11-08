@@ -52,9 +52,9 @@ public class LoginModel implements LoginContract.Model {
     @Override
     public Observable<BaseResponseBean> register(String phone, String pwd, String userName, int sex,
                                                  String companyName, String address, String province,
-                                                 String city, String county, String scope, String key) {
+                                                 String city, String county, String scope, String key,String code) {
         return Network.getApiService().registerExperienceUser(phone, pwd, userName, sex, companyName, address,
-                province, city, county, scope, key)
+                province, city, county, scope, key,code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

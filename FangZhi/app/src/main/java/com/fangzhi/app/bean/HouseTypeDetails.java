@@ -44,8 +44,24 @@ public class HouseTypeDetails {
         String hot_long;//热点长度占图片长度的百分比
         String hot_wide;//热点宽度占图片宽度的百分比
         String hot_type;//热点类型
+        String CODE_DESC;
+        boolean isSelected;
         ArrayList<WindowType> sonList;
 
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
+
+        public String getCODE_DESC() {
+            return CODE_DESC;
+        }
+        public void setCODE_DESC(String CODE_DESC) {
+            this.CODE_DESC = CODE_DESC;
+        }
         public ArrayList<WindowType> getSonList() {
             return sonList;
         }
