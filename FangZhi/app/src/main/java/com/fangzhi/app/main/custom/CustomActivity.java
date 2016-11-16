@@ -43,7 +43,6 @@ public class CustomActivity extends AppCompatActivity {
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .crossFade()
-                    .centerCrop()
                     .into(imageView);
         }
     }

@@ -63,8 +63,12 @@ public class ParentActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                for (LoginNewBean.Parent parent : mAdapter.getAllData()) {
-                    parent.setSelected(false);
+                LoginNewBean.Parent parent = mAdapter.getItem(position);
+                if(parent.isSelected()){
+                    return;
+                }
+                for (LoginNewBean.Parent bean : mAdapter.getAllData()) {
+                    bean.setSelected(false);
                 }
                 mAdapter.getItem(position).setSelected(true);
                 mAdapter.notifyDataSetChanged();

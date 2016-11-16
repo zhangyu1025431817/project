@@ -11,6 +11,7 @@ import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.Scene;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
+import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.adapter.SceneAdapter;
 import com.fangzhi.app.main.room.RoomActivity;
 import com.fangzhi.app.tools.SPUtils;
@@ -18,7 +19,6 @@ import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import java.util.List;
 
@@ -55,9 +55,9 @@ public class SceneActivity extends BaseActivity<ScenePresenter, SceneModel> impl
         recyclerView.setRefreshListener(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new SceneAdapter(this);
-        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new NoDoubleClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onNoDoubleClick(int position) {
                 Scene scene = mAdapter.getItem(position);
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();

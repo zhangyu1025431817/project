@@ -105,4 +105,12 @@ public class ApiUrl {
      * 版本更新
      */
     public static final String UPDATE_VERSION = "fznet/fzmangge/FzUser/getEdition.json";
+    /**
+     * 获取3D场景类型（家装，工装等）
+     */
+    public static final String GET_FITMENT_TYPE = "fznet/fzapp/FangzhiAction/getCaseTypeList.json";
+    /**
+     * 获取3D场景分类列表（KTV,别墅等的3D场景列表）
+     */
+    public static final String GET_3_D = "fznet/fzapp/FangzhiAction/getCaseList.json";
  }

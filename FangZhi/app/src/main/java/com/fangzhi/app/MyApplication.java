@@ -3,9 +3,11 @@ package com.fangzhi.app;
 import android.app.ActivityManager;
 import android.content.Context;
 
+import com.fangzhi.app.network.MyLoggerInterceptor;
+import com.fangzhi.app.tools.logger.LogLevel;
+import com.fangzhi.app.tools.logger.Logger;
 import com.zhy.autolayout.config.AutoLayoutConifg;
 import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import org.litepal.LitePalApplication;
 
@@ -18,7 +20,7 @@ import okhttp3.OkHttpClient;
  * Created by zhangyu on 2016/5/9.
  */
 public class MyApplication extends LitePalApplication {
-
+    private static final String MAIN_PROCESS = "com.fangzhi.app";
     private static Context mContext;
 
     @Override
@@ -26,11 +28,11 @@ public class MyApplication extends LitePalApplication {
         super.onCreate();
         String processName = getProcessName(this, android.os.Process.myPid());
         if (processName != null) {
-            if (processName.equals("com.fangzhi.app")) {
+            if (MAIN_PROCESS.equals(processName)) {
                 AutoLayoutConifg.getInstance().useDeviceSize();
                 //配置
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .addInterceptor(new LoggerInterceptor("TAG", true))
+                        .addInterceptor(new MyLoggerInterceptor("", true))
                         .connectTimeout(10000L, TimeUnit.MILLISECONDS)
                         .readTimeout(10000L, TimeUnit.MILLISECONDS)
                         .build();

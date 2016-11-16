@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,7 +23,9 @@ import com.fangzhi.app.config.FactoryListInfo;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HousesAdapter;
+import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.city.CityActivity;
+import com.fangzhi.app.main.ddd.ThreeDimensionalActivity;
 import com.fangzhi.app.main.house_type.HouseTypeActivity;
 import com.fangzhi.app.main.parent.ParentActivity;
 import com.fangzhi.app.main.sell_part.SellPartActivity;
@@ -37,6 +38,7 @@ import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,9 +81,9 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         mAdapter.setMore(R.layout.view_more, this);
 
         recyclerView.setAdapterWithProgress(mAdapter);
-        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new NoDoubleClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onNoDoubleClick(int position) {
                 String id = mAdapter.getItem(position).getId();
                 String name = mAdapter.getItem(position).getPre_cname();
                 Intent intent = new Intent();
@@ -112,6 +114,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     @OnClick(R.id.tv_location)
     public void pickCity() {
         startActivityForResult(new Intent(this, CityActivity.class), 1);
+
     }
 
     @Override
@@ -282,7 +285,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     protected void onDestroy() {
         super.onDestroy();
         dialogDelegate.clearDialog();
-        if(popupWindow != null && popupWindow.isShowing()) {
+        if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
     }
@@ -349,12 +352,12 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     private PopupWindow popupWindow;
 
     private void showPopupWindow(View parent) {
-        Button btnLogout;
-        Button btnChangeParent = null;
+        TextView btnLogout;
+        TextView btnChangeParent = null;
         if (popupWindow == null) {
             LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.view_popup_window, null);
-            btnLogout = (Button) view.findViewById(R.id.btn_logout);
+            btnLogout = (TextView) view.findViewById(R.id.btn_logout);
             btnLogout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -362,19 +365,23 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 }
             });
 
-            btnChangeParent = (Button) view.findViewById(R.id.btn_change_parent);
+            btnChangeParent = (TextView) view.findViewById(R.id.btn_change_parent);
             btnChangeParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onChangeParent();
                 }
             });
-            if(FactoryListInfo.parentList.size() <= 1){
-                btnChangeParent.setVisibility(View.INVISIBLE);
-            }else{
-                btnChangeParent.setVisibility(View.VISIBLE);
+            if (FactoryListInfo.parentList.size() <= 1) {
+              // btnChangeParent.setVisibility(View.GONE);
+                btnChangeParent.setTextColor(getResources().getColor(R.color.gray));
+                btnChangeParent.setClickable(false);
+            } else {
+              //  btnChangeParent.setVisibility(View.VISIBLE);
+                btnChangeParent.setTextColor(getResources().getColor(R.color.black_semi_transparent));
+                btnChangeParent.setClickable(true);
             }
-            popupWindow = new PopupWindow(view, ScreenUtils.getScreenWidth(this) / 10, ScreenUtils.getScreenHeight(this) / 4);
+            popupWindow = new PopupWindow(view, ScreenUtils.getScreenWidth(this) / 8, AutoLinearLayout.LayoutParams.WRAP_CONTENT);
         }
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
@@ -385,7 +392,13 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         popupWindow.showAsDropDown(parent, xPos, 4);
 
     }
-    private void onChangeParent(){
+
+    private void onChangeParent() {
         startActivity(new Intent(this, ParentActivity.class));
+    }
+
+    @OnClick(R.id.btn_3_d)
+    public void on3DClick(){
+        startActivity(new Intent(this, ThreeDimensionalActivity.class));
     }
 }

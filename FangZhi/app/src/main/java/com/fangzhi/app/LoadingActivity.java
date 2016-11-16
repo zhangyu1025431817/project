@@ -95,7 +95,9 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mSubscription.unsubscribe();
-        mDownloadSp.unsubscribe();
+        if (mDownloadSp != null) {
+            mDownloadSp.unsubscribe();
+        }
     }
 
     private void requestVersionCode() {
@@ -253,7 +255,7 @@ public class LoadingActivity extends AppCompatActivity {
 
             @Override
             public void inProgress(float progress, long total, int id) {
-                pDialog.setTitleText("已下载%" + (int) (progress * 100));
+                pDialog.setTitleText("已下载" + (int) (progress * 100) + "%");
                 pDialog.getProgressHelper().setProgress(progress);
             }
         });

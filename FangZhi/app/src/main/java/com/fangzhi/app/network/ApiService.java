@@ -5,6 +5,8 @@ import com.fangzhi.app.bean.BaseResponseBean;
 import com.fangzhi.app.bean.CategoryPart;
 import com.fangzhi.app.bean.CategoryPartRoomBean;
 import com.fangzhi.app.bean.CountyHouses;
+import com.fangzhi.app.bean.DDDTypeResponseBean;
+import com.fangzhi.app.bean.FitmentTypeResponseBean;
 import com.fangzhi.app.bean.HouseTypeDetails;
 import com.fangzhi.app.bean.HouseTypes;
 import com.fangzhi.app.bean.Houses;
@@ -130,4 +132,8 @@ public interface ApiService {
                                                       @Query("partID") String partId);
     @GET(ApiUrl.UPDATE_VERSION)
     Observable<UpdateVersion> updateVersion(@Query("type") String type);
+    @GET(ApiUrl.GET_FITMENT_TYPE)
+    Observable<FitmentTypeResponseBean> getFitmentTypes(@Header("token")String token);
+    @GET(ApiUrl.GET_3_D)
+    Observable<DDDTypeResponseBean> getDDDtypes(@Header("token")String token,@Query("caseTypeID") String caseTypeId);
 }

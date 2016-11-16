@@ -11,13 +11,13 @@ import com.fangzhi.app.bean.HouseTypes;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HouseTypeAdapter;
+import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.type_detail.HouseTypeDetailActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import java.util.List;
 
@@ -54,9 +54,9 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         mAdapter = new HouseTypeAdapter(this);
-        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new NoDoubleClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onNoDoubleClick(int position) {
                 String imgUrl = mAdapter.getItem(position).getHouse_img();
                 String id = mAdapter.getItem(position).getId();
                 String name = mAdapter.getItem(position).getHouse_name();

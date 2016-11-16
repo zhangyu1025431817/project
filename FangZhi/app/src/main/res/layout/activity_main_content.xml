@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/common_white"
-        android:paddingRight="20px"
-        android:paddingLeft="20px">
+        android:paddingLeft="20px"
+        android:paddingRight="20px">
 
         <TextView
             android:id="@+id/tv_location"
@@ -17,37 +17,65 @@
             android:layout_height="match_parent"
             android:drawableLeft="@drawable/icon_location"
             android:drawablePadding="10px"
-            android:textSize="40px"
             android:gravity="center"
-            android:textColor="@color/text_gray_white" />
+            android:textColor="@color/text_gray_white"
+            android:textSize="40px" />
+
         <Spinner
             android:id="@+id/sp_area"
-            android:layout_marginLeft="20px"
-            android:layout_toRightOf="@id/tv_location"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/btn_home_material"
-            android:text="家装建材"
-            android:paddingLeft="30px"
-            android:paddingRight="30px"
-            android:paddingTop="16px"
-            android:paddingBottom="16px"
-            android:textColor="@color/text_gray_white"
-            android:background="@drawable/shape_gray_border"
-            android:layout_centerInParent="true"
-            android:textSize="30px"
+            android:layout_marginLeft="20px"
+            android:layout_toRightOf="@id/tv_location" />
+
+        <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_home_material"
+                android:layout_width="275px"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_jiazhuangjiancai"
+                android:gravity="center"
+                android:paddingBottom="16px"
+                android:paddingLeft="30px"
+                android:paddingRight="30px"
+                android:paddingTop="16px"
+                android:text="家装建材"
+                android:textColor="@color/text_gray_white"
+                android:textSize="30px" />
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/btn_3_d"
+                android:layout_width="275px"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_3d"
+                android:gravity="center"
+                android:paddingBottom="16px"
+                android:paddingLeft="30px"
+                android:paddingRight="30px"
+                android:paddingTop="16px"
+                android:text="3D场景"
+                android:textColor="@color/text_gray_white"
+                android:textSize="30px" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
         <com.fangzhi.app.view.ClearEditText
             android:id="@+id/et_keyword"
-            android:layout_width="600px"
-            android:layout_height="80px"
+            android:layout_width="700px"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="40px"
             android:layout_toLeftOf="@+id/btn_more"
-            android:background="@drawable/bg_layout_rectangle_circle_selector"
-            android:drawableRight="@drawable/icon_search"
+            android:background="@drawable/bg_search_edit"
             android:gravity="center_vertical"
             android:hint="请输入您想要查找的楼盘"
             android:paddingLeft="10dp"
@@ -55,13 +83,14 @@
             android:textColor="#333"
             android:textColorHint="#aaa"
             android:textSize="28px" />
+
         <ImageButton
             android:id="@+id/btn_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_more"/>
+            android:background="@drawable/icon_more" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.jude.easyrecyclerview.EasyRecyclerView

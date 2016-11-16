@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.HouseTypeDetails;
 import com.fangzhi.app.bean.WindowType;
+import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.adapter.WindowHotTypeAdapter;
 import com.fangzhi.app.main.adapter.WindowTypeAdapter;
 import com.fangzhi.app.main.scene.SceneActivity;
@@ -55,8 +56,12 @@ public class WindowTypeActivity extends AppCompatActivity {
         windowHotTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                for(HouseTypeDetails.HouseTypeDetail data : windowHotTypeAdapter.getAllData()){
-                    data.setSelected(false);
+                HouseTypeDetails.HouseTypeDetail data =  windowHotTypeAdapter.getItem(position);
+                if(data.isSelected()){
+                    return;
+                }
+                for(HouseTypeDetails.HouseTypeDetail bean : windowHotTypeAdapter.getAllData()){
+                    bean.setSelected(false);
                 }
                 selectHotType(position);
                 windowHotTypeAdapter.notifyDataSetChanged();
@@ -66,9 +71,9 @@ public class WindowTypeActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new WindowTypeAdapter(this);
-        adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new NoDoubleClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onNoDoubleClick(int position) {
                 WindowType windowType = adapter.getItem(position);
                 if (windowType.getIs_use() == 1) {
                     String decorateId = adapter.getItem(position).getDecorate_id();

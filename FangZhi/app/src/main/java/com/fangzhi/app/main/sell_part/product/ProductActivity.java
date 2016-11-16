@@ -19,6 +19,7 @@ import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HomeCategoryTypeAdapter;
 import com.fangzhi.app.main.adapter.HomeCategoryTypePartAdapter;
+import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.room.RoomActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
@@ -53,6 +54,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     CategoryPart.HotType mCurrentCategoryType;
     HomeCategoryTypeAdapter homeCategoryTypeAdapter;
     HomeCategoryTypePartAdapter homeCategoryTypePartAdapter;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_category_type;
@@ -65,24 +67,28 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
         String title = intent.getStringExtra("title");
         tvTitle.setText(title);
 
-        recyclerViewType.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerViewType.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         homeCategoryTypeAdapter = new HomeCategoryTypeAdapter(this);
         homeCategoryTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                for(CategoryPart.HotType data : homeCategoryTypeAdapter.getAllData()){
-                    data.setSelected(false);
+                CategoryPart.HotType data = homeCategoryTypeAdapter.getItem(position);
+                if (data.isSelected()) {
+                    return;
+                }
+                for (CategoryPart.HotType bean : homeCategoryTypeAdapter.getAllData()) {
+                    bean.setSelected(false);
                 }
                 selectType(position);
             }
         });
         recyclerViewType.setAdapterWithProgress(homeCategoryTypeAdapter);
-        recyclerViewProduct.setLayoutManager(new GridLayoutManager(this,4));
+        recyclerViewProduct.setLayoutManager(new GridLayoutManager(this, 4));
         homeCategoryTypePartAdapter = new HomeCategoryTypePartAdapter(this);
-        homeCategoryTypePartAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        homeCategoryTypePartAdapter.setOnItemClickListener(new NoDoubleClickListener() {
             @Override
-            public void onItemClick(int position) {
-                dialogDelegate.showProgressDialog(true,"初始化场景...");
+            public void onNoDoubleClick(int position) {
+                dialogDelegate.showProgressDialog(true, "初始化场景...");
                 mCurrentPartId = homeCategoryTypePartAdapter.getItem(position).getId();
                 mCurrentTypeId = String.valueOf(homeCategoryTypePartAdapter.getItem(position).getType_id());
                 mPresenter.getScene();
@@ -94,7 +100,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
         etKeyword.addOnClearListener(new ClearEditText.OnClearListener() {
             @Override
             public void onClear() {
-                if(mCurrentCategoryType != null) {
+                if (mCurrentCategoryType != null) {
                     homeCategoryTypePartAdapter.clear();
                     homeCategoryTypePartAdapter.addAll(mCurrentCategoryType.getSonList());
                 }
@@ -126,9 +132,9 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
 
     @Override
     public String getTypeId() {
-        if(mCurrentCategoryType != null) {
+        if (mCurrentCategoryType != null) {
             return mCurrentCategoryType.getCode_id();
-        }else{
+        } else {
             return "";
         }
     }
@@ -141,23 +147,24 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     @Override
     public void showCategoryList(List<CategoryPart.HotType> list) {
 
-        if(list != null && list.size() > 0){
+        if (list != null && list.size() > 0) {
             homeCategoryTypeAdapter.addAll(list);
             selectType(0);
         }
 
     }
 
-    private void selectType(int position){
+    private void selectType(int position) {
         List<CategoryPart.HotType> list = homeCategoryTypeAdapter.getAllData();
-        CategoryPart.HotType type= list.get(position);
+        CategoryPart.HotType type = list.get(position);
         type.setSelected(true);
         homeCategoryTypeAdapter.notifyDataSetChanged();
         mCurrentCategoryType = type;
-        List<CategoryPart.Part>  partList = (List<CategoryPart.Part>) type.getSonList();
+        List<CategoryPart.Part> partList = (List<CategoryPart.Part>) type.getSonList();
         homeCategoryTypePartAdapter.clear();
         homeCategoryTypePartAdapter.addAll(partList);
     }
+
     @Override
     public void showCategoryPartList(List<CategoryPart.Part> list) {
         homeCategoryTypePartAdapter.clear();
@@ -167,23 +174,23 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     @Override
     public void showSceneSucceed(CategoryPartRoomBean categoryPartRoomBean) {
         List<Scene> sceneList = categoryPartRoomBean.getSceneList();
-        ArrayList<RoomProductType>  partTypeList = categoryPartRoomBean.getPartTypeList();
-        if(sceneList == null || sceneList.size() == 0 ){
-            dialogDelegate.stopProgressWithFailed("场景数据为空","场景数据为空");
+        ArrayList<RoomProductType> partTypeList = categoryPartRoomBean.getPartTypeList();
+        if (sceneList == null || sceneList.size() == 0) {
+            dialogDelegate.stopProgressWithFailed("场景数据为空", "场景数据为空");
             return;
         }
         Scene scene = sceneList.get(0);
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("parts", scene.getSonList());
-        bundle.putSerializable("types",partTypeList);
-        bundle.putInt("position",categoryPartRoomBean.getPosition());
-        bundle.putString("bg",scene.getHl_img());
-        bundle.putString("hotType","");
-        bundle.putString("select_type_id",mCurrentTypeId);
-        bundle.putString("select_product_id",mCurrentPartId);
-        bundle.putString("hlCode",scene.getHl_code());
-        bundle.putString("sceneId",scene.getScene_id());
+        bundle.putSerializable("types", partTypeList);
+        bundle.putInt("position", categoryPartRoomBean.getPosition());
+        bundle.putString("bg", scene.getHl_img());
+        bundle.putString("hotType", "");
+        bundle.putString("select_type_id", mCurrentTypeId);
+        bundle.putString("select_product_id", mCurrentPartId);
+        bundle.putString("hlCode", scene.getHl_code());
+        bundle.putString("sceneId", scene.getScene_id());
         intent.putExtras(bundle);
         intent.setClass(this, RoomActivity.class);
         dialogDelegate.clearDialog();
@@ -192,7 +199,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
 
     @Override
     public void showSceneFailed(String msg) {
-        dialogDelegate.stopProgressWithFailed(msg,msg);
+        dialogDelegate.stopProgressWithFailed(msg, msg);
     }
 
     @Override
@@ -216,6 +223,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     public void onFinish() {
         this.finish();
     }
+
     public void closeKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm.isActive()) {
@@ -223,6 +231,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
                     .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         //这里注意要作判断处理，ActionDown、ActionUp都会回调到这里，不作处理的话就会调用两次

@@ -69,4 +69,5 @@ public class L
 		if (isDebug)
 			Log.i(tag, msg);
 	}
+
 }

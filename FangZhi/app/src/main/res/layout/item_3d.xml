@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="612px"
+    android:layout_margin="36px"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:padding="4px"
+    app:cardCornerRadius="10px"
+    app:cardElevation="10px">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="542px"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="70px"
+            android:gravity="center"
+            android:text="翡翠城"
+            android:textSize="35px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.fangzhi.app.view.AutoCardView>

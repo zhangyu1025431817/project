@@ -119,6 +119,18 @@
             android:name=".main.window_type.WindowTypeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
+        <activity
+            android:name=".main.ddd.ThreeDimensionalActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity
+            android:name=".main.ddd.DDDWebView"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity
+            android:name=".main.ddd.DDView"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
 
         <meta-data
             android:name="design_width"

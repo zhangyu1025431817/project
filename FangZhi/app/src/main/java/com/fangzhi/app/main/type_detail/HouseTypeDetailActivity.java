@@ -19,6 +19,7 @@ import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.HouseTypeDetails;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
+import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.scene.SceneActivity;
 import com.fangzhi.app.main.window_type.WindowTypeActivity;
 import com.fangzhi.app.tools.SPUtils;
@@ -27,6 +28,7 @@ import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -103,6 +105,7 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
 
     @Override
     public void showHouseTypeDetails(List<HouseTypeDetails.HouseTypeDetail> list) {
+        HashMap<String, HouseTypeDetails.HouseTypeDetail> map = new HashMap<>();
         if (list == null || list.isEmpty()) {
             delegate.stopProgressWithWarning("该户型暂无场景", "该户型暂无场景", new DialogDelegate.OnDialogListener() {
                 @Override
@@ -118,9 +121,12 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
             for (HouseTypeDetails.HouseTypeDetail houseTypeDetail : list) {
                 drawHotArea(houseTypeDetail);
                 if (houseTypeDetail.getSonList() != null && !houseTypeDetail.getSonList().isEmpty()) {
-                    mHasSonList.add(houseTypeDetail);
+                    //  mHasSonList.add(houseTypeDetail);
+                    //去重
+                    map.put(houseTypeDetail.getHot_type(), houseTypeDetail);
                 }
             }
+            mHasSonList.addAll(new ArrayList<>(map.values()));
             mList.addAll(list);
         }
     }
@@ -145,9 +151,9 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
         layoutParams.leftMargin = marginLeft;
 
         View view = LayoutInflater.from(this).inflate(R.layout.view_hot, null);
-        view.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new NoDoubleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onNoDoubleClick(int position) {
                 Intent intent = new Intent();
                 String type = houseTypeDetail.getHot_type();
                 Bundle bundle = new Bundle();
@@ -158,13 +164,13 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
 //                } else {
 //                    intent.setClass(HouseTypeDetailActivity.this, SceneActivity.class);
 //                }
-                if (!mHasSonList.isEmpty() ) {
-                    if(houseTypeDetail.getSonList() != null
-                            && !houseTypeDetail.getSonList().isEmpty()){
+                if (!mHasSonList.isEmpty()) {
+                    if (houseTypeDetail.getSonList() != null
+                            && !houseTypeDetail.getSonList().isEmpty()) {
                         bundle.putSerializable("window_types", mHasSonList);
                         intent.setClass(HouseTypeDetailActivity.this, WindowTypeActivity.class);
-                    }else{
-                        T.showShort(HouseTypeDetailActivity.this,"该房间暂无场景，请选择其他房间");
+                    } else {
+                        T.showShort(HouseTypeDetailActivity.this, "该房间暂无场景，请选择其他房间");
                         return;
                     }
                 } else {

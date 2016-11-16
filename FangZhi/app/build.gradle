@@ -11,8 +11,8 @@ android {
         applicationId "com.fangzhi.app"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 5
-        versionName "3.17"
+        versionCode 6
+        versionName "3.19"
     }
     signingConfigs {
         release {
@@ -28,6 +28,11 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    repositories{
+        flatDir {
+            dirs 'libs'
         }
     }
 }
@@ -69,4 +74,5 @@ dependencies {
     /*运行时权限*/
     apt 'com.zhy:mpermission-compiler:1.0.0'
     compile 'com.zhy:mpermission-api:1.0.0'
+    compile 'org.xwalk:xwalk_core_library-15.44.384.13-arm@aar'
 }

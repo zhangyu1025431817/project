@@ -10,13 +10,13 @@ import com.fangzhi.app.bean.SellType;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HomeCategoryAdapter;
+import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.sell_part.product.ProductActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import java.util.List;
 
@@ -44,9 +44,9 @@ public class SellPartActivity extends BaseActivity<SellPartPresenter, SellPartMo
         tvTitle.setText("家装建材");
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new HomeCategoryAdapter(this);
-        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new NoDoubleClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onNoDoubleClick(int position) {
                 SellType.Category category = mAdapter.getItem(position);
                 if (category.getIs_use() == 1) {
                     Intent intent = new Intent(SellPartActivity.this, ProductActivity.class);
