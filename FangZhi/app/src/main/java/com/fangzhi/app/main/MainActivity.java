@@ -27,13 +27,14 @@ import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.city.CityActivity;
 import com.fangzhi.app.main.ddd.ThreeDimensionalActivity;
 import com.fangzhi.app.main.house_type.HouseTypeActivity;
-import com.fangzhi.app.main.parent.ParentActivity;
 import com.fangzhi.app.main.sell_part.SellPartActivity;
 import com.fangzhi.app.tools.ActivityTaskManager;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.ScreenUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.ClearEditText;
+import com.fangzhi.app.view.DialogChooseParent;
+import com.fangzhi.app.view.DialogContactUs;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
@@ -213,8 +214,32 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     }
 
     @Override
+    public void changeSucceed(String token) {
+        SPUtils.put(this, SpKey.TOKEN, token);
+        dialogDelegate.clearDialog();
+
+    }
+
+    @Override
+    public void changeFailed(String msg) {
+        dialogDelegate.stopProgressWithWarning(msg, "请重新登录", new DialogDelegate.OnDialogListener() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
     public String getToken() {
         return SPUtils.getString(this, SpKey.TOKEN, "");
+    }
+
+    @Override
+    public String getUserId() {
+        return SPUtils.getString(this, SpKey.USER_ID, "");
     }
 
     @Override
@@ -233,6 +258,11 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     @Override
     public String getCountyId() {
         return mCurrentCounty.getId();
+    }
+
+    @Override
+    public String getParentId() {
+        return mParentId;
     }
 
     @Override
@@ -353,7 +383,8 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     private void showPopupWindow(View parent) {
         TextView btnLogout;
-        TextView btnChangeParent = null;
+        TextView btnChangeParent;
+        TextView btnContactUs;
         if (popupWindow == null) {
             LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.view_popup_window, null);
@@ -365,19 +396,28 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 }
             });
 
+            btnContactUs = (TextView) view.findViewById(R.id.btn_contact_us);
+            btnContactUs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onContactUs();
+                }
+            });
+
             btnChangeParent = (TextView) view.findViewById(R.id.btn_change_parent);
             btnChangeParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onChangeParent();
+                    popupWindow.dismiss();
                 }
             });
             if (FactoryListInfo.parentList.size() <= 1) {
-              // btnChangeParent.setVisibility(View.GONE);
+                // btnChangeParent.setVisibility(View.GONE);
                 btnChangeParent.setTextColor(getResources().getColor(R.color.gray));
                 btnChangeParent.setClickable(false);
             } else {
-              //  btnChangeParent.setVisibility(View.VISIBLE);
+                //  btnChangeParent.setVisibility(View.VISIBLE);
                 btnChangeParent.setTextColor(getResources().getColor(R.color.black_semi_transparent));
                 btnChangeParent.setClickable(true);
             }
@@ -393,12 +433,25 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     }
 
+    private String mParentId;
+
     private void onChangeParent() {
-        startActivity(new Intent(this, ParentActivity.class));
+        new DialogChooseParent(this, FactoryListInfo.parentList, new DialogChooseParent.onCheckedListener() {
+            @Override
+            public void onCheck(int id) {
+                mParentId = id + "";
+                mPresenter.changeParent();
+                dialogDelegate.showProgressDialog(false, "正在提交...");
+            }
+        }).show();
+    }
+
+    private void onContactUs() {
+        new DialogContactUs(this).show();
     }
 
     @OnClick(R.id.btn_3_d)
-    public void on3DClick(){
+    public void on3DClick() {
         startActivity(new Intent(this, ThreeDimensionalActivity.class));
     }
 }

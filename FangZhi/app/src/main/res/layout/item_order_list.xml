@@ -60,25 +60,23 @@
         android:text="规格" />
 
 
-    <TextView
+    <EditText
         android:id="@+id/tv_price"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:inputType="numberDecimal"
         android:background="@drawable/bg_border"
-        android:drawableLeft="@drawable/icon_edit"
         android:gravity="center"
         android:ems="10"
          />
 
-    <TextView
+    <EditText
         android:id="@+id/tv_count"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:inputType="number"
-        android:drawableLeft="@drawable/icon_edit"
         android:background="@drawable/bg_border"
         android:gravity="center"
         android:padding="10dp" />

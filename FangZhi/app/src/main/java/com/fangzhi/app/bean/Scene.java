@@ -99,6 +99,7 @@ public class Scene{
     }
 
     public class Part implements Serializable{
+        String id;
         int order_num;
         String part_brand;
         String part_img;
@@ -108,6 +109,14 @@ public class Scene{
         String part_unit;
         int type_id;
         String scene_id;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public int getType_id() {
             return type_id;

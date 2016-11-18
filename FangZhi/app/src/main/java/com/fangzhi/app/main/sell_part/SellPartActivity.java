@@ -104,7 +104,7 @@ public class SellPartActivity extends BaseActivity<SellPartPresenter, SellPartMo
             public void onClick() {
                 Intent intent = new Intent(SellPartActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(SellPartActivity.this, LoginActivity.class));
+                startActivity(intent);
             }
         });
     }

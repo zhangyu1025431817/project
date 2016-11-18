@@ -124,7 +124,7 @@ public class SceneActivity extends BaseActivity<ScenePresenter, SceneModel> impl
             public void onClick() {
                 Intent intent = new Intent(SceneActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(SceneActivity.this, LoginActivity.class));
+                startActivity(intent);
             }
         });
     }

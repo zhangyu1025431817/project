@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/bg_line"
+    android:showDividers="middle"
+    android:background="@drawable/bg_dialog_contact_us"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="116px"
+        android:gravity="center"
+        android:text="服务热线"
+        android:textColor="@color/colorTextCommonGreen"
+        android:textSize="40px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="131px"
+        android:gravity="center"
+        android:textSize="40px"
+        android:text="023-62955035" />
+
+</com.zhy.autolayout.AutoLinearLayout>

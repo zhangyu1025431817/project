@@ -47,7 +47,7 @@ public class CustomActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.iv_close)
+    @OnClick({R.id.iv_close,R.id.iv_bg})
     public void onClose() {
         startActivity(new Intent(this, MainActivity.class));
         finish();

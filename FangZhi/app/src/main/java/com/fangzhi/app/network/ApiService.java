@@ -38,7 +38,9 @@ public interface ApiService {
 
     @GET(ApiUrl.USER_LOGIN_NEW)
     Observable<LoginNewBean> loginNew(@Query("number") String username, @Query("password") String password,
-                                      @Query("machine_code") String deviceId, @Query("machine_type") String type);
+                                      @Query("machine_code") String deviceId,
+                                      @Query("machine_type") String type,
+                                      @Query("machine_size") String size);
 
     @GET(ApiUrl.PARENT_LOGIN_NEW)
     Observable<LoginBean> loginParent(@Header("token") String token, @Query("parentId") String parentId, @Query("userID") String userId);
@@ -130,10 +132,13 @@ public interface ApiService {
     @GET(ApiUrl.GET_PART_SENCE)
     Observable<CategoryPartRoomBean> getCategoryScene(@Header("token") String token, @Query("userID") String userId,
                                                       @Query("partID") String partId);
+
     @GET(ApiUrl.UPDATE_VERSION)
     Observable<UpdateVersion> updateVersion(@Query("type") String type);
+
     @GET(ApiUrl.GET_FITMENT_TYPE)
-    Observable<FitmentTypeResponseBean> getFitmentTypes(@Header("token")String token);
+    Observable<FitmentTypeResponseBean> getFitmentTypes(@Header("token") String token);
+
     @GET(ApiUrl.GET_3_D)
-    Observable<DDDTypeResponseBean> getDDDtypes(@Header("token")String token,@Query("caseTypeID") String caseTypeId);
+    Observable<DDDTypeResponseBean> getDDDtypes(@Header("token") String token, @Query("caseTypeID") String caseTypeId);
 }

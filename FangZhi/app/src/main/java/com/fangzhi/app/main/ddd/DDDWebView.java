@@ -61,14 +61,15 @@ public class DDDWebView extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (xWalkWebView != null) {
+            xWalkWebView.clearCache(true);
             XWalkNavigationHistory history = xWalkWebView.getNavigationHistory();
             if (history != null) {
                 history.clear();
             }
             xWalkWebView.onDestroy();
         }
+        super.onDestroy();
     }
 
     @OnClick(R.id.iv_close)

@@ -16,12 +16,15 @@ import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.LocationArea;
+import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.bean.LoginNewBean;
 import com.fangzhi.app.config.FactoryListInfo;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.main.MainActivity;
 import com.fangzhi.app.main.custom.CustomActivity;
-import com.fangzhi.app.main.parent.ParentActivity;
+import com.fangzhi.app.network.MySubscriber;
+import com.fangzhi.app.network.Network;
+import com.fangzhi.app.network.http.api.ErrorCode;
 import com.fangzhi.app.tools.ActivityTaskManager;
 import com.fangzhi.app.tools.AppUtils;
 import com.fangzhi.app.tools.MD5Util;
@@ -30,6 +33,7 @@ import com.fangzhi.app.tools.ScreenUtils;
 import com.fangzhi.app.tools.StringUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.ClearEditText;
+import com.fangzhi.app.view.DialogChooseParent;
 import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 
@@ -41,6 +45,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by smacr on 2016/9/19.
@@ -267,6 +273,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     }
 
     @Override
+    public String getDeviceRealSize() {
+        String size = ScreenUtils.getScreenSizeOfDevice(this)+"";
+        Log.e("getDeviceRealSize",size);
+        return size;
+    }
+
+    @Override
     public void loginSucceed(String img) {
         FactoryListInfo.parentList.clear();
         dialogDelegate.clearDialog();
@@ -285,8 +298,42 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         dialogDelegate.clearDialog();
         FactoryListInfo.parentList.clear();
         FactoryListInfo.parentList.addAll(list);
+        new DialogChooseParent(this, FactoryListInfo.parentList, new DialogChooseParent.onCheckedListener() {
+            @Override
+            public void onCheck(int id) {
+                dialogDelegate.showProgressDialog(false, "正在提交...");
+                String token = SPUtils.getString(LoginActivity.this, SpKey.TOKEN, "");
+                String userId = SPUtils.getString(LoginActivity.this, SpKey.USER_ID, "");
+                Network.getApiService().loginParent(token, id+"", userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new MySubscriber<LoginBean>() {
+                            @Override
+                            public void onNext(LoginBean loginBean) {
+                                if (ErrorCode.SUCCEED.equals(loginBean.getError_code())) {
+                                    SPUtils.put(LoginActivity.this, SpKey.TOKEN, loginBean.getToken());
+                                    dialogDelegate.clearDialog();
+                                    Intent intent = new Intent();
+                                    if (loginBean.getImg() == null || loginBean.getImg().isEmpty()) {
+                                        intent.setClass(LoginActivity.this, MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    } else {
+                                        intent.putExtra("url", loginBean.getImg());
+                                        intent.setClass(LoginActivity.this, CustomActivity.class);
+                                    }
+                                    startActivity(intent);
+                                } else {
+                                    dialogDelegate.stopProgressWithFailed("提交失败", loginBean.getMsg());
+                                }
+                            }
 
-        startActivity(new Intent(this, ParentActivity.class));
+                            @Override
+                            public void onError(Throwable e) {
+                                dialogDelegate.stopProgressWithFailed("提交失败", "网络连接失败！");
+                            }
+                        });
+            }
+        }).show();
     }
 
     @Override

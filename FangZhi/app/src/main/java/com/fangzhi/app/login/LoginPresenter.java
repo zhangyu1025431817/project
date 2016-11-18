@@ -49,7 +49,8 @@ public class LoginPresenter extends LoginContract.Presenter {
 
     @Override
     void loginNew() {
-        mRxManager.add(mModel.loginNew(mView.getDeviceId(), mView.getPhoneNumber(), mView.getPassword())
+        mRxManager.add(mModel.loginNew(mView.getDeviceId(), mView.getPhoneNumber(), mView.getPassword()
+                , mView.getDeviceRealSize())
                 .subscribe(new MySubscriber<LoginNewBean>() {
                     @Override
                     public void onNext(LoginNewBean loginBean) {
@@ -124,7 +125,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     void register() {
         mRxManager.add(mModel.register(mView.getCodePhone(), mView.getLoginPwd(), mView.getUserName(), mView.getSex(),
                 mView.getCompanyName(), mView.getAddress(), mView.getProvinceCode(), mView.getCityCode(), mView.getCountyCode()
-                , mView.getScope(), mView.getKey(),mView.getRegisterVcode()).subscribe(new MySubscriber<BaseResponseBean>() {
+                , mView.getScope(), mView.getKey(), mView.getRegisterVcode()).subscribe(new MySubscriber<BaseResponseBean>() {
             @Override
             public void onNext(BaseResponseBean bean) {
                 if (!ErrorCode.SUCCEED.equals(bean.getError_code())) {

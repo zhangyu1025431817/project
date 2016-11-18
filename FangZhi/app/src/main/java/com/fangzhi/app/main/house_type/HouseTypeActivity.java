@@ -107,7 +107,7 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
             public void onClick() {
                 Intent intent = new Intent(HouseTypeActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(HouseTypeActivity.this, LoginActivity.class));
+                startActivity(intent);
             }
         });
     }

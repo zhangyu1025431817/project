@@ -209,7 +209,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
             public void onClick() {
                 Intent intent = new Intent(ProductActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(ProductActivity.this, LoginActivity.class));
+                startActivity(intent);
             }
         });
     }

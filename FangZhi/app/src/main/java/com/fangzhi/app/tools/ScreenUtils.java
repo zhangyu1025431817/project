@@ -3,6 +3,7 @@ package com.fangzhi.app.tools;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -122,5 +123,12 @@ public class ScreenUtils
 		return bp;
 
 	}
-
+	public static double getScreenSizeOfDevice(Activity context) {
+		Point point = new Point();
+		context.getWindowManager().getDefaultDisplay().getRealSize(point);
+		DisplayMetrics dm = context.getResources().getDisplayMetrics();
+		double x = Math.pow(point.x/ dm.xdpi, 2);
+		double y = Math.pow(point.y / dm.ydpi, 2);
+		return Math.sqrt(x + y);
+	}
 }

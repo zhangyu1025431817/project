@@ -135,6 +135,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 mapUrl.put(part.getOrder_num(), part.getPart_img());
                 mapIdToOrder.put(part.getType_id(), part.getOrder_num());
                 Order order = new Order();
+                order.setId(part.getId());
                 order.setPart_img_short(part.getPart_img_short());
                 order.setPart_brand(part.getPart_brand());
                 order.setType(part.getType_name());
@@ -527,6 +528,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     public void productToOrder(RoomProduct product) {
         Order order = new Order();
+        order.setId(product.getId());
         order.setPart_img_short(product.getPart_img_short());
         order.setPart_brand(product.getPart_brand());
         order.setType(product.getType_name());
@@ -545,7 +547,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             public void onClick() {
                 Intent intent = new Intent(RoomActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(RoomActivity.this, LoginActivity.class));
+                startActivity(intent);
             }
         });
     }

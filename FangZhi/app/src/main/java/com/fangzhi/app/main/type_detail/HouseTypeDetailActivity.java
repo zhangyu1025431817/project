@@ -190,7 +190,7 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
             public void onClick() {
                 Intent intent = new Intent(HouseTypeDetailActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(new Intent(HouseTypeDetailActivity.this, LoginActivity.class));
+                startActivity(intent);
                 finish();
             }
         });
