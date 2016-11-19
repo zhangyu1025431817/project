@@ -39,4 +39,5 @@
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
     <color name="blue_btn">#1ba7ff</color>
     <color name="gray_btn">#e3e3e3</color>
+    <color name="gray_cdcdcd">#cdcdcd</color>
 </resources>

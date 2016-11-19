@@ -12,7 +12,7 @@ public class ApiUrl {
     /**
      * 测试
      */
-   // public static final String BASE_URL = "http://test.51fangz.com:8050/";
+  //  public static final String BASE_URL = "http://test.51fangz.com:8050/";
     /**
      * 获取城市列表
      */
@@ -113,4 +113,8 @@ public class ApiUrl {
      * 获取3D场景分类列表（KTV,别墅等的3D场景列表）
      */
     public static final String GET_3_D = "fznet/fzapp/FangzhiAction/getCaseList.json";
+    /**
+     * 获取附属部件列表
+     */
+    public static final String GET_ATTACH_PART = "fznet/fzapp/FangzhiAction/getAttachPartList.json";
  }

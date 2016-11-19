@@ -1,9 +1,7 @@
 package com.fangzhi.app.base;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.fangzhi.app.tools.TUtil;
 
@@ -46,18 +44,18 @@ public abstract class BaseActivity<T extends BasePresenter,M extends BaseModel> 
         }
         ButterKnife.unbind(this);
     }
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+//            View decorView = getWindow().getDecorView();
+//            decorView.setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//        }
+//    }
 }

@@ -16,6 +16,7 @@ import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.adapter.ThreeDimensionFitmentAdapter;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
+import com.fangzhi.app.view.DialogContactUs;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 
 import java.util.ArrayList;
@@ -159,5 +160,9 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
         dddTypeAdapter.notifyDataSetChanged();
         dddImageAdapter.clear();
         dddImageAdapter.addAll(dddType.getSonList());
+    }
+    @OnClick(R.id.tv_btn)
+    public void onShow3D(){
+        new DialogContactUs(this).show();
     }
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/common_bg">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            style="@style/Widget.AppCompat.ActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_back"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="选择城市"
+            android:textColor="#646464"
+            android:textSize="40px" />
+
+        <TextView
+            android:id="@+id/tv_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="3D定制"
+            android:layout_marginRight="16dp"
+            android:textColor="@color/text_green_light_green"
+            android:textSize="40px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#AAEBEBEB" />
+</com.zhy.autolayout.AutoLinearLayout>

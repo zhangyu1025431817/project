@@ -2,6 +2,7 @@ package com.fangzhi.app.main.room;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -130,7 +131,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         ArrayList<RoomProductType> partTypeList = (ArrayList<RoomProductType>) bundle.getSerializable("types");
         //用于当背景的空bitmap
 
-        if(list != null) {
+        if (list != null) {
             for (Scene.Part part : list) {
                 mapUrl.put(part.getOrder_num(), part.getPart_img());
                 mapIdToOrder.put(part.getType_id(), part.getOrder_num());
@@ -138,10 +139,11 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 order.setId(part.getId());
                 order.setPart_img_short(part.getPart_img_short());
                 order.setPart_brand(part.getPart_brand());
+                order.setPart_name(part.getPart_name());
                 order.setType(part.getType_name());
                 order.setPart_code(part.getPart_name());
-                order.setPrice("0.0");
-                order.setCount("1");
+                order.setPrice("");
+                order.setCount("0");
                 order.setTotalMoney("0.0");
                 order.setPart_unit(part.getPart_unit());
                 productMap.put(part.getOrder_num(), order);
@@ -201,7 +203,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 mCurrentIndex = roomProductType.getOrder_num();
                 productTypeAdapter.notifyDataSetChanged();
                 int selectPosition = indexMap.get(mCurrentIndex);
-                if(selectPosition >7) {
+                if (selectPosition > 7) {
                     productRecyclerView.scrollToPosition(selectPosition);
                 }
             }
@@ -278,20 +280,20 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 }
                 if (mapIdToOrder.containsKey(13)) {
                     int order = mapIdToOrder.get(13);
-                    if(mBitmapWindowTwo != null) {
+                    if (mBitmapWindowTwo != null) {
                         bitmapMap.put(order, mBitmapWindowTwo);
                     }
-                    if(orderWindowTwo != null){
-                        productMap.put(order,orderWindowTwo);
+                    if (orderWindowTwo != null) {
+                        productMap.put(order, orderWindowTwo);
                     }
                 }
                 if (mapIdToOrder.containsKey(14)) {
                     int order = mapIdToOrder.get(14);
-                    if(mBitmapWindowThree != null) {
+                    if (mBitmapWindowThree != null) {
                         bitmapMap.put(order, mBitmapWindowThree);
                     }
-                    if(orderWindowThree != null){
-                        productMap.put(order,orderWindowThree);
+                    if (orderWindowThree != null) {
+                        productMap.put(order, orderWindowThree);
                     }
                 }
 
@@ -306,20 +308,20 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 }
                 if (mapIdToOrder.containsKey(12)) {
                     int order = mapIdToOrder.get(12);
-                    if(mBitmapWindow0ne != null) {
+                    if (mBitmapWindow0ne != null) {
                         bitmapMap.put(order, mBitmapWindow0ne);
                     }
-                    if(orderWindowOne != null){
-                        productMap.put(order,orderWindowOne);
+                    if (orderWindowOne != null) {
+                        productMap.put(order, orderWindowOne);
                     }
                 }
                 if (mapIdToOrder.containsKey(14)) {
                     int order = mapIdToOrder.get(14);
-                    if(mBitmapWindowThree != null) {
+                    if (mBitmapWindowThree != null) {
                         bitmapMap.put(order, mBitmapWindowThree);
                     }
-                    if(orderWindowThree != null){
-                        productMap.put(order,orderWindowThree);
+                    if (orderWindowThree != null) {
+                        productMap.put(order, orderWindowThree);
                     }
                 }
 
@@ -334,20 +336,20 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 }
                 if (mapIdToOrder.containsKey(12)) {
                     int order = mapIdToOrder.get(12);
-                    if(mBitmapWindow0ne != null) {
+                    if (mBitmapWindow0ne != null) {
                         bitmapMap.put(order, mBitmapWindow0ne);
                     }
-                    if(orderWindowOne != null){
-                        productMap.put(order,orderWindowOne);
+                    if (orderWindowOne != null) {
+                        productMap.put(order, orderWindowOne);
                     }
                 }
                 if (mapIdToOrder.containsKey(13)) {
                     int order = mapIdToOrder.get(13);
-                    if(mBitmapWindowTwo != null) {
+                    if (mBitmapWindowTwo != null) {
                         bitmapMap.put(order, mBitmapWindowTwo);
                     }
-                    if(orderWindowTwo != null){
-                        productMap.put(order,orderWindowTwo);
+                    if (orderWindowTwo != null) {
+                        productMap.put(order, orderWindowTwo);
                     }
                 }
             }
@@ -360,11 +362,11 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             if (productMap.containsKey(mCurrentIndex)) {
                 productMap.remove(mCurrentIndex);
             }
-            if(product.getType_id() == 12){
+            if (product.getType_id() == 12) {
                 mBitmapWindow0ne = null;
-            }else if(product.getType_id() == 13){
+            } else if (product.getType_id() == 13) {
                 mBitmapWindowTwo = null;
-            }else if(product.getType_id() == 14){
+            } else if (product.getType_id() == 14) {
                 mBitmapWindowThree = null;
             }
         } else {
@@ -531,10 +533,11 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         order.setId(product.getId());
         order.setPart_img_short(product.getPart_img_short());
         order.setPart_brand(product.getPart_brand());
+        order.setPart_name(product.getPart_name());
         order.setType(product.getType_name());
         order.setPart_code(product.getPart_name());
-        order.setPrice("0.0");
-        order.setCount("1");
+        order.setPrice("");
+        order.setCount("0");
         order.setTotalMoney("0.0");
         order.setPart_unit(product.getPart_unit());
         productMap.put(mCurrentIndex, order);
@@ -566,6 +569,21 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             if (position != -1) {
                 selectPart(position);
             }
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 }

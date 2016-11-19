@@ -3,15 +3,17 @@ package com.fangzhi.app.main.list;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,9 +23,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.R;
+import com.fangzhi.app.bean.AttachOrderResponseBean;
 import com.fangzhi.app.bean.Order;
 import com.fangzhi.app.config.SpKey;
+import com.fangzhi.app.network.MySubscriber;
+import com.fangzhi.app.network.Network;
+import com.fangzhi.app.network.http.api.ErrorCode;
 import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.view.XEditText;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,41 +41,56 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by smacr on 2016/9/23.
  */
-public class ListOrderActivity extends SwipeBackActivity {
+public class ListOrderActivity extends AppCompatActivity {
     @Bind(R.id.recycler_view)
     ListView listView;
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.tv_contact_factory)
     TextView tvAddress;
+    @Bind(R.id.tv_total_money)
     TextView tvTotalMoney;
-    View viewFooter;
-    View viewHeader;
     List<Order> mList = new ArrayList<>();
     LayoutInflater mInflater;
     Map<String, String> priceMap = new HashMap<>();
-    Map<String, String> countMap = new HashMap<>();
-    Map<String, String> totalMap = new HashMap<>();
+    MyAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //去除title
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_order_list);
+        //去掉Activity上面的状态栏
+        //   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //去掉虚拟按键全屏显示
+        //  getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
         ButterKnife.bind(this);
         mInflater = LayoutInflater.from(this);
-        viewFooter = mInflater.inflate(R.layout.view_order_list_footer, null);
-        viewHeader = mInflater.inflate(R.layout.view_order_list_header, null);
-        tvTotalMoney = (TextView) viewFooter.findViewById(R.id.tv_total_money);
         tvTitle.setText("设计清单");
         Intent intent = getIntent();
+
         if (intent.hasExtra("list")) {
             List<Order> tempList = (List<Order>) intent.getSerializableExtra("list");
-            mList.addAll(tempList);
+            HashMap<String, String> tempMap = (HashMap<String, String>) SPUtils.getObject(this, "price");
+            if (tempList != null) {
+                if (tempMap != null) {
+                    priceMap = tempMap;
+                    for (Order order : tempList) {
+                        if (tempMap.containsKey(order.getPart_name())) {
+                            order.setPrice(priceMap.get(order.getPart_name()));
+                        }
+                    }
+                }
+                mList.addAll(tempList);
+            }
 //            for (Order order : tempList) {
 //                String[] images = order.getPart_img_short().split(";");
 //                for (String image : images) {
@@ -85,15 +108,38 @@ public class ListOrderActivity extends SwipeBackActivity {
         } else {
             tvAddress.setVisibility(View.VISIBLE);
         }
-        listView.setAdapter(new MyAdapter());
-        listView.addHeaderView(viewHeader);
-        listView.addFooterView(viewFooter);
+        listView.setAdapter(mAdapter = new MyAdapter());
 
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
 
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:    //当停止滚动时
+
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:    //滚动时
+                        //没错，下面这一坨就是隐藏软键盘的代码
+                        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                                .hideSoftInputFromWindow(ListOrderActivity.this.getCurrentFocus().getWindowToken()
+                                        , InputMethodManager.HIDE_NOT_ALWAYS);
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:   //手指抬起，但是屏幕还在滚动状态
+                        break;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+        });
+
+        getAttachPart();
     }
 
     @OnClick(R.id.iv_back)
     public void onReturn() {
+        SPUtils.putObject(this, "price", priceMap);
         finish();
     }
 
@@ -116,21 +162,6 @@ public class ListOrderActivity extends SwipeBackActivity {
         }
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
-    }
-
     @OnClick(R.id.tv_contact_factory)
     public void onGoto() {
         String url = SPUtils.getString(MyApplication.getContext(),
@@ -143,6 +174,7 @@ public class ListOrderActivity extends SwipeBackActivity {
     }
 
     private float mTotalMoney;
+
     private class MyAdapter extends BaseAdapter {
 
         @Override
@@ -188,18 +220,34 @@ public class ListOrderActivity extends SwipeBackActivity {
                     public void afterTextChanged(Editable s) {
                         Order bean = (Order) holder.tv_price.getTag();
                         float oldMoney = Float.parseFloat(bean.getTotalMoney());
-                        float price = s.toString().isEmpty() ? 0f : Float.parseFloat(s.toString());
+                        float price;
+                        try {
+                            price = s.toString().isEmpty() ? 0f : Float.parseFloat(s.toString());
+                        } catch (Exception e) {
+                            price = 0f;
+                        }
                         int count = Integer.parseInt(bean.getCount());
                         float total = price * count;
-                        bean.setPrice(price + "");
+                        if (price == 0f) {
+                            bean.setPrice("");
+                        } else {
+                            bean.setPrice(price + "");
+                        }
                         bean.setTotalMoney(total + "");
                         holder.tv_total_money.setText(total + "");
-                        mTotalMoney = mTotalMoney+(total - oldMoney);
-                        tvTotalMoney.setText(mTotalMoney+"");
-                        //    notifyDataSetChanged();
+                        mTotalMoney = mTotalMoney + (total - oldMoney);
+                        tvTotalMoney.setText("总价:¥" + mTotalMoney);
+                        if (price > 0f) {
+                            priceMap.put(bean.getPart_name(), price + "");
+                        } else {
+                            if (priceMap.containsKey(bean.getPart_name())) {
+                                priceMap.remove(bean.getPart_name());
+                            }
+                        }
                     }
                 });
-                holder.tv_count = (EditText) convertView.findViewById(R.id.tv_count);
+                holder.tv_count = (XEditText) convertView.findViewById(R.id.tv_count);
+
                 holder.tv_count.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -215,20 +263,38 @@ public class ListOrderActivity extends SwipeBackActivity {
                     public void afterTextChanged(Editable s) {
                         Order bean = (Order) holder.tv_count.getTag();
                         float oldMoney = Float.parseFloat(bean.getTotalMoney());
-                        float price = Float.parseFloat(bean.getPrice());
+                        float price = Float.parseFloat(bean.getPrice().isEmpty() ? "0" : bean.getPrice());
                         int count = s.toString().isEmpty() ? 0 : Integer.parseInt(s.toString());
                         float total = price * count;
 
                         bean.setCount(count + "");
                         bean.setTotalMoney(total + "");
                         holder.tv_total_money.setText(total + "");
-                        mTotalMoney = mTotalMoney+(total - oldMoney);
-                        tvTotalMoney.setText(mTotalMoney+"");
-                        //   notifyDataSetChanged();
+                        mTotalMoney = mTotalMoney + (total - oldMoney);
+                        tvTotalMoney.setText("总价:¥" + mTotalMoney);
+                    }
+                });
+                holder.tv_count.setDrawableLeftListener(new XEditText.DrawableLeftListener() {
+                    @Override
+                    public void onDrawableLeftClick(View view) {
+                        int number = Integer.parseInt(holder.tv_count.getText().toString());
+                        number = number - 1;
+                        if (number >= 0) {
+                            holder.tv_count.setText(number + "");
+                        }
+                    }
+                });
+                holder.tv_count.setDrawableRightListener(new XEditText.DrawableRightListener() {
+                    @Override
+                    public void onDrawableRightClick(View view) {
+                        int number = Integer.parseInt(holder.tv_count.getText().toString());
+                        number = number + 1;
+                        holder.tv_count.setText(number + "");
                     }
                 });
                 holder.tv_total_money = (TextView) convertView.findViewById(R.id.tv_total_money);
                 convertView.setTag(holder);
+                AutoUtils.autoSize(convertView);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
@@ -238,7 +304,7 @@ public class ListOrderActivity extends SwipeBackActivity {
                     .into(holder.iv_image);
             holder.tv_brand.setText(order.getPart_brand());
             holder.tv_type.setText(order.getType());
-            holder.tv_number.setText(order.getPart_code());
+            holder.tv_number.setText(order.getPart_name());
             holder.tv_size.setText(order.getPart_unit());
 
             holder.tv_price.setTag(order);
@@ -251,6 +317,11 @@ public class ListOrderActivity extends SwipeBackActivity {
             holder.tv_count.clearFocus();
 
             holder.tv_total_money.setText(order.getTotalMoney());
+            if (position % 2 == 0) {
+                convertView.setBackgroundColor(getResources().getColor(R.color.white_pressed));
+            } else {
+                convertView.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+            }
             return convertView;
         }
 
@@ -261,164 +332,49 @@ public class ListOrderActivity extends SwipeBackActivity {
             TextView tv_number;
             TextView tv_size;
             EditText tv_price;
-            EditText tv_count;
+            XEditText tv_count;
             TextView tv_total_money;
         }
     }
-//    private class MyAdapter extends CommonAdapter<Order> {
-//        ImageView iv_image;
-//        TextView tv_brand;
-//        TextView tv_type;
-//        TextView tv_number;
-//        TextView tv_size;
-//        EditText tv_price;
-//        EditText tv_count;
-//        TextView tv_total_money;
-//        Context mContext;
-//        int index;
-//        MyWatcher mPriceWatcher;
-//        MyWatcher mCountWatcher;
-//
-//        public MyAdapter(Context context, List<Order> datas, int layoutId) {
-//            super(context, datas, layoutId);
-//            mContext = context;
-//        }
-//
-//        @Override
-//        public void convert(ViewHolder holder, final Order data, final int position) {
-//            final String id = data.getId();
-//            iv_image = holder.getView(R.id.iv_image);
-//            tv_brand = holder.getView(R.id.tv_brand);
-//            tv_type = holder.getView(R.id.tv_type);
-//            tv_number = holder.getView(R.id.tv_number);
-//            tv_size = holder.getView(R.id.tv_size);
-//            tv_price = holder.getView(R.id.tv_price);
-//            tv_count = holder.getView(R.id.tv_count);
-//            tv_total_money = holder.getView(R.id.tv_total_money);
-//
-//
-//
-//            Glide.with(mContext)
-//                    .load(data.getPart_img_short())
-//                    .crossFade()
-//                    .into(iv_image);
-//            tv_brand.setText(data.getPart_brand());
-//            tv_type.setText(data.getType());
-//
-//            tv_number.setText(data.getPart_code());
-//            tv_size.setText(data.getPart_unit());
-//
-//            if (priceMap.containsKey(id)) {
-//                tv_price.setText(priceMap.get(id));
-//            }else{
-//                tv_price.setText("");
-//            }
-//            tv_price.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    if (event.getAction() == MotionEvent.ACTION_UP) {
-//                        index = position;
-//                    }
-//                    return false;
-//                }
-//            });
-//            tv_price.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-//                    EditText et = (EditText) v;
-//                    if (mPriceWatcher == null) {
-//                        mPriceWatcher = new MyWatcher(0, id);
-//                    }
-//                    if (hasFocus) {
-//                        et.addTextChangedListener(mPriceWatcher);
-//                    } else {
-//                        et.removeTextChangedListener(mPriceWatcher);
-//                        mPriceWatcher = null;
-//                    }
-//                }
-//            });
-//
-//            if (countMap.containsKey(id)) {
-//                tv_count.setText(countMap.get(id));
-//            }else{
-//                tv_count.setText("");
-//            }
-//
-//            tv_count.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    if (event.getAction() == MotionEvent.ACTION_UP) {
-//                        index = position;
-//                    }
-//                    return false;
-//                }
-//            });
-//            tv_count.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-//                    EditText et = (EditText) v;
-//                    if (mCountWatcher == null) {
-//                        mCountWatcher = new MyWatcher(1,id);
-//                    }
-//                    if (hasFocus) {
-//                        et.addTextChangedListener(mCountWatcher);
-//                    } else {
-//                        et.removeTextChangedListener(mCountWatcher);
-//                        mCountWatcher = null;
-//                    }
-//                }
-//            });
-//            if (totalMap.containsKey(id)) {
-//                tv_total_money.setText(totalMap.get(id));
-//            }else{
-//                tv_total_money.setText("");
-//            }
-//        }
-//
-//        class MyWatcher implements TextWatcher {
-//            int type;
-//            String id;
-//            public MyWatcher(int type, String id) {
-//                this.type = type;
-//                this.id = id;
-//            }
-//
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count,
-//                                          int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before,
-//                                      int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (type == 0) {
-//                    float price = s.toString().isEmpty() ? 0f : Float.parseFloat(s.toString());
-//                    int count = tv_count.getText().toString().trim().isEmpty() ?
-//                            0 : Integer.parseInt(tv_count.getText().toString().trim());
-//                    float total = price * count;
-//                    priceMap.put(id, price + "");
-//                    totalMap.put(id, total + "");
-//                  //  tv_total_money.setText(total + "");
-//                } else {
-//                    float price = tv_price.getText().toString().trim().isEmpty() ?
-//                            0f : Integer.parseInt(tv_price.getText().toString().trim());
-//                    int count = s.toString().isEmpty() ? 0 : Integer.parseInt(s.toString());
-//                    float total = price * count;
-//                    countMap.put(id, count + "");
-//                    totalMap.put(id, total + "");
-//                //    tv_total_money.setText(total + "");
-//
-//                }
-//                notifyDataSetChanged();
-//            }
-//
-//        }
-//       }
+
+    private void getAttachPart() {
+        String token = SPUtils.getString(this, SpKey.TOKEN, "");
+        Network.getApiService().getAttachOrder(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<AttachOrderResponseBean>() {
+                    @Override
+                    public void onNext(AttachOrderResponseBean bean) {
+                        if (ErrorCode.SUCCEED.equals(bean.getError_code())) {
+                            List<AttachOrderResponseBean.AttachOrder> list = bean.getAttachPartList();
+                            if (list != null && !list.isEmpty()) {
+                                for (AttachOrderResponseBean.AttachOrder attachOrder : list) {
+                                    Order order = new Order();
+                                    order.setId(attachOrder.getId());
+                                    order.setPart_name(attachOrder.getPart_name());
+                                    order.setPart_img_short(attachOrder.getPart_img_short());
+                                    order.setPart_brand(attachOrder.getPart_brand());
+                                    order.setType(attachOrder.getType_name());
+                                    order.setPart_code(attachOrder.getPart_name());
+                                    if (priceMap.containsKey(order.getPart_name())) {
+                                        order.setPrice(priceMap.get(order.getPart_name()));
+                                    } else {
+                                        order.setPrice("");
+                                    }
+                                    order.setCount("0");
+                                    order.setTotalMoney("0.0");
+                                    order.setPart_unit(attachOrder.getPart_unit());
+                                    mList.add(order);
+                                }
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                });
+    }
 }

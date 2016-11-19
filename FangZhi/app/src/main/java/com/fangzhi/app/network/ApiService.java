@@ -1,6 +1,7 @@
 package com.fangzhi.app.network;
 
 import com.fangzhi.app.bean.Area;
+import com.fangzhi.app.bean.AttachOrderResponseBean;
 import com.fangzhi.app.bean.BaseResponseBean;
 import com.fangzhi.app.bean.CategoryPart;
 import com.fangzhi.app.bean.CategoryPartRoomBean;
@@ -141,4 +142,7 @@ public interface ApiService {
 
     @GET(ApiUrl.GET_3_D)
     Observable<DDDTypeResponseBean> getDDDtypes(@Header("token") String token, @Query("caseTypeID") String caseTypeId);
+
+    @GET(ApiUrl.GET_ATTACH_PART)
+    Observable<AttachOrderResponseBean> getAttachOrder(@Header("token") String token);
 }

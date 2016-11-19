@@ -21,7 +21,6 @@ import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.scene.SceneActivity;
-import com.fangzhi.app.main.window_type.WindowTypeActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
@@ -164,18 +163,18 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
 //                } else {
 //                    intent.setClass(HouseTypeDetailActivity.this, SceneActivity.class);
 //                }
-                if (!mHasSonList.isEmpty()) {
-                    if (houseTypeDetail.getSonList() != null
-                            && !houseTypeDetail.getSonList().isEmpty()) {
-                        bundle.putSerializable("window_types", mHasSonList);
-                        intent.setClass(HouseTypeDetailActivity.this, WindowTypeActivity.class);
-                    } else {
-                        T.showShort(HouseTypeDetailActivity.this, "该房间暂无场景，请选择其他房间");
-                        return;
-                    }
-                } else {
-                    intent.setClass(HouseTypeDetailActivity.this, SceneActivity.class);
-                }
+//                if (!mHasSonList.isEmpty()) {
+//                    if (houseTypeDetail.getSonList() != null
+//                            && !houseTypeDetail.getSonList().isEmpty()) {
+//                        bundle.putSerializable("window_types", mHasSonList);
+//                        intent.setClass(HouseTypeDetailActivity.this, WindowTypeActivity.class);
+//                    } else {
+//                        T.showShort(HouseTypeDetailActivity.this, "该房间暂无场景，请选择其他房间");
+//                        return;
+//                    }
+//                } else {
+                intent.setClass(HouseTypeDetailActivity.this, SceneActivity.class);
+                //               }
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

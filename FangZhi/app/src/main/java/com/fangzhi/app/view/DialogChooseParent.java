@@ -12,7 +12,6 @@ import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.LoginNewBean;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.tools.DensityUtils;
 import com.fangzhi.app.tools.SPUtils;
 
 import java.util.List;
@@ -38,10 +37,12 @@ public class DialogChooseParent extends Dialog {
             tempButton.setBackgroundResource(R.drawable.radio_parent_selector);   // 设置RadioButton的背景图片
             tempButton.setButtonDrawable(android.R.color.transparent);           // 设置按钮的样式
             tempButton.setText(bean.getNAME());
-            tempButton.setTextSize(DensityUtils.px2sp(context, 40));
+            tempButton.setTextSize(13);
+            tempButton.setPadding(0,20,0,20);
             tempButton.setGravity(Gravity.CENTER);
             tempButton.setChecked(bean.isSelected());
-            radioGroup.addView(tempButton, RadioGroup.LayoutParams.MATCH_PARENT, 131);
+            radioGroup.addView(tempButton, RadioGroup.LayoutParams.MATCH_PARENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT);
         }
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

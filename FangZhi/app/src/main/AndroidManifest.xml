@@ -90,7 +90,8 @@
         <activity
             android:name=".main.list.ListOrderActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppBaseTheme" />
+            android:theme="@style/AppBaseTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".main.custom.CustomActivity"
             android:screenOrientation="landscape"
