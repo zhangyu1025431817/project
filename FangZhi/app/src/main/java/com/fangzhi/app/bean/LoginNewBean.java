@@ -47,7 +47,17 @@ public class LoginNewBean extends BaseResponseBean {
         String NAME;
         String ID;
         String URL;
+        String USER_IMG;
         boolean isSelected;
+
+
+        public String getUSER_IMG() {
+            return USER_IMG;
+        }
+
+        public void setUSER_IMG(String USER_IMG) {
+            this.USER_IMG = USER_IMG;
+        }
 
         public String getURL() {
             return URL;

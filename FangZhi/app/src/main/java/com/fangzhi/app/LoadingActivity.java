@@ -15,13 +15,11 @@ import android.widget.ImageView;
 
 import com.amap.api.location.AMapLocationClient;
 import com.fangzhi.app.bean.UpdateVersion;
-import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.network.MySubscriber;
 import com.fangzhi.app.network.Network;
 import com.fangzhi.app.network.http.api.ErrorCode;
 import com.fangzhi.app.tools.SDCardUtils;
-import com.fangzhi.app.tools.SPUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
 import com.zhy.m.permission.MPermissions;
@@ -45,8 +43,10 @@ import rx.schedulers.Schedulers;
  * Created by smacr on 2016/8/29.
  */
 public class LoadingActivity extends AppCompatActivity {
+    private static final String AMapApiKey = "9ecad00ea95543d902c3820868a03d03";
     private Subscription mSubscription;
-    private static final int REQUECT_CODE_SDCARD = 2;
+    private static final int REQUEST_CODE_SDCARD = 2;
+    private static final int REQUEST_LOG = 3;
     private Subscription mDownloadSp;
     @Bind(R.id.iv_bg)
     ImageView ivBackground;
@@ -56,7 +56,8 @@ public class LoadingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AMapLocationClient.setApiKey("9ecad00ea95543d902c3820868a03d03");
+        //初始化高德地图
+        AMapLocationClient.setApiKey(AMapApiKey);
         setContentView(R.layout.activity_loading);
         ButterKnife.bind(this);
         if (Build.VERSION.SDK_INT >= 21) {
@@ -65,25 +66,24 @@ public class LoadingActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-
         }
 
         /**
-         * 延迟两秒页面跳转
+         * 延迟1秒页面跳转
          * 使用了RxAndroid
          */
         mSubscription = Observable
-                .just((String) SPUtils.get(MyApplication.getContext(), SpKey.TOKEN, ""))
-                .delay(2, TimeUnit.SECONDS)
+                .just("")
+                .delay(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                        //请求权限
+                        //请求读写sd卡权限
                         if (!MPermissions.shouldShowRequestPermissionRationale(LoadingActivity.this,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUECT_CODE_SDCARD)) {
-                            MPermissions.requestPermissions(LoadingActivity.this, REQUECT_CODE_SDCARD,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_CODE_SDCARD)) {
+                            MPermissions.requestPermissions(LoadingActivity.this, REQUEST_CODE_SDCARD,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE);
                         }
                     }
@@ -100,6 +100,9 @@ public class LoadingActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 请求版本号
+     */
     private void requestVersionCode() {
         mDownloadSp = Network.getApiService().updateVersion("A").subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new MySubscriber<UpdateVersion>() {
@@ -196,12 +199,12 @@ public class LoadingActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @PermissionGrant(REQUECT_CODE_SDCARD)
+    @PermissionGrant(REQUEST_CODE_SDCARD)
     public void requestSdcardSuccess() {
         requestVersionCode();
     }
 
-    @PermissionDenied(REQUECT_CODE_SDCARD)
+    @PermissionDenied(REQUEST_CODE_SDCARD)
     public void requestSdcardFailed() {
         startActivity(new Intent(LoadingActivity.this, LoginActivity.class));
         finish();

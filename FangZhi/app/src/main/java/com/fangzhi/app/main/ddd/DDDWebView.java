@@ -91,4 +91,17 @@ public class DDDWebView extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (xWalkWebView  != null) {
+            xWalkWebView .onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (xWalkWebView != null) {
+            xWalkWebView.onNewIntent(intent);
+        }
+    }
 }

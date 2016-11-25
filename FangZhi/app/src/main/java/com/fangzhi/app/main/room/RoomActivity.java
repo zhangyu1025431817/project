@@ -143,7 +143,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 order.setType(part.getType_name());
                 order.setPart_code(part.getPart_name());
                 order.setPrice("");
-                order.setCount("0");
+                order.setCount("");
                 order.setTotalMoney("0.0");
                 order.setPart_unit(part.getPart_unit());
                 productMap.put(part.getOrder_num(), order);
@@ -537,7 +537,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         order.setType(product.getType_name());
         order.setPart_code(product.getPart_name());
         order.setPrice("");
-        order.setCount("0");
+        order.setCount("");
         order.setTotalMoney("0.0");
         order.setPart_unit(product.getPart_unit());
         productMap.put(mCurrentIndex, order);

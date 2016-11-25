@@ -33,54 +33,6 @@
                 android:text="选择城市"
                 android:textColor="#646464"
                 android:textSize="40px" />
-
-            <TextView
-                android:id="@+id/bai_ye"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20px"
-                android:background="@drawable/shape_gray_border"
-                android:paddingBottom="16px"
-                android:paddingLeft="30px"
-                android:paddingRight="30px"
-                android:paddingTop="16px"
-                android:text="百叶"
-                android:textColor="@color/text_gray_white"
-                android:textSize="30px" />
-
-            <TextView
-                android:id="@+id/gua_gan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20px"
-                android:layout_toLeftOf="@id/bai_ye"
-                android:background="@drawable/shape_gray_border"
-                android:paddingBottom="16px"
-                android:paddingLeft="30px"
-                android:paddingRight="30px"
-                android:paddingTop="16px"
-                android:text="挂杆"
-                android:textColor="@color/text_gray_white"
-                android:textSize="30px" />
-
-            <TextView
-                android:id="@+id/lian_tou"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20px"
-                android:layout_toLeftOf="@id/gua_gan"
-                android:background="@drawable/shape_gray_border"
-                android:paddingBottom="16px"
-                android:paddingLeft="30px"
-                android:paddingRight="30px"
-                android:paddingTop="16px"
-                android:text="帘头"
-                android:textColor="@color/text_gray_white"
-                android:textSize="30px" />
         </com.zhy.autolayout.AutoRelativeLayout>
 
         <View

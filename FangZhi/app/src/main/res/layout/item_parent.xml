@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv_name"
-    android:gravity="center"
-    android:layout_marginTop="30px"
-    android:textSize="30px"
-    android:padding="30px"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_bg"
+    android:layout_width="988px"
+    android:layout_height="258px">
+
+    <TextView
+        android:id="@+id/tv_brand"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="82px"
+        android:gravity="center"
+        android:textSize="76px" />
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -17,16 +17,18 @@ public class ParentViewHolder extends BaseViewHolder<LoginNewBean.Parent> {
     public ParentViewHolder(ViewGroup parent) {
         super(parent, R.layout.item_parent);
         AutoUtils.autoSize(itemView);
-        textView = $(R.id.tv_name);
+        textView = $(R.id.tv_brand);
     }
 
     @Override
     public void setData(LoginNewBean.Parent data) {
         textView.setText(data.getNAME());
         if (data.isSelected()) {
-            textView.setBackgroundColor(getContext().getResources().getColor(R.color.alpha_green));
+            textView.setBackground(getContext().getResources().getDrawable(R.drawable.btn_brand_p));
+            textView.setTextColor(getContext().getResources().getColor(R.color.colorWhite));
         } else {
-            textView.setBackgroundColor(getContext().getResources().getColor(R.color.white));
+            textView.setBackground(getContext().getResources().getDrawable(R.drawable.btn_brand_n));
+            textView.setTextColor(getContext().getResources().getColor(R.color.black_3c3c3c));
         }
     }
 }

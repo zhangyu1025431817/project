@@ -3,9 +3,7 @@ package com.fangzhi.app;
 import android.app.ActivityManager;
 import android.content.Context;
 
-import com.fangzhi.app.network.MyLoggerInterceptor;
-import com.fangzhi.app.tools.logger.LogLevel;
-import com.fangzhi.app.tools.logger.Logger;
+import com.fangzhi.app.network.LoggingInterceptor;
 import com.zhy.autolayout.config.AutoLayoutConifg;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -21,23 +19,28 @@ import okhttp3.OkHttpClient;
  */
 public class MyApplication extends LitePalApplication {
     private static final String MAIN_PROCESS = "com.fangzhi.app";
-    private static Context mContext;
+    private static Context mContext ;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = getApplicationContext();
         String processName = getProcessName(this, android.os.Process.myPid());
         if (processName != null) {
             if (MAIN_PROCESS.equals(processName)) {
+          //      File cacheFile = new File(getCacheDir(), "Test");
+             //   Cache cache = new Cache(cacheFile, 1024 * 1024 * 10);
                 AutoLayoutConifg.getInstance().useDeviceSize();
                 //配置
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .addInterceptor(new MyLoggerInterceptor("", true))
+                        .addInterceptor(new LoggingInterceptor(true))
+//                        .cache(cache)
+//                        .addInterceptor(new CacheInterceptor())
+//                        .addNetworkInterceptor(new CacheInterceptor())
                         .connectTimeout(10000L, TimeUnit.MILLISECONDS)
                         .readTimeout(10000L, TimeUnit.MILLISECONDS)
                         .build();
                 OkHttpUtils.initClient(okHttpClient);
-                mContext = getApplicationContext();
             }
         }
     }

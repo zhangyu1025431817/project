@@ -87,6 +87,7 @@
         android:drawableRight="@drawable/icon_plus_button"
         android:background="@color/transparent"
         android:gravity="center"
+        android:hint="0"
         android:textCursorDrawable="@null"
         android:padding="10px" />
 

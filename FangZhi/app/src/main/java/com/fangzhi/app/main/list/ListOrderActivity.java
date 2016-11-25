@@ -30,6 +30,7 @@ import com.fangzhi.app.network.MySubscriber;
 import com.fangzhi.app.network.Network;
 import com.fangzhi.app.network.http.api.ErrorCode;
 import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.XEditText;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -100,14 +101,7 @@ public class ListOrderActivity extends AppCompatActivity {
 //                }
 //            }
         }
-        //联系厂家那个按钮显示与否
-        String url = SPUtils.getString(MyApplication.getContext(),
-                SpKey.FACTORY_ADDRESS, "");
-        if (url.isEmpty()) {
-            tvAddress.setVisibility(View.GONE);
-        } else {
-            tvAddress.setVisibility(View.VISIBLE);
-        }
+
         listView.setAdapter(mAdapter = new MyAdapter());
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -164,8 +158,13 @@ public class ListOrderActivity extends AppCompatActivity {
 
     @OnClick(R.id.tv_contact_factory)
     public void onGoto() {
+        //联系厂家那个按钮显示与否
         String url = SPUtils.getString(MyApplication.getContext(),
                 SpKey.FACTORY_ADDRESS, "");
+        if (url.isEmpty()) {
+            T.showShort(this, "暂未提供");
+            return;
+        }
         Intent intent = new Intent();
         intent.setAction("android.intent.action.VIEW");
         Uri content_url = Uri.parse(url);
@@ -226,7 +225,12 @@ public class ListOrderActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             price = 0f;
                         }
-                        int count = Integer.parseInt(bean.getCount());
+                        int count;
+                        try {
+                            count = Integer.parseInt(bean.getCount().isEmpty() ? "0" : bean.getCount());
+                        }catch (Exception e){
+                            count = 0;
+                        }
                         float total = price * count;
                         if (price == 0f) {
                             bean.setPrice("");
@@ -277,17 +281,29 @@ public class ListOrderActivity extends AppCompatActivity {
                 holder.tv_count.setDrawableLeftListener(new XEditText.DrawableLeftListener() {
                     @Override
                     public void onDrawableLeftClick(View view) {
-                        int number = Integer.parseInt(holder.tv_count.getText().toString());
+                        int number;
+                        try{
+                            number = Integer.parseInt(holder.tv_count.getText().toString());
+                        }catch (Exception e){
+                            number = 0;
+                        }
                         number = number - 1;
-                        if (number >= 0) {
+                        if (number > 0) {
                             holder.tv_count.setText(number + "");
+                        } else {
+                            holder.tv_count.setText("");
                         }
                     }
                 });
                 holder.tv_count.setDrawableRightListener(new XEditText.DrawableRightListener() {
                     @Override
                     public void onDrawableRightClick(View view) {
-                        int number = Integer.parseInt(holder.tv_count.getText().toString());
+                        int number;
+                        try{
+                            number = Integer.parseInt(holder.tv_count.getText().toString());
+                        }catch (Exception e){
+                            number = 0;
+                        }
                         number = number + 1;
                         holder.tv_count.setText(number + "");
                     }
@@ -361,7 +377,7 @@ public class ListOrderActivity extends AppCompatActivity {
                                     } else {
                                         order.setPrice("");
                                     }
-                                    order.setCount("0");
+                                    order.setCount("");
                                     order.setTotalMoney("0.0");
                                     order.setPart_unit(attachOrder.getPart_unit());
                                     mList.add(order);
