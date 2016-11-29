@@ -11,10 +11,10 @@ import com.fangzhi.app.MyApplication;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.bean.LoginNewBean;
-import com.fangzhi.app.config.FactoryListInfo;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.main.MainActivity;
 import com.fangzhi.app.main.welcome.CustomActivity;
+import com.fangzhi.app.manager.AccountManager;
 import com.fangzhi.app.network.MySubscriber;
 import com.fangzhi.app.network.Network;
 import com.fangzhi.app.network.http.api.ErrorCode;
@@ -43,21 +43,13 @@ public class ParentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (Build.VERSION.SDK_INT >= 21) {
-//            View decorView = getWindow().getDecorView();
-//            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-//            decorView.setSystemUiVisibility(option);
-//            getWindow().setStatusBarColor(Color.TRANSPARENT);
-//        }else{
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-  //      }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_parent);
         ButterKnife.bind(this);
 
         mAdapter = new ParentAdapter(this);
-        mAdapter.addAll(FactoryListInfo.parentList);
+        mAdapter.addAll(AccountManager.getInstance().getParentList());
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -69,10 +61,13 @@ public class ParentActivity extends AppCompatActivity {
                 for (LoginNewBean.Parent bean : mAdapter.getAllData()) {
                     bean.setSelected(false);
                 }
-                mAdapter.getItem(position).setSelected(true);
+                parent.setSelected(true);
                 mAdapter.notifyDataSetChanged();
                 dialogDelegate.showProgressDialog(true, "正在提交...");
-                loginParent(mAdapter.getItem(position).getID(), mAdapter.getItem(position).getURL());
+                loginParent(
+                        parent.getNAME(),
+                        parent.getID(),
+                        parent.getURL());
             }
         });
         easyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,7 +75,7 @@ public class ParentActivity extends AppCompatActivity {
         dialogDelegate = new SweetAlertDialogDelegate(this);
     }
 
-    private void loginParent(String parentId, final String url) {
+    private void loginParent(final String name, final String parentId, final String url) {
         String token = SPUtils.getString(this, SpKey.TOKEN, "");
         String userId = SPUtils.getString(this, SpKey.USER_ID, "");
         Network.getApiService().loginParent(token, parentId, userId)
@@ -103,6 +98,8 @@ public class ParentActivity extends AppCompatActivity {
                             SPUtils.put(MyApplication.getContext(),
                                     SpKey.FACTORY_ADDRESS, url == null ? "" : url)
                             ;
+                            AccountManager.getInstance().setCurrentSelectParentId(parentId);
+                            AccountManager.getInstance().setCurrentParentName(name);
                             startActivity(intent);
                             ParentActivity.this.finish();
                         } else {
@@ -117,7 +114,7 @@ public class ParentActivity extends AppCompatActivity {
                 });
     }
 
-//    @Override
+    //    @Override
 //    public void onWindowFocusChanged(boolean hasFocus) {
 //        super.onWindowFocusChanged(hasFocus);
 //        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
@@ -132,7 +129,7 @@ public class ParentActivity extends AppCompatActivity {
 //        }
 //    }
     @OnClick(R.id.iv_close)
-    public void onFinish(){
+    public void onFinish() {
         finish();
     }
 }

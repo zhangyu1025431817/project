@@ -1,13 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/bg_common"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <include layout="@layout/view_base_title" />
+
+    <com.jude.rollviewpager.RollPagerView
+        android:id="@+id/roll_pager_view"
+        android:layout_width="2518px"
+        android:layout_height="984px"
+        android:layout_margin="20px" />
+
+    <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
-        android:background="?attr/colorAccent"
-        android:layout_height="?attr/actionBarSize"/>
-</LinearLayout>
+        android:layout_height="378px"
+        android:layout_margin="20px"
+        android:orientation="horizontal">
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_house_material"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#9ed4ff">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_text_1px_bg"
+                android:gravity="center"
+                android:padding="40px"
+                android:text="家装建材"
+                android:textSize="44px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <Space
+            android:layout_width="29px"
+            android:layout_height="match_parent" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_scene_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#bbc4e7">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_text_1px_bg"
+                android:gravity="center"
+                android:padding="40px"
+                android:text="场景风格"
+                android:textSize="44px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <Space
+            android:layout_width="29px"
+            android:layout_height="match_parent" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_house_location"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#f8d0b4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_text_1px_bg"
+                android:gravity="center"
+                android:padding="40px"
+                android:text="楼盘定位"
+                android:textSize="44px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <Space
+            android:layout_width="29px"
+            android:layout_height="match_parent" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_3d"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffadad">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_text_1px_bg"
+                android:gravity="center"
+                android:padding="40px"
+                android:text="3D展示"
+                android:textSize="44px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <Space
+            android:layout_width="29px"
+            android:layout_height="match_parent" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_sample"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#bbe7c4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_text_1px_bg"
+                android:gravity="center"
+                android:padding="40px"
+                android:text="真实案例"
+                android:textSize="44px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

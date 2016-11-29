@@ -5,6 +5,7 @@ import com.fangzhi.app.bean.AttachOrderResponseBean;
 import com.fangzhi.app.bean.BaseResponseBean;
 import com.fangzhi.app.bean.CategoryPart;
 import com.fangzhi.app.bean.CategoryPartRoomBean;
+import com.fangzhi.app.bean.CellGraphResponseBean;
 import com.fangzhi.app.bean.CountyHouses;
 import com.fangzhi.app.bean.DDDTypeResponseBean;
 import com.fangzhi.app.bean.FitmentTypeResponseBean;
@@ -145,4 +146,6 @@ public interface ApiService {
 
     @GET(ApiUrl.GET_ATTACH_PART)
     Observable<AttachOrderResponseBean> getAttachOrder(@Header("token") String token);
+    @GET(ApiUrl.QUERY_CELL_GRAPH)
+    Observable<CellGraphResponseBean> queryCellGraph(@Header("token") String token,@Query("partId") String partId);
 }

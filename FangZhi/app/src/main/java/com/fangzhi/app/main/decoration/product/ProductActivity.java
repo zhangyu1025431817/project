@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -17,14 +19,12 @@ import com.fangzhi.app.bean.RoomProductType;
 import com.fangzhi.app.bean.Scene;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
-import com.fangzhi.app.main.adapter.HomeCategoryTypeAdapter;
 import com.fangzhi.app.main.adapter.HomeCategoryTypePartAdapter;
-import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.room.RoomActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
-import com.fangzhi.app.view.ClearEditText;
 import com.fangzhi.app.view.DialogDelegate;
+import com.fangzhi.app.view.SearchEditText;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -39,22 +39,22 @@ import butterknife.OnClick;
  * Created by smacr on 2016/10/22.
  */
 public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel> implements ProductContract.View {
-    @Bind(R.id.recycler_view_type)
-    EasyRecyclerView recyclerViewType;
+
     @Bind(R.id.recycler_view_product)
     EasyRecyclerView recyclerViewProduct;
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.et_keyword)
-    ClearEditText etKeyword;
+    SearchEditText etKeyword;
+    @Bind(R.id.tv_cancel)
+    TextView tvCancel;
     DialogDelegate dialogDelegate;
     private String mCategoryId;
     private String mCurrentPartId;
     private String mCurrentTypeId;
     CategoryPart.HotType mCurrentCategoryType;
-    HomeCategoryTypeAdapter homeCategoryTypeAdapter;
     HomeCategoryTypePartAdapter homeCategoryTypePartAdapter;
-
+    private int mLastSelectPosition = -1;
     @Override
     public int getLayoutId() {
         return R.layout.activity_category_type;
@@ -67,47 +67,61 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
         String title = intent.getStringExtra("title");
         tvTitle.setText(title);
 
-        recyclerViewType.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
-        homeCategoryTypeAdapter = new HomeCategoryTypeAdapter(this);
-        homeCategoryTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                CategoryPart.HotType data = homeCategoryTypeAdapter.getItem(position);
-                if (data.isSelected()) {
-                    return;
-                }
-                for (CategoryPart.HotType bean : homeCategoryTypeAdapter.getAllData()) {
-                    bean.setSelected(false);
-                }
-                selectType(position);
-            }
-        });
-        recyclerViewType.setAdapterWithProgress(homeCategoryTypeAdapter);
         recyclerViewProduct.setLayoutManager(new GridLayoutManager(this, 4));
         homeCategoryTypePartAdapter = new HomeCategoryTypePartAdapter(this);
-        homeCategoryTypePartAdapter.setOnItemClickListener(new NoDoubleClickListener() {
+        homeCategoryTypePartAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
-            public void onNoDoubleClick(int position) {
-                dialogDelegate.showProgressDialog(true, "初始化场景...");
-                mCurrentPartId = homeCategoryTypePartAdapter.getItem(position).getId();
-                mCurrentTypeId = String.valueOf(homeCategoryTypePartAdapter.getItem(position).getType_id());
-                mPresenter.getScene();
+            public void onItemClick(int position) {
+//                dialogDelegate.showProgressDialog(true, "初始化场景...");
+//                mCurrentPartId = homeCategoryTypePartAdapter.getItem(position).getId();
+//                mCurrentTypeId = String.valueOf(homeCategoryTypePartAdapter.getItem(position).getType_id());
+//                mPresenter.getScene();
+                if(mLastSelectPosition == position){
+                    return;
+                }
+                if(mLastSelectPosition != -1) {
+                    CategoryPart.Part lastPart = homeCategoryTypePartAdapter.getItem(mLastSelectPosition);
+                    lastPart.setSelected(false);
+                    homeCategoryTypePartAdapter.notifyItemChanged(mLastSelectPosition);
+                }
+
+                mLastSelectPosition = position;
+                CategoryPart.Part part =  homeCategoryTypePartAdapter.getItem(position);
+                part.setSelected(true);
+                homeCategoryTypePartAdapter.notifyItemChanged(position);
             }
         });
         recyclerViewProduct.setAdapterWithProgress(homeCategoryTypePartAdapter);
 
         mPresenter.getPartList();
-        etKeyword.addOnClearListener(new ClearEditText.OnClearListener() {
+        etKeyword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClear() {
-                if (mCurrentCategoryType != null) {
-                    homeCategoryTypePartAdapter.clear();
-                    homeCategoryTypePartAdapter.addAll(mCurrentCategoryType.getSonList());
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    tvCancel.setVisibility(View.VISIBLE);
+                } else {
+                    tvCancel.setVisibility(View.GONE);
+                    closeKeyboard();
                 }
-                closeKeyboard();
             }
         });
         dialogDelegate = new SweetAlertDialogDelegate(this);
+    }
+
+    @OnClick(R.id.tv_cancel)
+    public void onClearEditText() {
+        etKeyword.setText("");
+        etKeyword.clearFocus();
     }
 
     @Override
@@ -144,25 +158,29 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
         return mCurrentPartId;
     }
 
+    private List<CategoryPart.Part> mPartList = new ArrayList<>();
     @Override
     public void showCategoryList(List<CategoryPart.HotType> list) {
-
         if (list != null && list.size() > 0) {
-            homeCategoryTypeAdapter.addAll(list);
-            selectType(0);
+           for(CategoryPart.HotType hotType : list){
+               List<CategoryPart.Part> partList = (List<CategoryPart.Part>) hotType.getSonList();
+               if(partList != null && !partList.isEmpty()){
+                   mPartList.addAll(partList);
+               }
+           }
         }
-
+        homeCategoryTypePartAdapter.addAll(mPartList);
     }
 
     private void selectType(int position) {
-        List<CategoryPart.HotType> list = homeCategoryTypeAdapter.getAllData();
-        CategoryPart.HotType type = list.get(position);
-        type.setSelected(true);
-        homeCategoryTypeAdapter.notifyDataSetChanged();
-        mCurrentCategoryType = type;
-        List<CategoryPart.Part> partList = (List<CategoryPart.Part>) type.getSonList();
-        homeCategoryTypePartAdapter.clear();
-        homeCategoryTypePartAdapter.addAll(partList);
+//        List<CategoryPart.HotType> list = homeCategoryTypeAdapter.getAllData();
+//        CategoryPart.HotType type = list.get(position);
+//        type.setSelected(true);
+//        homeCategoryTypeAdapter.notifyDataSetChanged();
+//        mCurrentCategoryType = type;
+//        List<CategoryPart.Part> partList = (List<CategoryPart.Part>) type.getSonList();
+//        homeCategoryTypePartAdapter.clear();
+//        homeCategoryTypePartAdapter.addAll(partList);
     }
 
     @Override

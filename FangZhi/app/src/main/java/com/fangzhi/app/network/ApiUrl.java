@@ -117,4 +117,8 @@ public class ApiUrl {
      * 获取附属部件列表
      */
     public static final String GET_ATTACH_PART = "fznet/fzapp/FangzhiAction/getAttachPartList.json";
+    /**
+     *查询单元图
+     */
+    public static final String QUERY_CELL_GRAPH = "fznet/fzmangge/FzUser/queryCellGraph.json";
  }

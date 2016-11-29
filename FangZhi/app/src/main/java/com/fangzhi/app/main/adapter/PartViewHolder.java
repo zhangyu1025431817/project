@@ -33,7 +33,7 @@ public class PartViewHolder extends BaseViewHolder<RoomProduct> {
                 .into(iv_product);
         view_cover.setText(data.getPart_name());
         if(data.isSelected()){
-            view_cover.setBackgroundResource(R.drawable.iv_cover);
+            view_cover.setBackgroundResource(R.drawable.iv_cover_green);
         }else{
             view_cover.setBackgroundResource(R.color.transparent);
         }

@@ -1,25 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="600px"
-    android:clickable="true"
-    android:layout_margin="16px"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardElevation="16px">
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_part"
+    android:layout_width="594px"
+    android:layout_height="674px"
+    android:layout_margin="20px"
+    android:background="@drawable/bg_part_normal"
+    >
 
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="594px"
         android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal|bottom"
-        android:paddingBottom="40px"
+        android:layout_height="38px"
+        android:layout_alignBottom="@id/iv_image"
+        android:background="@color/half_gray"
+        android:gravity="center"
         android:text="翡翠城"
-        android:textSize="40px" />
-</com.fangzhi.app.view.AutoCardView>
+        android:textColor="@color/black_3c3c3c"
+        android:textSize="22px" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:layout_below="@id/iv_image"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_diy"
+            android:layout_width="188px"
+            android:layout_height="48px"
+            android:background="@drawable/btn_blue"
+            android:text="DIY展示"
+            android:textColor="@color/colorWhite"
+            android:textSize="22px" />
+
+        <Space
+            android:layout_width="144px"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/btn_style"
+            android:layout_width="188px"
+            android:layout_height="48px"
+            android:background="@drawable/btn_blue"
+            android:text="款式展示"
+            android:textColor="@color/colorWhite"
+            android:textSize="22px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

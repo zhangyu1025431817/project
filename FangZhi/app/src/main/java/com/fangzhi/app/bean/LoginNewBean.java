@@ -10,6 +10,15 @@ public class LoginNewBean extends BaseResponseBean {
     String userID;
     String img;
     List<Parent> parentList;
+    List<BannerMain> carouselList;
+
+    public List<BannerMain> getCarouselList() {
+        return carouselList;
+    }
+
+    public void setCarouselList(List<BannerMain> carouselList) {
+        this.carouselList = carouselList;
+    }
 
     public String getImg() {
         return img;

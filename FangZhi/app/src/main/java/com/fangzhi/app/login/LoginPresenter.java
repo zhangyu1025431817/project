@@ -6,6 +6,7 @@ import com.fangzhi.app.bean.LocationArea;
 import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.bean.LoginNewBean;
 import com.fangzhi.app.config.SpKey;
+import com.fangzhi.app.manager.AccountManager;
 import com.fangzhi.app.network.MySubscriber;
 import com.fangzhi.app.network.http.api.ErrorCode;
 import com.fangzhi.app.tools.SPUtils;
@@ -65,6 +66,9 @@ public class LoginPresenter extends LoginContract.Presenter {
                                 SPUtils.put(MyApplication.getContext(),
                                         SpKey.FACTORY_ADDRESS, address == null ? "" : address)
                                 ;
+                                AccountManager.getInstance().setParentList(list);
+                                AccountManager.getInstance().setBannerList(loginBean.getCarouselList());
+                                AccountManager.getInstance().setCurrentParentName(list.get(0).getNAME());
                             }
                             mView.loginSucceed(loginBean.getImg());
                         } else if (ErrorCode.PARENT_MULTIPLE.equals(loginBean.getError_code())) {
@@ -72,7 +76,16 @@ public class LoginPresenter extends LoginContract.Presenter {
                             SPUtils.put(MyApplication.getContext(), SpKey.USER_NAME, mView.getPhoneNumber());
                             SPUtils.put(MyApplication.getContext(), SpKey.PASSWORD, mView.getPassword());
                             SPUtils.put(MyApplication.getContext(), SpKey.USER_ID, loginBean.getUserID());
-                            mView.loginSucceedMultiple(loginBean.getParentList());
+                            List<LoginNewBean.Parent> list = loginBean.getParentList();
+                            if (list != null && !list.isEmpty()) {
+                                String address = list.get(0).getURL();
+                                SPUtils.put(MyApplication.getContext(),
+                                        SpKey.FACTORY_ADDRESS, address == null ? "" : address)
+                                ;
+                                AccountManager.getInstance().setParentList(list);
+                                AccountManager.getInstance().setBannerList(loginBean.getCarouselList());                            mView.loginSucceedMultiple();
+                            }
+                            mView.loginSucceedMultiple();
                         } else {
                             mView.loginFailed(loginBean.getMsg());
                         }

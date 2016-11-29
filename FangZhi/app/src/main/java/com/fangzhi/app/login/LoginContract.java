@@ -61,7 +61,7 @@ public interface LoginContract {
 
         //登录
         void loginSucceed(String img);
-        void loginSucceedMultiple(List<LoginNewBean.Parent> list);
+        void loginSucceedMultiple();
         void loginFailed(String msg);
 
         void checkMsgCodeSucceed();

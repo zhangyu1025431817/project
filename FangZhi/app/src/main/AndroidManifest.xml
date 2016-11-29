@@ -138,7 +138,9 @@
             android:name=".main.ddd.DDView"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
-
+        <activity android:name=".main.decoration.product.PictureActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <meta-data
             android:name="design_width"
             android:value="2560" />

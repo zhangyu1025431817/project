@@ -5,14 +5,26 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/action_search"
-        android:title="title"
-        android:orderInCategory="100"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:title="title"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+        android:id="@+id/action_more"
+        android:actionProviderClass="android.widget.ShareActionProvider"
+        android:icon="@drawable/icon_more"
+        android:title="@string/_more"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/action_change_parent"
+                    android:title="厂家切换"
+                    app:showAsAction="ifRoom" />
+                <item
+                    android:id="@+id/action_contact_us"
+                    android:title="联系我们"
+                    app:showAsAction="ifRoom" />
+                <item
+                    android:id="@+id/action_exit"
+                    android:title="退出"
+                    app:showAsAction="ifRoom" />
+            </group>
+        </menu>
+    </item>
 </menu>

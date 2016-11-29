@@ -2,7 +2,7 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_bg"
+    android:background="@color/bg_common"
     android:orientation="vertical">
 
     <com.zhy.autolayout.AutoLinearLayout xmlns:tools="http://schemas.android.com/tools"
@@ -12,9 +12,10 @@
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/common_bg"
-            android:paddingRight="20px">
+            android:layout_height="88px"
+            android:background="@color/colorWhite"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <ImageView
                 android:id="@+id/iv_back"
@@ -33,24 +34,44 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="选择城市"
-                android:textColor="#646464"
-                android:textSize="40px" />
+                android:textColor="@color/text_main_color"
+                android:textSize="44px" />
 
-            <com.fangzhi.app.view.ClearEditText
-                android:id="@+id/et_keyword"
-                android:layout_width="600px"
-                android:layout_height="80px"
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/bg_layout_rectangle_circle_selector"
-                android:drawableRight="@drawable/icon_search"
                 android:gravity="center_vertical"
-                android:hint="请输入您想要查找的编号"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="#333"
-                android:textColorHint="#aaa"
-                android:textSize="28px" />
+                android:orientation="horizontal"
+                android:paddingRight="40px">
+
+                <com.fangzhi.app.view.SearchEditText
+                    android:id="@+id/et_keyword"
+                    android:layout_width="630px"
+                    android:layout_height="46px"
+                    android:background="@drawable/bg_ios_search"
+                    android:drawableLeft="@drawable/icon_ios_search"
+                    android:gravity="center_vertical"
+                    android:hint="搜索"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="#333"
+                    android:textColorHint="#aaa"
+                    android:textSize="28px" />
+
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingLeft="10px"
+                    android:text="取消"
+                    android:layout_marginLeft="20px"
+                    android:textSize="28px"
+                    android:visibility="gone" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
         </com.zhy.autolayout.AutoRelativeLayout>
 
         <View
@@ -60,22 +81,9 @@
     </com.zhy.autolayout.AutoLinearLayout>
 
     <com.jude.easyrecyclerview.EasyRecyclerView
-        android:id="@+id/recycler_view_type"
-        android:layout_width="match_parent"
-        android:paddingLeft="40px"
-        android:layout_height="120px" />
-
-    <View
-        android:id="@+id/view_diver"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="10px"
-        android:layout_marginTop="10px"
-        android:background="#AAEBEBEB" />
-
-    <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view_product"
-        android:background="@drawable/bg_login"
         android:layout_width="match_parent"
+        android:paddingLeft="4px"
+        android:paddingRight="4px"
         android:layout_height="match_parent" />
 </com.zhy.autolayout.AutoLinearLayout>

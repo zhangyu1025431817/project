@@ -14,7 +14,7 @@
 
     <color name="divider">#E5E5E5</color>
     <color name="shadow">#AAEBEBEB</color>
-    <color name="common_bg">#FAFAFA</color>
+    <color name="bg_common">#F0F0F0</color>
     <color name="content_bg">#F3F3F3</color>
     <color name="gray">#8c8c8c</color>
     <color name="gray_light">#dededc</color>
@@ -31,6 +31,7 @@
     <color name="background">#e5e5e5</color>
     <color name="black_3c3c3c">#3c3c3c</color>
     <color name="half_black">#66000000</color>
+    <color name="half_gray">#66c8c8c8</color>
     <color name="white">#fafafa</color>
     <color name="white_pressed">#f1f1f1</color>
     <color name="black_press">#66707070</color>
@@ -41,4 +42,5 @@
     <color name="blue_btn">#1ba7ff</color>
     <color name="gray_btn">#e3e3e3</color>
     <color name="gray_cdcdcd">#cdcdcd</color>
+    <color name="text_main_color">#157efb</color>
 </resources>
