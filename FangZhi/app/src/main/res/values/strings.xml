@@ -39,4 +39,6 @@
     <string name="business_area">业务范围</string>
     <string name="input_password_again">再次输入新密码</string>
     <string name="get_code_again">后再次获取</string>
+    <string name="all_sample">全部案例</string>
+    <string name="all">全部</string>
 </resources>

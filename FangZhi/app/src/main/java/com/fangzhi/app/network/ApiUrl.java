@@ -121,4 +121,8 @@ public class ApiUrl {
      *查询单元图
      */
     public static final String QUERY_CELL_GRAPH = "fznet/fzmangge/FzUser/queryCellGraph.json";
+    /**
+     * 获取场景列表根据场景风格进行分组
+     */
+    public static final String GET_STYLE_SCENE = "fznet/fzapp/FangzhiAction/getStyleScenc.json";
  }

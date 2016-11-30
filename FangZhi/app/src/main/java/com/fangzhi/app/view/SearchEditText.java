@@ -14,8 +14,7 @@ import android.widget.EditText;
 /**
  * Created by smacr on 2016/11/29.
  */
-public class SearchEditText extends EditText implements View.OnFocusChangeListener,
-        View.OnKeyListener {
+public class SearchEditText extends EditText implements View.OnFocusChangeListener {
     /**
      * 图标是否默认在左边
      */
@@ -61,7 +60,6 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
 
     private void init() {
         setOnFocusChangeListener(this);
-        setOnKeyListener(this);
         clearFocus();
     }
 
@@ -92,17 +90,17 @@ public class SearchEditText extends EditText implements View.OnFocusChangeListen
         }
     }
 
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        pressSearch = (keyCode == KeyEvent.KEYCODE_ENTER);
-        if (pressSearch && listener != null) {
-/*隐藏软键盘*/
-            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm.isActive()) {
-                imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
-            }
-            listener.onSearchClick(v);
-        }
-        return false;
-    }
+//    @Override
+//    public boolean onKey(View v, int keyCode, KeyEvent event) {
+//        pressSearch = (keyCode == KeyEvent.KEYCODE_ENTER);
+//        if (pressSearch && listener != null) {
+///*隐藏软键盘*/
+//            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//            if (imm.isActive()) {
+//                imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+//            }
+//            listener.onSearchClick(v);
+//        }
+//        return false;
+//    }
 }

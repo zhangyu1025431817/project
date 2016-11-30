@@ -20,8 +20,10 @@ import com.fangzhi.app.R;
 import com.fangzhi.app.bean.BannerMain;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.ddd.BannerAdapter;
+import com.fangzhi.app.main.ddd.ThreeDimensionalActivity;
 import com.fangzhi.app.main.decoration.SellPartActivity;
 import com.fangzhi.app.main.parent.ParentActivity;
+import com.fangzhi.app.main.scenestyle.SceneStyleActivity;
 import com.fangzhi.app.manager.AccountManager;
 import com.fangzhi.app.tools.DensityUtils;
 import com.fangzhi.app.tools.ScreenUtils;
@@ -130,10 +132,12 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(this, SellPartActivity.class));
                     break;
                 case R.id.layout_scene_style:
+                    startActivity(new Intent(this, SceneStyleActivity.class));
                     break;
                 case R.id.layout_house_location:
                     break;
                 case R.id.layout_3d:
+                    startActivity(new Intent(this, ThreeDimensionalActivity.class));
                     break;
                 case R.id.layout_sample:
                     break;

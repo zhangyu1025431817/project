@@ -141,6 +141,9 @@
         <activity android:name=".main.decoration.product.PictureActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity android:name=".main.scenestyle.SceneStyleActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
         <meta-data
             android:name="design_width"
             android:value="2560" />

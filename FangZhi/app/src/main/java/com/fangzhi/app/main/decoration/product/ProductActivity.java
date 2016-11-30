@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
+import com.fangzhi.app.base.RxBus;
 import com.fangzhi.app.bean.CategoryPart;
 import com.fangzhi.app.bean.CategoryPartRoomBean;
 import com.fangzhi.app.bean.RoomProductType;
@@ -20,6 +21,7 @@ import com.fangzhi.app.bean.Scene;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HomeCategoryTypePartAdapter;
+import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.room.RoomActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
@@ -27,13 +29,13 @@ import com.fangzhi.app.view.DialogDelegate;
 import com.fangzhi.app.view.SearchEditText;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import rx.functions.Action1;
 
 /**
  * Created by smacr on 2016/10/22.
@@ -54,7 +56,6 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     private String mCurrentTypeId;
     CategoryPart.HotType mCurrentCategoryType;
     HomeCategoryTypePartAdapter homeCategoryTypePartAdapter;
-    private int mLastSelectPosition = -1;
     @Override
     public int getLayoutId() {
         return R.layout.activity_category_type;
@@ -69,26 +70,26 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
 
         recyclerViewProduct.setLayoutManager(new GridLayoutManager(this, 4));
         homeCategoryTypePartAdapter = new HomeCategoryTypePartAdapter(this);
-        homeCategoryTypePartAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        homeCategoryTypePartAdapter.setOnItemClickListener(new NoDoubleClickListener() {
             @Override
-            public void onItemClick(int position) {
-//                dialogDelegate.showProgressDialog(true, "初始化场景...");
-//                mCurrentPartId = homeCategoryTypePartAdapter.getItem(position).getId();
-//                mCurrentTypeId = String.valueOf(homeCategoryTypePartAdapter.getItem(position).getType_id());
-//                mPresenter.getScene();
-                if(mLastSelectPosition == position){
-                    return;
-                }
-                if(mLastSelectPosition != -1) {
-                    CategoryPart.Part lastPart = homeCategoryTypePartAdapter.getItem(mLastSelectPosition);
-                    lastPart.setSelected(false);
-                    homeCategoryTypePartAdapter.notifyItemChanged(mLastSelectPosition);
-                }
-
-                mLastSelectPosition = position;
-                CategoryPart.Part part =  homeCategoryTypePartAdapter.getItem(position);
-                part.setSelected(true);
-                homeCategoryTypePartAdapter.notifyItemChanged(position);
+            public void onNoDoubleClick(int position) {
+                dialogDelegate.showProgressDialog(true, "初始化场景...");
+                mCurrentPartId = homeCategoryTypePartAdapter.getItem(position).getId();
+                mCurrentTypeId = String.valueOf(homeCategoryTypePartAdapter.getItem(position).getType_id());
+                mPresenter.getScene();
+//                if(mLastSelectPosition == position){
+//                    return;
+//                }
+//                if(mLastSelectPosition != -1) {
+//                    CategoryPart.Part lastPart = homeCategoryTypePartAdapter.getItem(mLastSelectPosition);
+//                    lastPart.setSelected(false);
+//                    homeCategoryTypePartAdapter.notifyItemChanged(mLastSelectPosition);
+//                }
+//
+//                mLastSelectPosition = position;
+//                CategoryPart.Part part =  homeCategoryTypePartAdapter.getItem(position);
+//                part.setSelected(true);
+//                homeCategoryTypePartAdapter.notifyItemChanged(position);
             }
         });
         recyclerViewProduct.setAdapterWithProgress(homeCategoryTypePartAdapter);
@@ -116,12 +117,24 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
             }
         });
         dialogDelegate = new SweetAlertDialogDelegate(this);
+
+        RxBus.$().register("partId")
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        mCurrentPartId = (String) o;
+                        dialogDelegate.showProgressDialog(true, "初始化场景...");
+                        mPresenter.getScene();
+                    }
+                });
     }
 
     @OnClick(R.id.tv_cancel)
     public void onClearEditText() {
         etKeyword.setText("");
         etKeyword.clearFocus();
+        homeCategoryTypePartAdapter.clear();
+        homeCategoryTypePartAdapter.addAll(mPartList);
     }
 
     @Override
@@ -187,6 +200,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     public void showCategoryPartList(List<CategoryPart.Part> list) {
         homeCategoryTypePartAdapter.clear();
         homeCategoryTypePartAdapter.addAll(list);
+
     }
 
     @Override
@@ -254,8 +268,18 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     public boolean dispatchKeyEvent(KeyEvent event) {
         //这里注意要作判断处理，ActionDown、ActionUp都会回调到这里，不作处理的话就会调用两次
         if (KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction()) {
-            if (!etKeyword.getText().toString().trim().isEmpty()) {
-                mPresenter.search();
+           String key = etKeyword.getText().toString().trim();
+            if (!key.isEmpty()) {
+              //  mPresenter.search();
+                List<CategoryPart.Part> tempList = new ArrayList<>();
+                for(CategoryPart.Part part : mPartList){
+                    if(part.getPart_name().toLowerCase().contains(key.toLowerCase()
+                    )){
+                        tempList.add(part);
+                    }
+                }
+                homeCategoryTypePartAdapter.clear();
+                homeCategoryTypePartAdapter.addAll(tempList);
                 closeKeyboard();
             }
             return true;

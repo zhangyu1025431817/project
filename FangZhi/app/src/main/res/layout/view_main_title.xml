@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="88px"
     android:background="@color/colorWhite">
 
-    <ImageView
-        android:id="@+id/iv_back"
-        style="@style/Widget.AppCompat.ActionButton"
+    <TextView
+        android:id="@+id/tv_left"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:scaleType="center"
-        android:src="@drawable/ic_back"
-        tools:ignore="ContentDescription" />
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingLeft="40px"
+        android:text="房智之家"
+        android:textSize="38px" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -25,6 +23,15 @@
         android:text="布奇"
         android:textColor="@color/text_main_color"
         android:textSize="44px" />
+
+    <TextView
+        android:id="@+id/tv_more"
+        android:layout_width="50px"
+        android:layout_height="50px"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="40px"
+        android:background="@drawable/icon_more" />
 
     <View
         android:layout_width="match_parent"

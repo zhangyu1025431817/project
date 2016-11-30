@@ -143,7 +143,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 order.setType(part.getType_name());
                 order.setPart_code(part.getPart_name());
                 order.setPrice("");
-                order.setCount("");
+                order.setCountNumber("");
                 order.setTotalMoney("0.0");
                 order.setPart_unit(part.getPart_unit());
                 productMap.put(part.getOrder_num(), order);
@@ -459,24 +459,24 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public void showRoomProductTypes(List<RoomProductType> list, int position) {
+        switch (position) {
+            case 0:
+                productView.changeRight();
+                break;
+            case 1:
+                productView.changeBottom();
+                break;
+            case 2:
+                productView.changeLeft();
+                break;
+            case 3:
+                productView.changeTop();
+                break;
+            default:
+                productView.changeRight();
+                break;
+        }
         if (list != null && !list.isEmpty()) {
-            switch (position) {
-                case 0:
-                    productView.changeRight();
-                    break;
-                case 1:
-                    productView.changeBottom();
-                    break;
-                case 2:
-                    productView.changeLeft();
-                    break;
-                case 3:
-                    productView.changeTop();
-                    break;
-                default:
-                    productView.changeRight();
-                    break;
-            }
 //            ArrayList<RoomProductType> tempList = new ArrayList<>();
 //            for(RoomProductType type : list){
 //                if(type.getSonList()!= null && type.getSonList().size() > 1){
@@ -537,7 +537,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         order.setType(product.getType_name());
         order.setPart_code(product.getPart_name());
         order.setPrice("");
-        order.setCount("");
+        order.setCountNumber("");
         order.setTotalMoney("0.0");
         order.setPart_unit(product.getPart_unit());
         productMap.put(mCurrentIndex, order);

@@ -112,7 +112,7 @@ public class ListOrderActivity2 extends SwipeBackActivity {
 
                                           @Override
                                           public void doConfirm(String priceStr) {
-                                              int count = Integer.parseInt(order.getCount());
+                                              int count = Integer.parseInt(order.getCountNumber());
                                               float mf = Float.parseFloat(priceStr);
                                               float strP = count * mf;
                                               String strT = strP + "";
@@ -139,7 +139,7 @@ public class ListOrderActivity2 extends SwipeBackActivity {
                                   public void call(Object o) {
                                       final OrderViewHolder.Money money = (OrderViewHolder.Money) o;
                                       final Order order = mAdapter.getItem(money.position);
-                                      new DialogInput(ListOrderActivity2.this, Integer.parseInt(order.getCount()), 1, new DialogInput.ClickListenerInterface() {
+                                      new DialogInput(ListOrderActivity2.this, Integer.parseInt(order.getCountNumber()), 1, new DialogInput.ClickListenerInterface() {
 
                                           @Override
                                           public void doConfirm(String countStr) {
@@ -147,7 +147,7 @@ public class ListOrderActivity2 extends SwipeBackActivity {
                                               int count = Integer.parseInt(countStr);
                                               float strP = count * price;
                                               String strT = strP + "";
-                                              order.setCount(countStr);
+                                              order.setCountNumber(countStr);
                                               order.setTotalMoney(strT);
                                               moneyMap.put(money.position, strP);
                                               mAdapter.notifyDataSetChanged();

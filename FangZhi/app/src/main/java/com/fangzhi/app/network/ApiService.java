@@ -16,6 +16,7 @@ import com.fangzhi.app.bean.LocationArea;
 import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.bean.LoginNewBean;
 import com.fangzhi.app.bean.RoomProductTypes;
+import com.fangzhi.app.bean.SceneStyleResponse;
 import com.fangzhi.app.bean.Scenes;
 import com.fangzhi.app.bean.SearchPartBean;
 import com.fangzhi.app.bean.SellType;
@@ -148,4 +149,6 @@ public interface ApiService {
     Observable<AttachOrderResponseBean> getAttachOrder(@Header("token") String token);
     @GET(ApiUrl.QUERY_CELL_GRAPH)
     Observable<CellGraphResponseBean> queryCellGraph(@Header("token") String token,@Query("partId") String partId);
+    @GET(ApiUrl.GET_STYLE_SCENE)
+    Observable<SceneStyleResponse> getStyleScene(@Header("token") String token);
 }

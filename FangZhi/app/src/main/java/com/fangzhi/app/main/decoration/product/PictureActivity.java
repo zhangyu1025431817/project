@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -67,6 +68,9 @@ public class PictureActivity extends Activity {
 
             @Override
             public void onPageSelected(int position) {
+                if(position == mCurrentPosition){
+                    return;
+                }
                 onSelect(position);
                 easyRecyclerView.scrollToPosition(position);
             }
@@ -82,6 +86,10 @@ public class PictureActivity extends Activity {
         pictureAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                Log.e("onItemClick",position+"--"+mCurrentPosition);
+                if(position == mCurrentPosition){
+                    return;
+                }
                 onSelect(position);
                 viewPager.setCurrentItem(position);
             }
@@ -91,10 +99,10 @@ public class PictureActivity extends Activity {
     }
 
     private void onSelect(int position) {
-        if (mCurrentPosition == position ||
-                mCurrentPosition < 0 ||
+        if (mCurrentPosition < 0 ||
                 mCurrentPosition > pictureAdapter.getAllData().size() - 1)
             return;
+
         CellGraphResponseBean.CellGraph oldCellGraph = pictureAdapter.getItem(mCurrentPosition);
         oldCellGraph.setSelected(false);
         pictureAdapter.notifyItemChanged(mCurrentPosition);
@@ -113,12 +121,12 @@ public class PictureActivity extends Activity {
                     @Override
                     public void onNext(CellGraphResponseBean cellGraphResponseBean) {
 
-                        // final ArrayList<CellGraphResponseBean.CellGraph> list = cellGraphResponseBean.getCellList();
-                        //    if (list != null && !list.isEmpty()) {
-                        final ArrayList<CellGraphResponseBean.CellGraph> list = new ArrayList<>();
-                        for (int i = 0; i < 5; i++) {
-                            list.add(new CellGraphResponseBean.CellGraph());
-                        }
+                         final ArrayList<CellGraphResponseBean.CellGraph> list = cellGraphResponseBean.getCellList();
+                            if (list != null && !list.isEmpty()) {
+//                        final ArrayList<CellGraphResponseBean.CellGraph> list = new ArrayList<>();
+//                        for (int i = 0; i < 5; i++) {
+//                            list.add(new CellGraphResponseBean.CellGraph());
+//                        }
                         tvEmpty.setVisibility(View.GONE);
                         layoutData.setVisibility(View.VISIBLE);
                         viewPager.setAdapter(new PagerAdapter() {
@@ -152,10 +160,10 @@ public class PictureActivity extends Activity {
                         });
                         list.get(0).setSelected(true);
                         pictureAdapter.addAll(list);
-                        //   } else {
-                        //       tvEmpty.setVisibility(View.VISIBLE);
-                        //        layoutData.setVisibility(View.GONE);
-                        //      }
+                           } else {
+                               tvEmpty.setVisibility(View.VISIBLE);
+                                layoutData.setVisibility(View.GONE);
+                              }
                     }
 
                     @Override

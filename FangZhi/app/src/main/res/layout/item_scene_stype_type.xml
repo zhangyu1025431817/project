@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="200px"
+    android:gravity="center_horizontal"
+    android:layout_height="96px">
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:textColor="@color/black_3c3c3c"
+        android:text="全部"
+        android:textSize="32px"
+        android:gravity="center"
+        android:layout_height="94px" />
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="80px"
+        android:background="@color/text_main_color"
+        android:layout_height="2px"/>
+</com.zhy.autolayout.AutoLinearLayout>

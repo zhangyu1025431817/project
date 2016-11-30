@@ -66,7 +66,16 @@ public class CategoryPart extends BaseResponseBean {
         String type_name;
         String part_img_short;
         int type_id;
+        int count;
         boolean isSelected;//是否选中
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
 
         public boolean isSelected() {
             return isSelected;

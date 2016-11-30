@@ -2,15 +2,15 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
-    android:layout_height="wrap_content"
+    android:layout_height="88px"
     android:orientation="vertical">
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/bg_common">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        >
 
         <ImageView
             android:id="@+id/iv_back"
@@ -29,19 +29,21 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="选择城市"
-            android:textColor="#646464"
-            android:textSize="40px" />
+            android:textColor="@color/text_main_color"
+            android:textSize="44px" />
 
-        <TextView
+        <Button
             android:id="@+id/tv_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="205px"
+            android:layout_height="50px"
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:text="3D定制"
+            android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:textColor="@color/text_green_light_green"
-            android:textSize="40px" />
+            android:background="@drawable/btn_3d"
+            android:textColor="@color/colorWhite"
+            android:textSize="28px" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <View

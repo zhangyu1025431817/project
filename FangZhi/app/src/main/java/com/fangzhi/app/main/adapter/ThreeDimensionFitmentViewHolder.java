@@ -24,10 +24,10 @@ public class ThreeDimensionFitmentViewHolder extends BaseViewHolder<FitmentTypeR
     public void setData(FitmentTypeResponseBean.FitmentType data) {
         textView.setText(data.getType_name());
         if (data.isSelected()) {
-            textView.setBackgroundColor(getContext().getResources().getColor(R.color.alpha_green));
+            textView.setTextColor(getContext().getResources().getColor(R.color.text_main_color));
             //    textView.setTextColor(getContext().getResources().getColor(R.color.white));
         } else {
-            textView.setBackgroundColor(getContext().getResources().getColor(R.color.shadow));
+            textView.setTextColor(getContext().getResources().getColor(R.color.black_3c3c3c));
             //    textView.setTextColor(getContext().getResources().getColor(R.color.black_semi_transparent));
         }
     }

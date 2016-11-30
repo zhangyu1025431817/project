@@ -7,7 +7,7 @@ public class Order extends RoomProduct{
     String price;
     String type;
     String totalMoney;
-    String count;
+    String countNumber;
 
     public String getType() {
         return type;
@@ -33,11 +33,11 @@ public class Order extends RoomProduct{
         this.totalMoney = totalMoney;
     }
 
-    public String getCount() {
-        return count;
+    public String getCountNumber() {
+        return countNumber;
     }
 
-    public void setCount(String count) {
-        this.count = count;
+    public void setCountNumber(String countNumber) {
+        this.countNumber = countNumber;
     }
 }

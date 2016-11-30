@@ -24,11 +24,11 @@ public class DDDTypeViewHolder extends BaseViewHolder<DDDTypeResponseBean.DDDTyp
     public void setData(DDDTypeResponseBean.DDDType data) {
         textView.setText(data.getImage_type_name());
         if (data.isSelected()) {
-            textView.setBackgroundColor(getContext().getResources().getColor(R.color.alpha_green));
+            textView.setTextColor(getContext().getResources().getColor(R.color.text_main_color));
 //            textView.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.shape_btn_blue));
 //            textView.setTextColor(getContext().getResources().getColor(R.color.white));
         } else {
-            textView.setBackgroundColor(getContext().getResources().getColor(R.color.shadow));
+            textView.setTextColor(getContext().getResources().getColor(R.color.black_3c3c3c));
 //            textView.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.shape_btn_gray));
 //            textView.setTextColor(getContext().getResources().getColor(R.color.black_semi_transparent));
         }

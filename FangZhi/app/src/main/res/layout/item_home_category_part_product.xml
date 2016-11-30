@@ -36,12 +36,13 @@
             android:id="@+id/btn_diy"
             android:layout_width="188px"
             android:layout_height="48px"
-            android:background="@drawable/btn_blue"
+            android:background="@drawable/btn_corner_transpant_black"
             android:text="DIY展示"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/black_3c3c3c"
             android:textSize="22px" />
 
-        <Space
+        <View
+            android:id="@+id/space"
             android:layout_width="144px"
             android:layout_height="match_parent" />
 
@@ -49,9 +50,9 @@
             android:id="@+id/btn_style"
             android:layout_width="188px"
             android:layout_height="48px"
-            android:background="@drawable/btn_blue"
+            android:background="@drawable/btn_corner_transpant_black"
             android:text="款式展示"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/black_3c3c3c"
             android:textSize="22px" />
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

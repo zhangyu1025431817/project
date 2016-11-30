@@ -227,7 +227,7 @@ public class ListOrderActivity extends AppCompatActivity {
                         }
                         int count;
                         try {
-                            count = Integer.parseInt(bean.getCount().isEmpty() ? "0" : bean.getCount());
+                            count = Integer.parseInt(bean.getCountNumber().isEmpty() ? "0" : bean.getCountNumber());
                         }catch (Exception e){
                             count = 0;
                         }
@@ -271,7 +271,7 @@ public class ListOrderActivity extends AppCompatActivity {
                         int count = s.toString().isEmpty() ? 0 : Integer.parseInt(s.toString());
                         float total = price * count;
 
-                        bean.setCount(count + "");
+                        bean.setCountNumber(count + "");
                         bean.setTotalMoney(total + "");
                         holder.tv_total_money.setText(total + "");
                         mTotalMoney = mTotalMoney + (total - oldMoney);
@@ -329,7 +329,7 @@ public class ListOrderActivity extends AppCompatActivity {
 
 
             holder.tv_count.setTag(order);
-            holder.tv_count.setText(order.getCount());
+            holder.tv_count.setText(order.getCountNumber());
             holder.tv_count.clearFocus();
 
             holder.tv_total_money.setText(order.getTotalMoney());
@@ -377,7 +377,7 @@ public class ListOrderActivity extends AppCompatActivity {
                                     } else {
                                         order.setPrice("");
                                     }
-                                    order.setCount("");
+                                    order.setCountNumber("");
                                     order.setTotalMoney("0.0");
                                     order.setPart_unit(attachOrder.getPart_unit());
                                     mList.add(order);

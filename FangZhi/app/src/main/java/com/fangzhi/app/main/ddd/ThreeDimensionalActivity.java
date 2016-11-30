@@ -2,7 +2,9 @@ package com.fangzhi.app.main.ddd;
 
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.fangzhi.app.R;
@@ -15,13 +17,17 @@ import com.fangzhi.app.main.adapter.DDDTypeAdapter;
 import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.adapter.ThreeDimensionFitmentAdapter;
 import com.fangzhi.app.tools.SPUtils;
+import com.fangzhi.app.tools.ScreenUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogContactUs;
+import com.fangzhi.app.view.SpinnerPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -29,19 +35,21 @@ import butterknife.OnClick;
  */
 public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPresenter, ThreeDimensionalModel>
         implements ThreeDimensionalContract.View {
-    @Bind(R.id.recycler_view_type01)
-    EasyRecyclerView recyclerViewTypeTop;
-    @Bind(R.id.recycler_view_type02)
-    EasyRecyclerView recyclerViewTypeMiddle;
+
     @Bind(R.id.recycler_view_type03)
     EasyRecyclerView recyclerViewTypeBottom;
     @Bind(R.id.tv_title)
     TextView tvTitle;
+    @Bind(R.id.cb_left)
+    CheckBox cbLeft;
+    @Bind(R.id.cb_right)
+     CheckBox cbRight;
     ThreeDimensionFitmentAdapter threeDimensionFitmentAdapter;
     DDDTypeAdapter dddTypeAdapter;
     DDDImageAdapter dddImageAdapter;
     private int mCaseTypeId;
-
+    SpinnerPopWindow spinnerPopWindowFitment;
+    SpinnerPopWindow spinnerPopWindow3D;
     @Override
     public int getLayoutId() {
         return R.layout.activity_three_dimensional;
@@ -50,26 +58,6 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
     @Override
     public void initView() {
         tvTitle.setText("3D场景");
-        recyclerViewTypeTop.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
-        threeDimensionFitmentAdapter = new ThreeDimensionFitmentAdapter(this);
-        threeDimensionFitmentAdapter.setOnItemClickListener(new NoDoubleClickListener() {
-            @Override
-            public void onNoDoubleClick(int position) {
-                chooseThreeDimensionFitment(position);
-            }
-        });
-        recyclerViewTypeTop.setAdapter(threeDimensionFitmentAdapter);
-        mPresenter.getCaseTypeList();
-
-        recyclerViewTypeMiddle.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
-        dddTypeAdapter = new DDDTypeAdapter(this);
-        dddTypeAdapter.setOnItemClickListener(new NoDoubleClickListener() {
-            @Override
-            public void onNoDoubleClick(int position) {
-                chooseDDDType(position);
-            }
-        });
-        recyclerViewTypeMiddle.setAdapter(dddTypeAdapter);
 
         recyclerViewTypeBottom.setLayoutManager(new GridLayoutManager(this, 3));
         dddImageAdapter = new DDDImageAdapter(this);
@@ -90,13 +78,74 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
             }
         });
         recyclerViewTypeBottom.setAdapter(dddImageAdapter);
+        //工装家装
+        threeDimensionFitmentAdapter = new ThreeDimensionFitmentAdapter(this);
+        threeDimensionFitmentAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                chooseThreeDimensionFitment(position);
+                spinnerPopWindowFitment.dismiss();
+            }
+        });
+        spinnerPopWindowFitment = new SpinnerPopWindow(this);
+        spinnerPopWindowFitment.setAdapter(threeDimensionFitmentAdapter);
+        spinnerPopWindowFitment.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                cbLeft.setChecked(false);
+                cbRight.setChecked(false);
+            }
+        });
+        spinnerPopWindowFitment.setWidth(ScreenUtils.getScreenWidth(this));
+        spinnerPopWindowFitment.setHeight(ScreenUtils.getScreenHeight(this)/7);
+        //3D2D
+        dddTypeAdapter = new DDDTypeAdapter(this);
+        dddTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                chooseDDDType(position);
+                spinnerPopWindow3D.dismiss();
+            }
+        });
+        spinnerPopWindow3D = new SpinnerPopWindow(this);
+        spinnerPopWindow3D.setAdapter(dddTypeAdapter);
+        spinnerPopWindow3D.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                cbLeft.setChecked(false);
+                cbRight.setChecked(false);
+
+            }
+        });
+        spinnerPopWindow3D.setWidth(ScreenUtils.getScreenWidth(this));
+        spinnerPopWindow3D.setHeight(ScreenUtils.getScreenHeight(this)/7);
+        mPresenter.getCaseTypeList();
     }
+
 
     @Override
     public void tokenInvalid(String msg) {
 
     }
 
+    @OnCheckedChanged(R.id.cb_left)
+    public void onCheckLeft(CompoundButton button,boolean isSelected){
+        if(isSelected){
+            spinnerPopWindowFitment.showAsDropDown(button);
+        }else {
+            spinnerPopWindowFitment.dismiss();
+        }
+    }
+
+    @OnCheckedChanged(R.id.cb_right)
+    public void onCheckRight(CompoundButton button,boolean isSelected){
+        if(isSelected){
+            spinnerPopWindow3D.showAsDropDown(button);
+        }else {
+            spinnerPopWindow3D.dismiss();
+
+        }
+    }
     @Override
     public void onError(String msg) {
         T.showShort(this, msg);
@@ -143,6 +192,7 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
             bean.setSelected(false);
         }
         fitmentType.setSelected(true);
+        cbLeft.setText(fitmentType.getType_name());
         mCaseTypeId = fitmentType.getCase_type();
         threeDimensionFitmentAdapter.notifyDataSetChanged();
         mPresenter.getCaseList();
@@ -157,6 +207,7 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
             bean.setSelected(false);
         }
         dddType.setSelected(true);
+        cbRight.setText(dddType.getImage_type_name());
         dddTypeAdapter.notifyDataSetChanged();
         dddImageAdapter.clear();
         dddImageAdapter.addAll(dddType.getSonList());
@@ -165,4 +216,5 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
     public void onShow3D(){
         new DialogContactUs(this).show();
     }
+
 }

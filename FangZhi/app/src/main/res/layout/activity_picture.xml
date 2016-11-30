@@ -22,11 +22,13 @@
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="1070px"
+            android:background="@color/colorWhite"
             android:layout_marginTop="12px">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager"
-                android:layout_width="match_parent"
+                android:layout_width="1740px"
+                android:layout_centerInParent="true"
                 android:layout_height="match_parent" />
 
             <ImageButton
@@ -34,12 +36,14 @@
                 android:layout_width="88px"
                 android:layout_height="290px"
                 android:layout_centerVertical="true"
+                android:background="@drawable/btn_select_picture_left"
                 android:layout_marginLeft="50px" />
 
             <ImageButton
                 android:id="@+id/btn_right"
                 android:layout_width="88px"
                 android:layout_height="290px"
+                android:background="@drawable/btn_select_picture_right"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="50px" />
@@ -49,6 +53,8 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="320px"
+            android:layout_marginLeft="212px"
+            android:layout_marginRight="212px"
             android:layout_marginTop="20px" />
     </com.zhy.autolayout.AutoLinearLayout>
 

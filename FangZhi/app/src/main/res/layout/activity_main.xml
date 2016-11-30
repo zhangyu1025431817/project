@@ -6,7 +6,7 @@
     android:background="@color/bg_common"
     android:orientation="vertical">
 
-    <include layout="@layout/view_base_title" />
+    <include layout="@layout/view_main_title" />
 
     <com.jude.rollviewpager.RollPagerView
         android:id="@+id/roll_pager_view"
