@@ -5,16 +5,18 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.fangzhi.app.R;
 import com.fangzhi.app.tools.DensityUtils;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,6 +28,8 @@ import butterknife.OnClick;
 public class DDView extends AppCompatActivity {
     @Bind(R.id.roll_pager_view)
     RollPagerView rollPagerView;
+    @Bind(R.id.tv_name)
+    TextView tvName;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,17 +37,36 @@ public class DDView extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String image = intent.getStringExtra("url");
-        String[] images = image.split(";");
-        List<String> list = Arrays.asList(images);
-
-        rollPagerView.setHintView(new ColorPointHintView(this, Color.GREEN, Color.GRAY));
+        final ArrayList<Map<String,String>> mapArrayList = (ArrayList<Map<String, String>>) intent.getSerializableExtra("url");
+        setName(mapArrayList,0);
+      //  rollPagerView.setHintView(new ColorPointHintView(this, Color.GREEN, Color.GRAY));
+        rollPagerView.setHintView(new ColorPointHintView(this, Color.TRANSPARENT, Color.TRANSPARENT));
         rollPagerView.setHintPadding(0, 0, 0, DensityUtils.dp2px(this, 8));
       //  rollPagerView.setPlayDelay(10000);
-        BannerAdapter mBannerAdapter = new BannerAdapter(this, list);
+        PictureAdapter mBannerAdapter = new PictureAdapter(this, mapArrayList);
         rollPagerView.setAdapter(mBannerAdapter);
+        rollPagerView.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setName(mapArrayList,position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
+    private void setName(ArrayList<Map<String,String>> mapArrayList,int position){
+        Map<String ,String> map = mapArrayList.get(position);
+        tvName.setText(map.get("name")+"("+map.get("position")+"/"+map.get("count")+")");
+    }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);

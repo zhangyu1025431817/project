@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/common_title_bar" />
 
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view"
-        android:background="@drawable/bg_login"
         android:layout_width="match_parent"
+        android:layout_margin="20px"
         android:layout_height="match_parent" />
 </LinearLayout>

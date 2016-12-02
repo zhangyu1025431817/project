@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,12 +20,16 @@ import android.widget.TextView;
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.BannerMain;
 import com.fangzhi.app.login.LoginActivity;
-import com.fangzhi.app.main.ddd.BannerAdapter;
+import com.fangzhi.app.main.adapter.BannerAdapter;
+import com.fangzhi.app.main.ddd.DDDWebView;
 import com.fangzhi.app.main.ddd.ThreeDimensionalActivity;
 import com.fangzhi.app.main.decoration.SellPartActivity;
+import com.fangzhi.app.main.house.HouseActivity;
 import com.fangzhi.app.main.parent.ParentActivity;
+import com.fangzhi.app.main.sample.SampleActivity;
 import com.fangzhi.app.main.scenestyle.SceneStyleActivity;
 import com.fangzhi.app.manager.AccountManager;
+import com.fangzhi.app.tools.ActivityTaskManager;
 import com.fangzhi.app.tools.DensityUtils;
 import com.fangzhi.app.tools.ScreenUtils;
 import com.fangzhi.app.view.DialogContactUs;
@@ -67,7 +72,22 @@ public class MainActivity extends AppCompatActivity {
         rollPagerView.setHintView(new ColorPointHintView(this, Color.GREEN, Color.GRAY));
         rollPagerView.setHintPadding(0, 0, 0, DensityUtils.dp2px(this, 8));
         //  rollPagerView.setPlayDelay(10000);
-        rollPagerView.setAdapter(mBannerAdapter = new BannerAdapter(this, mListImages));
+        rollPagerView.setAdapter(mBannerAdapter = new BannerAdapter(this, mListImages, new BannerAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                    if(mBannerList != null){
+                        BannerMain bannerMain =  mBannerList.get(position);
+                        String url = bannerMain.getURL();
+                        if(url != null || !url.isEmpty()){
+                            Intent intent = new Intent();
+                            intent.putExtra("url",url);
+                            intent.setClass(MainActivity.this, DDDWebView.class);
+                            startActivity(intent);
+                        }
+                    }
+            }
+        }));
+
         setData(AccountManager.getInstance().getCurrentBannerList());
         AccountManager.getInstance().addOnParentChangeListener(new AccountManager.OnParentChangeListener() {
             @Override
@@ -78,9 +98,11 @@ public class MainActivity extends AppCompatActivity {
         dialogDelegate = new SweetAlertDialogDelegate(this);
     }
 
+    List<BannerMain> mBannerList ;
     private void setData(List<BannerMain> list) {
         textViewTitle.setText(AccountManager.getInstance().getCurrentParentName());
         if (list != null && !list.isEmpty()) {
+            mBannerList = list;
             mListImages.clear();
             for (BannerMain bean : list) {
                 mListImages.add(bean.getIMG_URL());
@@ -135,11 +157,13 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(this, SceneStyleActivity.class));
                     break;
                 case R.id.layout_house_location:
+                    startActivity(new Intent(this, HouseActivity.class));
                     break;
                 case R.id.layout_3d:
                     startActivity(new Intent(this, ThreeDimensionalActivity.class));
                     break;
                 case R.id.layout_sample:
+                    startActivity(new Intent(this, SampleActivity.class));
                     break;
             }
         }
@@ -151,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private PopupWindow popupWindow;
+
+
 
     @OnClick(R.id.tv_more)
     public void onMore(View view) {
@@ -222,10 +248,23 @@ public class MainActivity extends AppCompatActivity {
         dialogDelegate.showWarningDialog("退出登录", "确定退出当前账号？", new DialogDelegate.OnDialogListener() {
             @Override
             public void onClick() {
+                dialogDelegate.clearDialog();
+                popupWindow.dismiss();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            ActivityTaskManager.getActivityTaskManager().finishActivity();
+            finish();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

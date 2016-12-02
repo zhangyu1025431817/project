@@ -2,7 +2,6 @@ package com.fangzhi.app.main.house;
 
 import com.fangzhi.app.bean.CountyHouses;
 import com.fangzhi.app.bean.Houses;
-import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.network.MySubscriber;
 import com.fangzhi.app.network.http.api.ErrorCode;
 
@@ -103,25 +102,6 @@ public class HousePresenter extends HouseContract.Presenter {
                 }));
     }
 
-    @Override
-    void changeParent() {
-        mRxManager.add(mModel.changeParent(mView.getToken(), mView.getUserId(), mView.getParentId())
-                .subscribe(new MySubscriber<LoginBean>() {
-                    @Override
-                    public void onNext(LoginBean loginBean) {
-                        if (ErrorCode.SUCCEED.equals(loginBean.getError_code())) {
-                            mView.changeSucceed(loginBean.getToken());
-                        } else {
-                            mView.changeFailed(loginBean.getMsg());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.changeFailed("网络连接失败!");
-                    }
-                }));
-    }
 
     @Override
     public void onStart() {

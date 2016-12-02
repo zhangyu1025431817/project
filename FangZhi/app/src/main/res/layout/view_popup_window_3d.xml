@@ -9,7 +9,5 @@
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_marginLeft="286px"
-        android:layout_marginRight="286px"
         android:layout_height="wrap_content"/>
 </com.zhy.autolayout.AutoLinearLayout>

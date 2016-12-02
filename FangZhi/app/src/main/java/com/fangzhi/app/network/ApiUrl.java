@@ -125,4 +125,12 @@ public class ApiUrl {
      * 获取场景列表根据场景风格进行分组
      */
     public static final String GET_STYLE_SCENE = "fznet/fzapp/FangzhiAction/getStyleScenc.json";
+    /**
+     * 获取合作商列表
+     */
+    public static final String GET_COOPERATIVE_LIST = "fznet/fzapp/HouseCaseAction/getCooperativeList.json";
+    /**
+     * 获取指定合作商的标签列表及其场景列表
+     */
+    public static final String GET_TAG_LIST = "fznet/fzapp/HouseCaseAction/getSceneList.json";
  }

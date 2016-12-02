@@ -29,7 +29,6 @@ public class LoginPresenter extends LoginContract.Presenter {
                 .subscribe(new MySubscriber<LoginBean>() {
                     @Override
                     public void onNext(LoginBean loginBean) {
-
                         if (ErrorCode.SUCCEED.equals(loginBean.getError_code())) {
                             SPUtils.put(MyApplication.getContext(), SpKey.TOKEN, loginBean.getToken());
                             SPUtils.put(MyApplication.getContext(), SpKey.USER_NAME, mView.getPhoneNumber());
@@ -51,7 +50,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     @Override
     void loginNew() {
         mRxManager.add(mModel.loginNew(mView.getDeviceId(), mView.getPhoneNumber(), mView.getPassword()
-                , mView.getDeviceRealSize())
+                , mView.getDeviceRealSize(),mView.getScreenWidth(),mView.getScreenHeight())
                 .subscribe(new MySubscriber<LoginNewBean>() {
                     @Override
                     public void onNext(LoginNewBean loginBean) {
@@ -83,7 +82,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                                         SpKey.FACTORY_ADDRESS, address == null ? "" : address)
                                 ;
                                 AccountManager.getInstance().setParentList(list);
-                                AccountManager.getInstance().setBannerList(loginBean.getCarouselList());                            mView.loginSucceedMultiple();
+                                AccountManager.getInstance().setBannerList(loginBean.getCarouselList());
                             }
                             mView.loginSucceedMultiple();
                         } else {

@@ -18,11 +18,12 @@ public class SpinnerPopWindow extends PopupWindow {
     private Context mContext;
     private EasyRecyclerView recyclerView;
 
-    public SpinnerPopWindow(Context context)
+
+    public SpinnerPopWindow(Context context,int count)
     {
         super(context);
         mContext = context;
-        init();
+        init(count);
     }
 
     public void setAdapter(RecyclerView.Adapter adapter){
@@ -30,7 +31,7 @@ public class SpinnerPopWindow extends PopupWindow {
     }
 
 
-    private void init()
+    private void init(int count)
     {
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_popup_window_3d, null);
         setContentView(view);
@@ -38,7 +39,7 @@ public class SpinnerPopWindow extends PopupWindow {
         ColorDrawable dw = new ColorDrawable(0x00);
         setBackgroundDrawable(dw);
         recyclerView = (EasyRecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext,count));
 
     }
 

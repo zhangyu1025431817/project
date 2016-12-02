@@ -3,10 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_pop_up"
-    android:divider="@drawable/bg_line"
     android:gravity="center"
-    android:orientation="vertical"
-    android:showDividers="middle">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/btn_change_parent"

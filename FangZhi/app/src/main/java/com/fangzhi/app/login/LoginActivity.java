@@ -165,9 +165,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 mCount = 60;
             }
         };
-
         ActivityTaskManager.getActivityTaskManager().addActivity(this);
-        //   mPresenter.getProvince();
     }
 
     @Override
@@ -266,9 +264,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public String getDeviceRealSize() {
-        String size = ScreenUtils.getScreenSizeOfDevice(this)+"";
-        Log.e("getDeviceRealSize",size);
-        return size;
+        return ScreenUtils.getScreenSizeOfDevice(this)+"";
+    }
+
+    @Override
+    public String getScreenWidth() {
+        return ScreenUtils.getScreenWidth(this)+"";
+    }
+
+    @Override
+    public String getScreenHeight() {
+        return ScreenUtils.getScreenHeight(this)+"";
     }
 
     @Override
@@ -287,7 +293,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     public void loginSucceedMultiple() {
         dialogDelegate.clearDialog();
-
         startActivity(new Intent(this, ParentActivity.class));
     }
 

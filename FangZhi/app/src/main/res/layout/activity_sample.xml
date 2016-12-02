@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:showDividers="middle">
 
-        <include layout="@layout/common_title_bar_with_right_button" />
+        <include layout="@layout/view_base_title" />
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
@@ -19,6 +19,17 @@
             android:layout_height="96px">
             <com.fangzhi.app.view.DrawableCenterCheckBox
                 android:id="@+id/cb_left"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/all_sample"
+                android:drawableRight="@drawable/rb_drop"
+                android:gravity="center"
+                android:textSize="32px"
+                android:drawablePadding="20px"
+                android:button="@null"
+                android:layout_height="match_parent" />
+            <com.fangzhi.app.view.DrawableCenterCheckBox
+                android:id="@+id/cb_middle"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:text="@string/all_sample"
@@ -45,9 +56,9 @@
             android:layout_height="1px"
             android:background="#AAEBEBEB" />
         <com.jude.easyrecyclerview.EasyRecyclerView
-            android:id="@+id/recycler_view_type03"
+            android:id="@+id/recycler_view_type"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#AAEBEBEB" />
     </com.zhy.autolayout.AutoLinearLayout>
-    </com.zhy.autolayout.AutoFrameLayout>
+</com.zhy.autolayout.AutoFrameLayout>

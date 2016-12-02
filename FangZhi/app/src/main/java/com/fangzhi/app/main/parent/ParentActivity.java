@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.fangzhi.app.MyApplication;
@@ -47,7 +48,7 @@ public class ParentActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_parent);
         ButterKnife.bind(this);
-
+        Log.e("ParentActivity","ParentActivity--create");
         mAdapter = new ParentAdapter(this);
         mAdapter.addAll(AccountManager.getInstance().getParentList());
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
@@ -90,7 +91,6 @@ public class ParentActivity extends AppCompatActivity {
                             Intent intent = new Intent();
                             if (loginBean.getImg() == null || loginBean.getImg().isEmpty()) {
                                 intent.setClass(ParentActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             } else {
                                 intent.putExtra("url", loginBean.getImg());
                                 intent.setClass(ParentActivity.this, CustomActivity.class);

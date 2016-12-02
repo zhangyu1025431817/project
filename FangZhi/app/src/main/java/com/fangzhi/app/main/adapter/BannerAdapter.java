@@ -1,4 +1,4 @@
-package com.fangzhi.app.main.ddd;
+package com.fangzhi.app.main.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -15,9 +15,11 @@ public class BannerAdapter extends StaticPagerAdapter {
 
     private Context ctx;
     private List<String> list;
-       public BannerAdapter(Context ctx , List<String> list){
+    private OnItemClickListener mListener;
+       public BannerAdapter(Context ctx , List<String> list,OnItemClickListener listener){
            this.ctx = ctx;
            this.list = list;
+           mListener = listener;
         }
 
         @Override
@@ -30,6 +32,12 @@ public class BannerAdapter extends StaticPagerAdapter {
                     .load(list.get(position))
                     .placeholder(R.drawable.bg_image_placeholder)
                     .into(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onClick(position);
+                }
+            });
             return imageView;
         }
 
@@ -38,4 +46,7 @@ public class BannerAdapter extends StaticPagerAdapter {
             return list.size();
         }
 
+    public interface OnItemClickListener{
+        void onClick(int position);
+         }
     }

@@ -18,7 +18,8 @@ import rx.Observable;
 public interface LoginContract {
     interface Model extends BaseModel {
         Observable<LoginBean> login(String deviceCode, String account, String password);
-        Observable<LoginNewBean> loginNew(String deviceCode, String account, String password,String deviceSize);
+        Observable<LoginNewBean> loginNew(String deviceCode, String account,
+                                          String password,String deviceSize,String width,String height);
 
         Observable<BaseResponseBean> getMsgCode(String phone, String key);
 
@@ -58,6 +59,8 @@ public interface LoginContract {
 
         String getNewPassword();
         String getDeviceRealSize();
+        String getScreenWidth();
+        String getScreenHeight();
 
         //登录
         void loginSucceed(String img);

@@ -25,6 +25,9 @@ import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnCheckedChanged;
@@ -64,13 +67,29 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
         dddImageAdapter.setOnItemClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(int position) {
-                DDDTypeResponseBean.DDDType.DDD ddd = dddImageAdapter.getItem(position);
+                ArrayList<Map<String,String>> mapArrayList = new ArrayList<>();
+                //首先构建当前数据
+                DDDTypeResponseBean.DDDType.DDD ddd =  dddImageAdapter.getItem(position);
+                if("0".equals(ddd.getImage_type())){
+                    mapArrayList.add(makePictureData(ddd));
+                }
+
+                List<DDDTypeResponseBean.DDDType.DDD> list= dddImageAdapter.getAllData();
+                for(DDDTypeResponseBean.DDDType.DDD bean : list){
+                    if(bean == ddd){
+                        continue;
+                    }
+                    if("0".equals(bean.getImage_type())){
+                        mapArrayList.add(makePictureData(bean));
+                    }
+                }
                 Intent intent = new Intent();
-                intent.putExtra("url", ddd.getCase_url());
                 intent.putExtra("name", ddd.getCase_name());
                 if ("1".equals(ddd.getImage_type())) {
+                    intent.putExtra("url", dddImageAdapter.getItem(position).getCase_url());
                     intent.setClass(ThreeDimensionalActivity.this, DDDWebView.class);
                 } else {
+                    intent.putExtra("url", mapArrayList);
                     intent.setClass(ThreeDimensionalActivity.this, DDView.class);
                 }
                 startActivity(intent);
@@ -87,7 +106,7 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
                 spinnerPopWindowFitment.dismiss();
             }
         });
-        spinnerPopWindowFitment = new SpinnerPopWindow(this);
+        spinnerPopWindowFitment = new SpinnerPopWindow(this,2);
         spinnerPopWindowFitment.setAdapter(threeDimensionFitmentAdapter);
         spinnerPopWindowFitment.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -107,7 +126,7 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
                 spinnerPopWindow3D.dismiss();
             }
         });
-        spinnerPopWindow3D = new SpinnerPopWindow(this);
+        spinnerPopWindow3D = new SpinnerPopWindow(this,2);
         spinnerPopWindow3D.setAdapter(dddTypeAdapter);
         spinnerPopWindow3D.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -123,6 +142,21 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
     }
 
 
+    private Map<String ,String > makePictureData(DDDTypeResponseBean.DDDType.DDD ddd){
+        Map<String ,String> map = new HashMap<>();
+        String firstUrl = ddd.getCase_url();
+        if(firstUrl != null && !firstUrl.isEmpty()){
+            String[] images = firstUrl.split(";");
+            int length = images.length;
+            for(int i =0;i<length;i++){
+                map.put("name",ddd.getCase_name());
+                map.put("url",images[i]);
+                map.put("position",(i+1)+"");
+                map.put("count",length+"");
+            }
+        }
+        return map;
+    }
     @Override
     public void tokenInvalid(String msg) {
 

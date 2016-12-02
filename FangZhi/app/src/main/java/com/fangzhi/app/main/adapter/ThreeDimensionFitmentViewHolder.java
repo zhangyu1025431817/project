@@ -25,10 +25,8 @@ public class ThreeDimensionFitmentViewHolder extends BaseViewHolder<FitmentTypeR
         textView.setText(data.getType_name());
         if (data.isSelected()) {
             textView.setTextColor(getContext().getResources().getColor(R.color.text_main_color));
-            //    textView.setTextColor(getContext().getResources().getColor(R.color.white));
         } else {
             textView.setTextColor(getContext().getResources().getColor(R.color.black_3c3c3c));
-            //    textView.setTextColor(getContext().getResources().getColor(R.color.black_semi_transparent));
         }
     }
 }

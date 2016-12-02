@@ -6,6 +6,7 @@ import com.fangzhi.app.bean.BaseResponseBean;
 import com.fangzhi.app.bean.CategoryPart;
 import com.fangzhi.app.bean.CategoryPartRoomBean;
 import com.fangzhi.app.bean.CellGraphResponseBean;
+import com.fangzhi.app.bean.CooperativeResponseBean;
 import com.fangzhi.app.bean.CountyHouses;
 import com.fangzhi.app.bean.DDDTypeResponseBean;
 import com.fangzhi.app.bean.FitmentTypeResponseBean;
@@ -16,6 +17,7 @@ import com.fangzhi.app.bean.LocationArea;
 import com.fangzhi.app.bean.LoginBean;
 import com.fangzhi.app.bean.LoginNewBean;
 import com.fangzhi.app.bean.RoomProductTypes;
+import com.fangzhi.app.bean.SceneLabelResponseBean;
 import com.fangzhi.app.bean.SceneStyleResponse;
 import com.fangzhi.app.bean.Scenes;
 import com.fangzhi.app.bean.SearchPartBean;
@@ -43,7 +45,9 @@ public interface ApiService {
     Observable<LoginNewBean> loginNew(@Query("number") String username, @Query("password") String password,
                                       @Query("machine_code") String deviceId,
                                       @Query("machine_type") String type,
-                                      @Query("machine_size") String size);
+                                      @Query("machine_size") String size,
+                                      @Query("equipmentWidth") String width,
+                                      @Query("equipmentHigh") String height);
 
     @GET(ApiUrl.PARENT_LOGIN_NEW)
     Observable<LoginBean> loginParent(@Header("token") String token, @Query("parentId") String parentId, @Query("userID") String userId);
@@ -147,8 +151,17 @@ public interface ApiService {
 
     @GET(ApiUrl.GET_ATTACH_PART)
     Observable<AttachOrderResponseBean> getAttachOrder(@Header("token") String token);
+
     @GET(ApiUrl.QUERY_CELL_GRAPH)
     Observable<CellGraphResponseBean> queryCellGraph(@Header("token") String token,@Query("partId") String partId);
+
     @GET(ApiUrl.GET_STYLE_SCENE)
     Observable<SceneStyleResponse> getStyleScene(@Header("token") String token);
+
+    @GET(ApiUrl.GET_COOPERATIVE_LIST)
+    Observable<CooperativeResponseBean> getCooperativeList(@Header("token")String token);
+
+    @GET(ApiUrl.GET_TAG_LIST)
+    Observable<SceneLabelResponseBean> getTagList(@Header("token")String token,@Query("id") String id);
+
 }

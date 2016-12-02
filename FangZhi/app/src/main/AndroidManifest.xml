@@ -78,7 +78,7 @@
         <activity
             android:name=".main.house.HouseActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppBaseThemeMain"
+            android:theme="@style/AppBaseTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".main.house.house_type.HouseTypeActivity"
@@ -142,6 +142,9 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity android:name=".main.scenestyle.SceneStyleActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity android:name=".main.sample.SampleActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <meta-data

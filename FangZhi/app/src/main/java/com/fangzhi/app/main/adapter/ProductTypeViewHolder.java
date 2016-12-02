@@ -15,7 +15,7 @@ public class ProductTypeViewHolder extends BaseViewHolder<RoomProductType> {
     TextView textView;
 
     public ProductTypeViewHolder(ViewGroup parent) {
-        super(parent, R.layout.item_text_view);
+        super(parent, R.layout.item_room_product_type_view);
         AutoUtils.autoSize(itemView);
         textView = $(R.id.tv_type);
         textView.setTextColor(getContext().getResources().getColor(R.color.white));

@@ -2,16 +2,15 @@ package com.fangzhi.app.main.house;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,27 +18,19 @@ import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.County;
 import com.fangzhi.app.bean.Houses;
-import com.fangzhi.app.config.FactoryListInfo;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.HousesAdapter;
 import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.city.CityActivity;
-import com.fangzhi.app.main.ddd.ThreeDimensionalActivity;
 import com.fangzhi.app.main.house.house_type.HouseTypeActivity;
-import com.fangzhi.app.main.parent.ParentActivity;
-import com.fangzhi.app.main.decoration.SellPartActivity;
-import com.fangzhi.app.tools.ActivityTaskManager;
 import com.fangzhi.app.tools.SPUtils;
-import com.fangzhi.app.tools.ScreenUtils;
 import com.fangzhi.app.tools.T;
-import com.fangzhi.app.view.ClearEditText;
-import com.fangzhi.app.view.DialogContactUs;
 import com.fangzhi.app.view.DialogDelegate;
+import com.fangzhi.app.view.SearchEditText;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +42,13 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
     @Bind(R.id.et_keyword)
-    ClearEditText etKeyword;
+    SearchEditText etKeyword;
     @Bind(R.id.tv_location)
     TextView tvLocation;
     @Bind(R.id.sp_area)
     Spinner spinner;
-
+    @Bind(R.id.tv_cancel)
+    TextView tvCancel;
     private HousesAdapter mAdapter;
     private int mPage = 0;
     String mKeyword = "";
@@ -70,13 +62,13 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
 
     @Override
     public void initView() {
+
         String currentCity = SPUtils.getString(this, SpKey.CITY_NAME, "");
         if (currentCity.isEmpty()) {
             startActivityForResult(new Intent(this, CityActivity.class), 1);
         }
-
         //禁用滑动删除
-        setSwipeBackEnable(false);
+       // setSwipeBackEnable(false);
         recyclerView.setRefreshListener(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new HousesAdapter(this);
@@ -101,17 +93,39 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
             onRefresh();
         }
         dialogDelegate = new SweetAlertDialogDelegate(this);
-        etKeyword.addOnClearListener(new ClearEditText.OnClearListener() {
+        etKeyword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClear() {
-                mKeyword = "";
-                isSearch = false;
-                onRefresh();
-                closeKeyboard();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    tvCancel.setVisibility(View.VISIBLE);
+                } else {
+                    tvCancel.setVisibility(View.GONE);
+                    closeKeyboard();
+                }
             }
         });
     }
 
+    @OnClick(R.id.tv_cancel)
+    public void cancelSearch(){
+        etKeyword.setText("");
+        etKeyword.clearFocus();
+        mKeyword = "";
+        if(isSearch)
+        onRefresh();
+        closeKeyboard();
+        isSearch = false;
+    }
 
     @OnClick(R.id.tv_location)
     public void pickCity() {
@@ -133,6 +147,11 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
             mPresenter.changeShowCounty(true);
             onRefresh();
         }
+    }
+
+    @OnClick(R.id.iv_back)
+    public void onFinish(){
+        finish();
     }
 
     @Override
@@ -214,24 +233,6 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
     }
 
     @Override
-    public void changeSucceed(String token) {
-        SPUtils.put(this, SpKey.TOKEN, token);
-        dialogDelegate.clearDialog();
-    }
-
-    @Override
-    public void changeFailed(String msg) {
-        dialogDelegate.stopProgressWithWarning(msg, "请重新登录", new DialogDelegate.OnDialogListener() {
-            @Override
-            public void onClick() {
-                Intent intent = new Intent(HouseActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
     public String getToken() {
         return SPUtils.getString(this, SpKey.TOKEN, "");
     }
@@ -257,11 +258,6 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
     @Override
     public String getCountyId() {
         return mCurrentCounty.getId();
-    }
-
-    @Override
-    public String getParentId() {
-        return mParentId;
     }
 
     @Override
@@ -314,9 +310,6 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
     protected void onDestroy() {
         super.onDestroy();
         dialogDelegate.clearDialog();
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
     }
 
     public void closeKeyboard() {
@@ -346,112 +339,4 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
         recyclerView.setRefreshing(false);
     }
 
-    @OnClick(R.id.btn_more)
-    public void onMore(View view) {
-        showPopupWindow(view);
-    }
-
-    public void onExit() {
-        dialogDelegate.showWarningDialog("退出登录", "确定退出当前账号？", new DialogDelegate.OnDialogListener() {
-            @Override
-            public void onClick() {
-                Intent intent = new Intent(HouseActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            ActivityTaskManager.getActivityTaskManager().finishActivity();
-            finish();
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
-
-    }
-
-    @OnClick(R.id.btn_home_material)
-    public void onHomeMaterial() {
-        startActivity(new Intent(this, SellPartActivity.class));
-    }
-
-    private PopupWindow popupWindow;
-
-    private void showPopupWindow(View parent) {
-        TextView btnLogout;
-        TextView btnChangeParent;
-        TextView btnContactUs;
-        if (popupWindow == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.view_popup_window, null);
-            btnLogout = (TextView) view.findViewById(R.id.btn_logout);
-            btnLogout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onExit();
-                }
-            });
-
-            btnContactUs = (TextView) view.findViewById(R.id.btn_contact_us);
-            btnContactUs.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onContactUs();
-                }
-            });
-
-            btnChangeParent = (TextView) view.findViewById(R.id.btn_change_parent);
-            btnChangeParent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onChangeParent();
-                    popupWindow.dismiss();
-                }
-            });
-            if (FactoryListInfo.parentList.size() <= 1) {
-                // btnChangeParent.setVisibility(View.GONE);
-                btnChangeParent.setTextColor(getResources().getColor(R.color.gray));
-                btnChangeParent.setClickable(false);
-            } else {
-                //  btnChangeParent.setVisibility(View.VISIBLE);
-                btnChangeParent.setTextColor(getResources().getColor(R.color.black_semi_transparent));
-                btnChangeParent.setClickable(true);
-            }
-            popupWindow = new PopupWindow(view, ScreenUtils.getScreenWidth(this) / 8, AutoLinearLayout.LayoutParams.WRAP_CONTENT);
-        }
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
-        // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-        int xPos = -popupWindow.getWidth() / 2;
-
-        popupWindow.showAsDropDown(parent, xPos, 4);
-
-    }
-
-    private String mParentId;
-
-    private void onChangeParent() {
-//        new DialogChooseParent(this, FactoryListInfo.parentList, new DialogChooseParent.onCheckedListener() {
-//            @Override
-//            public void onCheck(int id) {
-//                mParentId = id + "";
-//                mPresenter.changeParent();
-//                dialogDelegate.showProgressDialog(false, "正在提交...");
-//            }
-//        }).show();
-        startActivity(new Intent(this, ParentActivity.class));
-    }
-
-    private void onContactUs() {
-        new DialogContactUs(this).show();
-    }
-
-    @OnClick(R.id.btn_3_d)
-    public void on3DClick() {
-        startActivity(new Intent(this, ThreeDimensionalActivity.class));
-    }
 }

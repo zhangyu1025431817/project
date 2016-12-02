@@ -1,11 +1,10 @@
 package com.fangzhi.app.base;
 
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
-import com.fangzhi.app.network.ConnectionChangeReceiver;
 import com.fangzhi.app.tools.TUtil;
 
 import butterknife.ButterKnife;
@@ -23,8 +22,6 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
 
     public abstract void initView();
 
-    private ConnectionChangeReceiver myReceiver;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +32,10 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
 //            decorView.setSystemUiVisibility(option);
 //            getWindow().setStatusBarColor(Color.TRANSPARENT);
 //        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         //反射拿到Presenter实例
@@ -42,7 +43,6 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
         mModel = TUtil.getT(this, 1);
         if (this instanceof BaseView) mPresenter.setVM(this, mModel);
         initView();
-      //  registerReceiver();
     }
 
     @Override
@@ -52,7 +52,6 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
             mPresenter.onDestroy();
         }
         ButterKnife.unbind(this);
-       // unregisterReceiver();
     }
 
     //    @Override
@@ -69,13 +68,4 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
 //                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 //        }
 //    }
-    private void registerReceiver() {
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        myReceiver = new ConnectionChangeReceiver();
-        this.registerReceiver(myReceiver, filter);
-    }
-
-    private void unregisterReceiver() {
-        this.unregisterReceiver(myReceiver);
-    }
 }

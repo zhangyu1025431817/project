@@ -23,8 +23,8 @@ public class LoginModel implements LoginContract.Model {
 
     @Override
     public Observable<LoginNewBean> loginNew(String deviceCode, String account, String password
-    ,String deviceSize) {
-        return Network.getApiService().loginNew(account,password,deviceCode,"A",deviceSize)
+    ,String deviceSize,String width,String height) {
+        return Network.getApiService().loginNew(account,password,deviceCode,"A",deviceSize,width,height)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

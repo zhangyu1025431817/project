@@ -89,7 +89,6 @@ public class SellPartActivity extends BaseActivity<SellPartPresenter, SellPartMo
             startActivity(intent);
             //直接跳转
             mAdapter.addAll(list);
-
             finish();
         } else {
             mAdapter.addAll(list);
