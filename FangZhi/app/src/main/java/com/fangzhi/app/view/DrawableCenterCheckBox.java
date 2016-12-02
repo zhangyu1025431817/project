@@ -10,35 +10,54 @@ import android.widget.CheckBox;
  * Created by smacr on 2016/11/30.
  */
 public class DrawableCenterCheckBox extends CheckBox {
-    public DrawableCenterCheckBox(Context context, AttributeSet attrs,
-                                  int defStyle) {
-        super(context, attrs, defStyle);
+    private final static String TAG = "RightDrawableButton";
+    private Drawable[] drawables;
+    private float textWidth;
+    private float bodyWidth;
+    public DrawableCenterCheckBox(Context context) {
+        super(context);
+        init();
     }
 
     public DrawableCenterCheckBox(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
-    public DrawableCenterCheckBox(Context context) {
-        super(context);
+    public DrawableCenterCheckBox(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init(){
+        drawables = getCompoundDrawables();
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        textWidth = getPaint().measureText(getText().toString());
+        Drawable drawableRight = drawables[2];
+        int totalWidth = getWidth();
+        if (drawableRight != null) {
+            int drawableWidth = drawableRight.getIntrinsicWidth();
+            int drawablePadding = getCompoundDrawablePadding();
+            bodyWidth = textWidth + drawableWidth + drawablePadding;
+            setPadding(0,0,(int)(totalWidth - bodyWidth),0);
+        }
+    }
+
+    public void setText(String text){
+        if(text.equals(getText().toString()))
+            return;
+        super.setText(text);
+        requestLayout();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Drawable[] drawables = getCompoundDrawables();
-        if (drawables != null) {
-            Drawable drawableLeft = drawables[2];
-            if (drawableLeft != null) {
-
-                float textWidth = getPaint().measureText(getText().toString());
-                int drawablePadding = getCompoundDrawablePadding();
-                int drawableWidth = 0;
-                drawableWidth = drawableLeft.getIntrinsicWidth();
-                float bodyWidth = textWidth + drawableWidth + drawablePadding;
-                setPadding(0, 0, (int)(getWidth() - bodyWidth), 0);
-                canvas.translate((getWidth() - bodyWidth) / 2, 0);
-            }
-        }
+        int width = getWidth();
+        canvas.translate((width - bodyWidth) / 2, 0);
         super.onDraw(canvas);
     }
 }

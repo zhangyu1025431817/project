@@ -16,12 +16,13 @@ import com.zhy.autolayout.utils.AutoUtils;
 public class DDDImageViewHolder extends BaseViewHolder<DDDTypeResponseBean.DDDType.DDD> {
     ImageView imageView;
     TextView tvName;
-
+    TextView tvType;
     public DDDImageViewHolder(ViewGroup parent) {
         super(parent, R.layout.item_3d);
         AutoUtils.autoSize(itemView);
         imageView = $(R.id.iv_image);
         tvName = $(R.id.tv_name);
+        tvType = $(R.id.tv_type);
     }
 
     @Override
@@ -32,6 +33,7 @@ public class DDDImageViewHolder extends BaseViewHolder<DDDTypeResponseBean.DDDTy
                 .placeholder(R.drawable.bg_image_placeholder)
                 .crossFade()
                 .into(imageView);
+        tvType.setText("0".equals(data.getImage_type())? "2D":"3D");
     }
 
 }

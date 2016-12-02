@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fangzhi.app.R;
-import com.fangzhi.app.main.house.HouseActivity;
+import com.fangzhi.app.main.MainActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,7 +49,7 @@ public class CustomActivity extends AppCompatActivity {
 
     @OnClick({R.id.iv_close,R.id.iv_bg})
     public void onClose() {
-        startActivity(new Intent(this, HouseActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
     @Override

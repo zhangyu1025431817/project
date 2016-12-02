@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="88px"
-    android:background="@color/colorWhite">
+    android:background="@drawable/bg_common_title_color">
 
     <ImageView
         android:id="@+id/iv_back"
@@ -23,7 +23,7 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:text="布奇"
-        android:textColor="@color/text_main_color"
+        android:textColor="@color/colorWhite"
         android:textSize="44px" />
 
     <View

@@ -44,6 +44,13 @@ public class AccountManager {
     public void setCurrentSelectParentId(String id) {
         if(!id.equals(mCurrentSelectParentId)) {
             mCurrentSelectParentId = id;
+            for(LoginNewBean.Parent bean : getParentList()){
+                if(id.equals(bean.getID())){
+                    bean.setSelected(true);
+                }else{
+                    bean.setSelected(false);
+                }
+            }
             if(mListCurrentBanner == null){
                 mListCurrentBanner = new ArrayList<>();
             }

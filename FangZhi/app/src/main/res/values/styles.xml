@@ -16,9 +16,9 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/gray_btn</item>
-        <item name="colorPrimaryDark">@color/colorWhite</item>
-        <item name="colorAccent">@color/colorWhite</item>
+        <item name="colorPrimary">@color/transparent</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="colorAccent">@color/transparent</item>
         <item name="colorControlNormal">@color/black_press</item>
         <item name="colorControlActivated">@color/black_press</item>
         <item name="colorControlHighlight">@color/black_press</item>

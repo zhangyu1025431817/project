@@ -2,7 +2,7 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="88px"
-    android:background="@color/colorWhite">
+    android:background="@drawable/bg_common_title_color">
 
     <TextView
         android:id="@+id/tv_left"
@@ -11,6 +11,7 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:paddingLeft="40px"
+        android:textColor="@color/colorWhite"
         android:text="房智之家"
         android:textSize="38px" />
 
@@ -21,10 +22,10 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:text="布奇"
-        android:textColor="@color/text_main_color"
+        android:textColor="@color/colorWhite"
         android:textSize="44px" />
 
-    <TextView
+    <ImageButton
         android:id="@+id/tv_more"
         android:layout_width="50px"
         android:layout_height="50px"

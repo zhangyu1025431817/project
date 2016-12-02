@@ -39,6 +39,7 @@ public class PictureAdapter extends StaticPagerAdapter {
         Glide.with(ctx)
             .load(map.get("url"))
             .placeholder(R.drawable.bg_image_placeholder)
+            .centerCrop()
             .into(imageView);
     }
 }

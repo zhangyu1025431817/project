@@ -76,7 +76,7 @@
                 android:paddingBottom="20px"
                 android:paddingRight="20px"
                 android:text="体验注册>>"
-                android:textColor="@color/text_green_light_green"
+                android:textColor="@color/text_blue_light_blue"
                 android:textSize="30px" />
             <TextView
                 android:id="@+id/tv_forget_password"
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_protocol_two"
-                android:textColor="@color/text_green_light_green"
+                android:textColor="@color/text_blue_light_blue"
                 android:textSize="26px" />
         </com.zhy.autolayout.AutoLinearLayout>
 

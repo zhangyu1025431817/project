@@ -43,13 +43,13 @@
                 android:id="@+id/cb_right"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:button="@null"
-                android:text="@string/all"
-                android:drawablePadding="20px"
-                android:textSize="32px"
+                android:text="@string/all_sample"
                 android:drawableRight="@drawable/rb_drop"
                 android:gravity="center"
-                android:layout_height="match_parent" />
+                android:textSize="32px"
+                android:drawablePadding="20px"
+                android:button="@null"
+                android:layout_height="match_parent"  />
         </com.zhy.autolayout.AutoLinearLayout>
         <View
             android:layout_width="match_parent"

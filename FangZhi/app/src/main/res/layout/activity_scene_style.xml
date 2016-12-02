@@ -2,8 +2,8 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/bg_common"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
+    <include layout="@layout/view_status_bar"/>
     <include layout="@layout/view_base_title"/>
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view_style_type"
