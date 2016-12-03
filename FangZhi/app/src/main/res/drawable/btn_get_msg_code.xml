@@ -3,5 +3,5 @@
     <item android:state_selected="true" android:drawable="@drawable/btn_shape"  />
     <item android:state_focused="true" android:drawable="@drawable/btn_shape" />
     <item android:state_pressed="true" android:drawable="@drawable/btn_shape"  />
-    <item android:drawable="@drawable/icon_btn_get_msg_code"/>
+    <item android:drawable="@drawable/bg_get_code_color"/>
 </selector>

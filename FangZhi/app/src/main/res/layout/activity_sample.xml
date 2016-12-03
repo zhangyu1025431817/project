@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
@@ -9,7 +8,6 @@
         android:divider="@drawable/shape_gray_line"
         android:orientation="vertical"
         android:showDividers="middle">
-
         <include layout="@layout/view_base_title" />
 
         <com.zhy.autolayout.AutoLinearLayout
@@ -30,8 +28,7 @@
                 android:layout_height="match_parent" />
             <com.fangzhi.app.view.DrawableCenterCheckBox
                 android:id="@+id/cb_middle"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:text="@string/all_sample"
                 android:drawableRight="@drawable/rb_drop"
                 android:gravity="center"

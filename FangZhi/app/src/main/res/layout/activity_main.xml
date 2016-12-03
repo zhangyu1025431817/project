@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/bg_common"
     android:orientation="vertical">
-    <include layout="@layout/view_status_bar"/>
     <include layout="@layout/view_main_title" />
 
     <com.jude.rollviewpager.RollPagerView
@@ -18,111 +17,125 @@
         android:layout_height="378px"
         android:layout_margin="20px"
         android:orientation="horizontal">
-        <com.zhy.autolayout.AutoRelativeLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/layout_house_location"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#f8d0b4">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="#cbecf8">
 
+            <ImageView
+                android:background="@drawable/icon_building_location"
+                android:layout_width="196px"
+                android:layout_height="196px" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/shape_text_1px_bg"
-                android:gravity="center"
-                android:padding="40px"
+                android:layout_marginTop="30px"
                 android:text="楼盘定位"
-                android:textSize="44px" />
-        </com.zhy.autolayout.AutoRelativeLayout>
+                android:textSize="38px" />
+        </com.zhy.autolayout.AutoLinearLayout>
 
 
         <Space
             android:layout_width="29px"
             android:layout_height="match_parent" />
 
-        <com.zhy.autolayout.AutoRelativeLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/layout_scene_style"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#bbc4e7">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="#cbecf8">
 
+            <ImageView
+                android:background="@drawable/icon_scene_style"
+                android:layout_width="196px"
+                android:layout_height="196px" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/shape_text_1px_bg"
-                android:gravity="center"
-                android:padding="40px"
+                android:layout_marginTop="30px"
                 android:text="场景风格"
-                android:textSize="44px" />
-        </com.zhy.autolayout.AutoRelativeLayout>
+                android:textSize="38px" />
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <Space
             android:layout_width="29px"
             android:layout_height="match_parent" />
 
-        <com.zhy.autolayout.AutoRelativeLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/layout_house_material"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#9ed4ff">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="#cbecf8">
 
+            <ImageView
+                android:background="@drawable/icon_domestic_outfit_design"
+                android:layout_width="196px"
+                android:layout_height="196px" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/shape_text_1px_bg"
-                android:gravity="center"
-                android:padding="40px"
-                android:text="家装建材"
-                android:textSize="44px" />
-        </com.zhy.autolayout.AutoRelativeLayout>
+                android:layout_marginTop="30px"
+                android:text="家装设计"
+                android:textSize="38px" />
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <Space
             android:layout_width="29px"
             android:layout_height="match_parent" />
 
-        <com.zhy.autolayout.AutoRelativeLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/layout_3d"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ffadad">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="#cbecf8">
 
+            <ImageView
+                android:background="@drawable/icon_3d_display"
+                android:layout_width="196px"
+                android:layout_height="196px" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/shape_text_1px_bg"
-                android:gravity="center"
-                android:padding="40px"
+                android:layout_marginTop="30px"
                 android:text="3D展示"
-                android:textSize="44px" />
-        </com.zhy.autolayout.AutoRelativeLayout>
+                android:textSize="38px" />
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <Space
             android:layout_width="29px"
             android:layout_height="match_parent" />
 
-        <com.zhy.autolayout.AutoRelativeLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/layout_sample"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#bbe7c4">
-
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="#cbecf8">
+            <ImageView
+                android:background="@drawable/icon_real_case"
+                android:layout_width="196px"
+                android:layout_height="196px" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/shape_text_1px_bg"
-                android:gravity="center"
-                android:padding="40px"
+                android:layout_marginTop="30px"
                 android:text="真实案例"
-                android:textSize="44px" />
-        </com.zhy.autolayout.AutoRelativeLayout>
+                android:textSize="38px" />
+        </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

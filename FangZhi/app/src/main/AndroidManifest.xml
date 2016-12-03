@@ -61,7 +61,6 @@
             android:theme="@style/AppBaseThemeMain" />
         <activity
             android:name=".main.room.RoomActivity"
-            android:process=":Room"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity
@@ -145,6 +144,9 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity android:name=".main.sample.SampleActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppBaseTheme" />
+        <activity android:name=".main.ddd.DDView2"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <meta-data

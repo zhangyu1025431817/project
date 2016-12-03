@@ -5,12 +5,14 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.fangzhi.app.MyApplication;
@@ -148,9 +150,9 @@ public class ParentActivity extends AppCompatActivity implements BrandFragment.M
         @Override
         public Fragment getItem(int position) {
             ArrayList<LoginNewBean.Parent> tempList = new ArrayList<>();
-            LoginNewBean.Parent parent1 =  list.get(position*2);
-            tempList.add(parent1);
             try {
+                LoginNewBean.Parent parent1 =  list.get(position*2);
+                tempList.add(parent1);
                 LoginNewBean.Parent parent2 =  list.get(position*2+1);
                 tempList.add(parent2);
             }catch (Exception e){
@@ -161,7 +163,7 @@ public class ParentActivity extends AppCompatActivity implements BrandFragment.M
 
         @Override
         public int getCount() {
-            return list.size()/2+1;
+            return list.size()%2 == 0? list.size()/2: list.size()/2 +1;
         }
 
         @Override
@@ -169,5 +171,19 @@ public class ParentActivity extends AppCompatActivity implements BrandFragment.M
             return "";
         }
 
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 }

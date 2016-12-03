@@ -42,6 +42,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
+import com.zhy.autolayout.utils.AutoLayoutHelper;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +54,7 @@ import java.util.Comparator;
  * Just a copy of the original ViewPager modified to support vertical Scrolling
  */
 public class VerticalViewPager extends ViewGroup {
-
+    private final AutoLayoutHelper mHelper = new AutoLayoutHelper(this);
     private static final String TAG = "ViewPager";
     private static final boolean DEBUG = false;
 
@@ -1264,6 +1266,9 @@ public class VerticalViewPager extends ViewGroup {
         // our view.  We can't really know what it is since we will be
         // adding and removing different arbitrary views and do not
         // want the layout to change as this happens.
+        if (!isInEditMode()) {
+            mHelper.adjustChildren();
+        }
         setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
                 getDefaultSize(0, heightMeasureSpec));
 

@@ -7,15 +7,15 @@
     android:gravity="center">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="862px"
+        android:layout_height="148px"
         android:src="@drawable/icon_login_logo" />
 
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/layout_login"
         android:layout_width="1000px"
         android:layout_height="800px"
-        android:layout_marginTop="30px"
+        android:layout_marginTop="60px"
         android:background="@drawable/bg_login_box"
         android:focusableInTouchMode="true"
         android:gravity="center"

@@ -90,7 +90,7 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
                     intent.setClass(ThreeDimensionalActivity.this, DDDWebView.class);
                 } else {
                     intent.putExtra("url", mapArrayList);
-                    intent.setClass(ThreeDimensionalActivity.this, DDView.class);
+                    intent.setClass(ThreeDimensionalActivity.this, DDView2.class);
                 }
                 startActivity(intent);
 
@@ -116,7 +116,7 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
             }
         });
         spinnerPopWindowFitment.setWidth(ScreenUtils.getScreenWidth(this));
-        spinnerPopWindowFitment.setHeight(ScreenUtils.getScreenHeight(this)/7);
+        spinnerPopWindowFitment.setHeight(ScreenUtils.getScreenHeight(this)/6);
         //3D2D
         dddTypeAdapter = new DDDTypeAdapter(this);
         dddTypeAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
@@ -137,7 +137,7 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
             }
         });
         spinnerPopWindow3D.setWidth(ScreenUtils.getScreenWidth(this));
-        spinnerPopWindow3D.setHeight(ScreenUtils.getScreenHeight(this)/7);
+        spinnerPopWindow3D.setHeight(ScreenUtils.getScreenHeight(this)/6);
         mPresenter.getCaseTypeList();
     }
 
@@ -210,11 +210,26 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
 
     @Override
     public void showDDDTypes(ArrayList<DDDTypeResponseBean.DDDType> caseList) {
+        if (caseList == null || caseList.isEmpty()) {
+            return;
+        }
+        //构建全部数据
+        DDDTypeResponseBean.DDDType typeAll = new DDDTypeResponseBean.DDDType();
+        typeAll.setImage_type("-1");
+        typeAll.setImage_type_name("全部");
+        ArrayList<DDDTypeResponseBean.DDDType.DDD> sonList = new ArrayList<>();
+        for(DDDTypeResponseBean.DDDType dddType : caseList){
+            if(dddType.getSonList() != null){
+                sonList.addAll(dddType.getSonList());
+            }
+
+        }
+        typeAll.setSonList(sonList);
+        caseList.add(0,typeAll);
+
         dddTypeAdapter.clear();
         dddTypeAdapter.addAll(caseList);
-        if (caseList != null && !caseList.isEmpty()) {
             chooseDDDType(0);
-        }
     }
 
     private void chooseThreeDimensionFitment(int position) {

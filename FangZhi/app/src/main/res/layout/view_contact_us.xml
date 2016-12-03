@@ -12,7 +12,7 @@
         android:layout_height="116px"
         android:gravity="center"
         android:text="服务热线"
-        android:textColor="@color/colorTextCommonGreen"
+        android:textColor="@color/text_main_color"
         android:textSize="40px" />
 
     <TextView

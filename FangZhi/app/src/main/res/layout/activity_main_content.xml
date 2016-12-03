@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/bg_common"
     android:orientation="vertical">
-
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="88px"
-        android:background="@color/colorWhite"
+        android:layout_height="128px"
+        android:background="@drawable/bg_common_title_color"
         >
         <ImageView
             android:id="@+id/iv_back"
@@ -27,7 +26,7 @@
             android:drawableLeft="@drawable/icon_location"
             android:drawablePadding="10px"
             android:gravity="center"
-            android:textColor="@color/text_gray_white"
+            android:textColor="@color/colorWhite"
             android:textSize="40px" />
 
         <Spinner
@@ -43,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="楼盘定位"
-            android:textColor="@color/text_main_color"
+            android:textColor="@color/colorWhite"
             android:textSize="44px" />
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="wrap_content"
@@ -66,8 +65,9 @@
                 android:hint="搜索"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="#333"
-                android:textColorHint="#aaa"
+                android:textColor="@color/colorWhite"
+                android:drawablePadding="20px"
+                android:textColorHint="@color/colorWhite"
                 android:textSize="28px" />
 
             <TextView
@@ -77,6 +77,7 @@
                 android:gravity="center"
                 android:paddingLeft="10px"
                 android:text="取消"
+                android:textColor="@color/colorWhite"
                 android:layout_marginLeft="20px"
                 android:textSize="28px"
                 android:visibility="gone" />

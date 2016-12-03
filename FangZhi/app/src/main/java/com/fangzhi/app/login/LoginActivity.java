@@ -17,7 +17,7 @@ import com.fangzhi.app.R;
 import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.LocationArea;
 import com.fangzhi.app.config.SpKey;
-import com.fangzhi.app.main.house.HouseActivity;
+import com.fangzhi.app.main.MainActivity;
 import com.fangzhi.app.main.parent.ParentActivity;
 import com.fangzhi.app.main.welcome.CustomActivity;
 import com.fangzhi.app.tools.ActivityTaskManager;
@@ -281,7 +281,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     public void loginSucceed(String img) {
         dialogDelegate.clearDialog();
         if (img == null || img.isEmpty()) {
-            startActivity(new Intent(this, HouseActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         } else {
             Intent intent = new Intent();
             intent.putExtra("url", img);

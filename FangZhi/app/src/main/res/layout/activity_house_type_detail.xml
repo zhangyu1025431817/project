@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="10dp">
-
+    android:orientation="vertical"
+    >
+    <include layout="@layout/common_title_bar"/>
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@color/colorWhite"
         android:layout_height="match_parent">
-
         <RelativeLayout
             android:id="@+id/layout_bg"
             android:layout_width="wrap_content"
@@ -20,25 +19,7 @@
                 android:id="@+id/iv_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitXY" />
         </RelativeLayout>
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/iv_back"
-        style="@style/Widget.AppCompat.ActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="?attr/actionBarSize"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:scaleType="center"
-        android:src="@drawable/ic_back" />
-
-</com.fangzhi.app.view.AutoCardView>
+</com.zhy.autolayout.AutoLinearLayout>

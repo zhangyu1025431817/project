@@ -20,7 +20,7 @@ import com.fangzhi.app.main.adapter.DDDTypeAdapter;
 import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.adapter.TagAdapter;
 import com.fangzhi.app.main.ddd.DDDWebView;
-import com.fangzhi.app.main.ddd.DDView;
+import com.fangzhi.app.main.ddd.DDView2;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.ScreenUtils;
 import com.fangzhi.app.view.SpinnerPopWindow;
@@ -104,7 +104,7 @@ public class SampleActivity extends BaseActivity<SamplePresenter,SampleModel>
                     intent.setClass(SampleActivity.this, DDDWebView.class);
                 } else {
                     intent.putExtra("url", mapArrayList);
-                    intent.setClass(SampleActivity.this, DDView.class);
+                    intent.setClass(SampleActivity.this, DDView2.class);
                 }
                 startActivity(intent);
 
@@ -122,7 +122,7 @@ public class SampleActivity extends BaseActivity<SamplePresenter,SampleModel>
         });
         spinnerPopWindowCooperative = new SpinnerPopWindow(this,3);
         spinnerPopWindowCooperative.setWidth(ScreenUtils.getScreenWidth(this));
-     //   spinnerPopWindowCooperative.setHeight(ScreenUtils.getScreenHeight(this)/7);
+        spinnerPopWindowCooperative.setHeight(ScreenUtils.getScreenHeight(this)/6);
         spinnerPopWindowCooperative.setAdapter(cooperativeAdapter);
         spinnerPopWindowCooperative.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -141,7 +141,7 @@ public class SampleActivity extends BaseActivity<SamplePresenter,SampleModel>
         });
         spinnerPopWindowTag = new SpinnerPopWindow(this,3);
         spinnerPopWindowTag.setWidth(ScreenUtils.getScreenWidth(this));
-      //  spinnerPopWindowTag.setHeight(ScreenUtils.getScreenHeight(this)/7);
+        spinnerPopWindowTag.setHeight(ScreenUtils.getScreenHeight(this)/6);
         spinnerPopWindowTag.setAdapter(tagAdapter);
         spinnerPopWindowTag.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -160,7 +160,7 @@ public class SampleActivity extends BaseActivity<SamplePresenter,SampleModel>
         });
         spinnerPopWindow3D = new SpinnerPopWindow(this,3);
         spinnerPopWindow3D.setWidth(ScreenUtils.getScreenWidth(this));
-      //  spinnerPopWindow3D.setHeight(ScreenUtils.getScreenHeight(this)/7);
+        spinnerPopWindow3D.setHeight(ScreenUtils.getScreenHeight(this)/6);
         spinnerPopWindow3D.setAdapter(dddTypeAdapter);
         //构建2D3D选项，固定
         dddTypeAdapter.addAll(made2D3DType());

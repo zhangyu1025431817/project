@@ -5,9 +5,14 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fangzhi.app.R;
@@ -16,6 +21,7 @@ import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -43,14 +49,18 @@ public class DDView extends AppCompatActivity {
         rollPagerView.setHintView(new ColorPointHintView(this, Color.TRANSPARENT, Color.TRANSPARENT));
         rollPagerView.setHintPadding(0, 0, 0, DensityUtils.dp2px(this, 8));
       //  rollPagerView.setPlayDelay(10000);
-        PictureAdapter mBannerAdapter = new PictureAdapter(this, mapArrayList);
+        List<ImageView> list = new ArrayList<>();
+        for(Map<String,String> map : mapArrayList){
+            View view =  LayoutInflater.from(this).inflate(R.layout.item_2d_picture,null);
+            ImageView imageView = (ImageView) view.findViewById(R.id.iv_image);
+            list.add(imageView);
+        }
+        PictureAdapter mBannerAdapter = new PictureAdapter(this, mapArrayList,list);
         rollPagerView.setAdapter(mBannerAdapter);
         rollPagerView.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
-
             @Override
             public void onPageSelected(int position) {
                 setName(mapArrayList,position);
@@ -62,6 +72,8 @@ public class DDView extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void setName(ArrayList<Map<String,String>> mapArrayList,int position){
         Map<String ,String> map = mapArrayList.get(position);

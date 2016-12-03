@@ -66,7 +66,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
         Intent intent = getIntent();
         mCategoryId = intent.getStringExtra("categoryId");
         String title = intent.getStringExtra("title");
-        tvTitle.setText(title);
+        tvTitle.setText("商品");
 
         recyclerViewProduct.setLayoutManager(new GridLayoutManager(this, 4));
         homeCategoryTypePartAdapter = new HomeCategoryTypePartAdapter(this);

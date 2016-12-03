@@ -22,6 +22,7 @@ import com.fangzhi.app.R;
 import com.fangzhi.app.bean.BannerMain;
 import com.fangzhi.app.login.LoginActivity;
 import com.fangzhi.app.main.adapter.BannerAdapter;
+import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.ddd.DDDWebView;
 import com.fangzhi.app.main.ddd.ThreeDimensionalActivity;
 import com.fangzhi.app.main.decoration.SellPartActivity;
@@ -79,17 +80,16 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         rollPagerView.setHintView(new ColorPointHintView(this, Color.GREEN, Color.GRAY));
         rollPagerView.setHintPadding(0, 0, 0, DensityUtils.dp2px(this, 8));
-        //  rollPagerView.setPlayDelay(10000);
-        rollPagerView.setAdapter(mBannerAdapter = new BannerAdapter(this, mListImages, new BannerAdapter.OnItemClickListener() {
+        rollPagerView.setPlayDelay(2000);
+        rollPagerView.setAdapter(mBannerAdapter = new BannerAdapter(this, mListImages,  new NoDoubleClickListener()  {
             @Override
-            public void onClick(int position) {
+            public void onNoDoubleClick(int position) {
                     if(mBannerList != null){
                         BannerMain bannerMain =  mBannerList.get(position);
                         String url = bannerMain.getURL();
-                        if(url != null || !url.isEmpty()){
+                        if(url != null && !url.isEmpty()){
                             Intent intent = new Intent();
                             intent.putExtra("url",url);
                             intent.setClass(MainActivity.this, DDDWebView.class);
@@ -277,5 +277,20 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 }

@@ -15,8 +15,8 @@ public class BannerAdapter extends StaticPagerAdapter {
 
     private Context ctx;
     private List<String> list;
-    private OnItemClickListener mListener;
-       public BannerAdapter(Context ctx , List<String> list,OnItemClickListener listener){
+    private NoDoubleClickListener mListener;
+       public BannerAdapter(Context ctx , List<String> list,NoDoubleClickListener listener){
            this.ctx = ctx;
            this.list = list;
            mListener = listener;
@@ -35,7 +35,7 @@ public class BannerAdapter extends StaticPagerAdapter {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onClick(position);
+                    mListener.onNoDoubleClick(position);
                 }
             });
             return imageView;
@@ -46,7 +46,5 @@ public class BannerAdapter extends StaticPagerAdapter {
             return list.size();
         }
 
-    public interface OnItemClickListener{
-        void onClick(int position);
-         }
+
     }

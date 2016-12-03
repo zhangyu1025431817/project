@@ -16,7 +16,16 @@ public class Scene{
     String scene_img;
     String scene_name;
     String show_img;
+    String hot_type;
     ArrayList<Part> sonList;
+
+    public String getHot_type() {
+        return hot_type;
+    }
+
+    public void setHot_type(String hot_type) {
+        this.hot_type = hot_type;
+    }
 
     public String getHl_code() {
         return hl_code;

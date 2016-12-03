@@ -8,11 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/bg_common">
+            android:layout_height="128px"
+            android:background="@drawable/bg_common_title_color">
 
             <ImageView
                 android:id="@+id/iv_back"
@@ -31,21 +30,21 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="选择城市"
-                android:textColor="#3c3c3c"
+                android:textColor="@color/colorWhite"
                 android:textSize="40px" />
 
-            <TextView
+            <Button
                 android:id="@+id/tv_contact_factory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20px"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/tv_total_money"
+                android:layout_width="205px"
+                android:layout_height="50px"
                 android:gravity="center"
-                android:padding="20px"
-                android:text="联系商家"
-                android:background="@drawable/shape_gray_bg"
-                android:textSize="40px" />
+                android:layout_toLeftOf="@+id/tv_total_money"
+                android:text="联系厂家"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30px"
+                android:background="@drawable/btn_3d"
+                android:textColor="@color/colorWhite"
+                android:textSize="28px" />
 
             <TextView
                 android:id="@+id/tv_total_money"
@@ -55,7 +54,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="40px"
                 android:text="总价:$23"
-                android:textColor="#3c3c3c"
+                android:textColor="@color/colorWhite"
                 android:textSize="40px" />
         </com.zhy.autolayout.AutoRelativeLayout>
 

@@ -69,7 +69,7 @@ public class SceneStyleActivity extends BaseActivity<SceneStylePresenter,SceneSt
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("parts", scene.getSonList());
                 bundle.putString("bg", scene.getHl_img());
-                bundle.putString("hotType", "");
+                bundle.putString("hotType", scene.getHot_type());
                 bundle.putString("hlCode", scene.getHl_code());
                 bundle.putString("sceneId", scene.getScene_id());
                 bundle.putString("token", getToken());

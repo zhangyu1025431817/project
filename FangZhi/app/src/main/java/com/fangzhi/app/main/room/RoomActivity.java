@@ -105,6 +105,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             @Override
             public void onClick(View v) {
                 ArrayList<RoomProduct> list = (ArrayList<RoomProduct>) partAdapter.getAllData();
+                if(list == null || list.isEmpty()){
+                    return;
+                }
                 Intent intent = new Intent(RoomActivity.this, ProductSearchActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("parts", list);
@@ -130,7 +133,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         List<Scene.Part> list = (List<Scene.Part>) bundle.getSerializable("parts");
         ArrayList<RoomProductType> partTypeList = (ArrayList<RoomProductType>) bundle.getSerializable("types");
         //用于当背景的空bitmap
-
         if (list != null) {
             for (Scene.Part part : list) {
                 mapUrl.put(part.getOrder_num(), part.getPart_img());
@@ -149,6 +151,34 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 productMap.put(part.getOrder_num(), order);
             }
         }
+
+        if(mapIdToOrder.containsKey(3) && (mapIdToOrder.containsKey(12)
+                || mapIdToOrder.containsKey(13)
+                || mapIdToOrder.containsKey(14))){
+            if("12".equals(mDefaultSelectTypeId) ||
+                    "13".equals(mDefaultSelectTypeId)||
+                    "14".equals(mDefaultSelectTypeId)){
+                if(mapUrl.containsKey(mapIdToOrder.get(3))){
+                    mapUrl.put(mapIdToOrder.get(3),null);
+                    productMap.put(mapIdToOrder.get(3),null);
+                }
+            }else {
+                if (mapUrl.containsKey(mapIdToOrder.get(12))) {
+                    mapUrl.put(mapIdToOrder.get(12), null);
+                    productMap.put(mapIdToOrder.get(12), null);
+                }
+                if (mapUrl.containsKey(mapIdToOrder.get(13))) {
+                    mapUrl.put(mapIdToOrder.get(13), null);
+                    productMap.put(mapIdToOrder.get(13), null);
+                }
+                if (mapUrl.containsKey(mapIdToOrder.get(14))) {
+                    mapUrl.put(mapIdToOrder.get(14), null);
+                    productMap.put(mapIdToOrder.get(14), null);
+                }
+            }
+        }
+
+
         dialogDelegate = new SweetAlertDialogDelegate(this);
         initRecyclerView(partTypeList);
         downLoadImageService = new DownLoadImageService(mapUrl, this, new DownLoadImageService.OnDrawListener() {
@@ -520,7 +550,10 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     public void onShowOrder() {
         ArrayList<Order> list = new ArrayList<>();
         for (int key : productMap.keySet()) {
-            list.add(productMap.get(key));
+            Order order =  productMap.get(key);
+            if(order != null) {
+                list.add(order);
+            }
         }
         Intent intent = new Intent();
         intent.putExtra("list", list);
