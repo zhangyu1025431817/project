@@ -4,6 +4,8 @@
     android:layout_height="314px"
     android:divider="@drawable/shape_hor_divider"
     android:showDividers="middle"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="horizontal">
 
     <RelativeLayout

@@ -67,6 +67,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                                 ;
                                 AccountManager.getInstance().setParentList(list);
                                 AccountManager.getInstance().setBannerList(loginBean.getCarouselList());
+                                AccountManager.getInstance().setCurrentSelectParentId(list.get(0).getID());
                                 AccountManager.getInstance().setCurrentParentName(list.get(0).getNAME());
                             }
                             mView.loginSucceed(loginBean.getImg());

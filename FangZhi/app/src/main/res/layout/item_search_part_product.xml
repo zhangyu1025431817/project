@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_part"
+    android:layout_width="594px"
+    android:layout_height="594px"
+    android:layout_margin="20px"
+    android:background="@drawable/bg_part_normal"
+    >
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="38px"
+        android:layout_alignBottom="@id/iv_image"
+        android:background="@color/half_gray"
+        android:gravity="center"
+        android:text="翡翠城"
+        android:textColor="@color/black_3c3c3c"
+        android:textSize="22px" />
+</com.zhy.autolayout.AutoRelativeLayout>

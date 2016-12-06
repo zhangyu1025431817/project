@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,7 +28,6 @@ import com.fangzhi.app.main.house.house_type.HouseTypeActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
-import com.fangzhi.app.view.SearchEditText;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -42,7 +42,7 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
     @Bind(R.id.et_keyword)
-    SearchEditText etKeyword;
+    EditText etKeyword;
     @Bind(R.id.tv_location)
     TextView tvLocation;
     @Bind(R.id.sp_area)
@@ -118,13 +118,13 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
 
     @OnClick(R.id.tv_cancel)
     public void cancelSearch(){
+        closeKeyboard();
         etKeyword.setText("");
         etKeyword.clearFocus();
         mKeyword = "";
-        if(isSearch)
-        onRefresh();
-        closeKeyboard();
         isSearch = false;
+        onRefresh();
+        onWindowFocusChanged(true);
     }
 
     @OnClick(R.id.tv_location)
@@ -163,6 +163,7 @@ public class HouseActivity extends BaseActivity<HousePresenter, HouseModel> impl
                 isSearch = true;
                 onSearch();
                 closeKeyboard();
+                onWindowFocusChanged(true);
             }
             return true;
         }

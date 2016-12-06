@@ -20,6 +20,9 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
         android:textSize="30px"
+        android:padding="20px"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/shape_gray_transparent_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </com.zhy.autolayout.AutoRelativeLayout>

@@ -147,12 +147,9 @@ public class ThreeDimensionalActivity extends BaseActivity<ThreeDimensionalPrese
         String firstUrl = ddd.getCase_url();
         if(firstUrl != null && !firstUrl.isEmpty()){
             String[] images = firstUrl.split(";");
-            int length = images.length;
-            for(int i =0;i<length;i++){
-                map.put("name",ddd.getCase_name());
-                map.put("url",images[i]);
-                map.put("position",(i+1)+"");
-                map.put("count",length+"");
+            for (String image : images) {
+                map.put("name", ddd.getCase_name());
+                map.put("url", image);
             }
         }
         return map;

@@ -46,7 +46,7 @@
                 android:orientation="horizontal"
                 android:paddingRight="40px">
 
-                <com.fangzhi.app.view.SearchEditText
+                <EditText
                     android:id="@+id/et_keyword"
                     android:layout_width="630px"
                     android:layout_height="46px"

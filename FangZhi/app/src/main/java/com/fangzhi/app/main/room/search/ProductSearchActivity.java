@@ -7,15 +7,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fangzhi.app.R;
 import com.fangzhi.app.bean.RoomProduct;
-import com.fangzhi.app.main.adapter.HomeCategoryTypePartAdapter;
-import com.fangzhi.app.view.ClearEditText;
+import com.fangzhi.app.main.adapter.SearchPartAdapter;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
@@ -30,45 +32,33 @@ import butterknife.OnClick;
  */
 public class ProductSearchActivity extends AppCompatActivity {
     @Bind(R.id.et_keyword)
-    ClearEditText etKeyword;
+    EditText etKeyword;
     ArrayList<RoomProduct> partList;
-    @Bind(R.id.recycler_view_type)
-    EasyRecyclerView recyclerViewType;
     @Bind(R.id.recycler_view_product)
     EasyRecyclerView recyclerViewProduct;
     @Bind(R.id.tv_title)
     TextView tvTitle;
-    @Bind(R.id.view_diver)
-    View viewDiver;
-    private String mCurrentTypeId;
-    private String mCurrentPartId;
-    HomeCategoryTypePartAdapter homeCategoryTypePartAdapter;
+    @Bind(R.id.tv_cancel)
+    TextView tvCancel;
+    SearchPartAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_type);
         ButterKnife.bind(this);
-
         tvTitle.setText("搜索");
-        viewDiver.setVisibility(View.GONE);
-        recyclerViewType.setVisibility(View.GONE);
-
 
         final Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         partList = (ArrayList<RoomProduct>) bundle.getSerializable("parts");
         recyclerViewProduct.setLayoutManager(new GridLayoutManager(this, 4));
-        homeCategoryTypePartAdapter = new HomeCategoryTypePartAdapter(this);
-        homeCategoryTypePartAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+        mAdapter = new SearchPartAdapter(this);
+        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                RoomProduct  roomProduct = (RoomProduct) homeCategoryTypePartAdapter.getItem(position);
-                mCurrentTypeId = String.valueOf(roomProduct.getType_id());
-                mCurrentPartId = roomProduct.getId();
-
+                RoomProduct  roomProduct = (RoomProduct) mAdapter.getItem(position);
                int index =  partList.indexOf(roomProduct);
-
                 Intent data = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putInt("index",index);
@@ -77,14 +67,27 @@ public class ProductSearchActivity extends AppCompatActivity {
                 finish();
             }
         });
-        homeCategoryTypePartAdapter.addAll(partList);
-        recyclerViewProduct.setAdapter(homeCategoryTypePartAdapter);
-        etKeyword.addOnClearListener(new ClearEditText.OnClearListener() {
+        mAdapter.addAll(partList);
+        recyclerViewProduct.setAdapter(mAdapter);
+        etKeyword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClear() {
-                homeCategoryTypePartAdapter.clear();
-                homeCategoryTypePartAdapter.addAll(partList);
-                closeKeyboard();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    tvCancel.setVisibility(View.VISIBLE);
+                } else {
+                    tvCancel.setVisibility(View.GONE);
+                    closeKeyboard();
+                }
             }
         });
     }
@@ -99,15 +102,23 @@ public class ProductSearchActivity extends AppCompatActivity {
         setResult(1, data);
         finish();
     }
-
+    @OnClick(R.id.tv_cancel)
+    public void onClearEditText() {
+        etKeyword.setText("");
+        etKeyword.clearFocus();
+        mAdapter.clear();
+        mAdapter.addAll(partList);
+        onWindowFocusChanged(true);
+    }
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         //这里注意要作判断处理，ActionDown、ActionUp都会回调到这里，不作处理的话就会调用两次
         if (KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction()) {
             if (!etKeyword.getText().toString().trim().isEmpty()) {
-                homeCategoryTypePartAdapter.clear();
-                homeCategoryTypePartAdapter.addAll(search(etKeyword.getText().toString().trim()));
+                mAdapter.clear();
+                mAdapter.addAll(search(etKeyword.getText().toString().trim()));
                 closeKeyboard();
+                onWindowFocusChanged(true);
             }
             return true;
         }

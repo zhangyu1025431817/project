@@ -37,6 +37,7 @@ public class DDView2 extends AppCompatActivity {
     ViewPager viewPager;
     @Bind(R.id.tv_name)
     TextView tvName;
+    String mSize;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,7 @@ public class DDView2 extends AppCompatActivity {
 
         Intent intent = getIntent();
         final ArrayList<Map<String,String>> mapArrayList = (ArrayList<Map<String, String>>) intent.getSerializableExtra("url");
+        mSize = mapArrayList.size()+"";
         setName(mapArrayList,0);
         List<Fragment> fragments = new ArrayList<>();
         for(Map<String,String> map : mapArrayList){
@@ -101,7 +103,7 @@ public class DDView2 extends AppCompatActivity {
     }
     private void setName(ArrayList<Map<String,String>> mapArrayList,int position){
         Map<String ,String> map = mapArrayList.get(position);
-        tvName.setText(map.get("name"));
+        tvName.setText(map.get("name")+"("+(position+1)+"/"+mSize+")");
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fangzhi.app.R;
@@ -26,7 +27,6 @@ import com.fangzhi.app.main.room.RoomActivity;
 import com.fangzhi.app.tools.SPUtils;
 import com.fangzhi.app.tools.T;
 import com.fangzhi.app.view.DialogDelegate;
-import com.fangzhi.app.view.SearchEditText;
 import com.fangzhi.app.view.SweetAlertDialogDelegate;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 
@@ -47,7 +47,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.et_keyword)
-    SearchEditText etKeyword;
+    EditText etKeyword;
     @Bind(R.id.tv_cancel)
     TextView tvCancel;
     DialogDelegate dialogDelegate;
@@ -135,6 +135,7 @@ public class ProductActivity extends BaseActivity<ProductPresenter, ProductModel
         etKeyword.clearFocus();
         homeCategoryTypePartAdapter.clear();
         homeCategoryTypePartAdapter.addAll(mPartList);
+        onWindowFocusChanged(true);
     }
 
     @Override
