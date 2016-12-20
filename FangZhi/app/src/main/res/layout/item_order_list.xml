@@ -78,7 +78,7 @@
         android:ems="10"
          />
 
-    <com.fangzhi.app.view.XEditText
+    <com.buqi.app.view.XEditText
         android:id="@+id/tv_count"
         android:layout_width="0dp"
         android:layout_height="match_parent"

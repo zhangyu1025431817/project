@@ -56,7 +56,7 @@
                 android:layout_weight="1"
                 android:scrollbars="none">
 
-                <com.fangzhi.app.main.room.MyRadioGroup
+                <com.buqi.app.main.room.MyRadioGroup
                     android:id="@+id/gb_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

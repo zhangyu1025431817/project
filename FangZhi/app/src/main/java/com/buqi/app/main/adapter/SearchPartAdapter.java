@@ -1,0 +1,22 @@
+package com.buqi.app.main.adapter;
+
+import android.content.Context;
+import android.view.ViewGroup;
+
+import com.buqi.app.bean.CategoryPart;
+import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+
+/**
+ * Created by smacr on 2016/9/1.
+ */
+public class SearchPartAdapter extends RecyclerArrayAdapter<CategoryPart.Part> {
+    public SearchPartAdapter(Context context) {
+        super(context);
+    }
+
+    @Override
+    public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
+        return new SearchPartViewHolder(parent);
+    }
+}

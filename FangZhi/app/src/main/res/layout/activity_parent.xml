@@ -11,10 +11,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="1000px"
-            android:layout_height="170px"
+            android:layout_width="762px"
+            android:layout_height="225px"
             android:layout_marginTop="306px"
-            android:background="@drawable/icon_fangzhi_logo" />
+            android:background="@drawable/icon_login_logo_buqi" />
 
         <ImageView
             android:layout_width="1932px"
@@ -22,7 +22,7 @@
             android:layout_marginTop="230px"
             android:background="@drawable/bg_brand" />
 
-        <com.fangzhi.app.view.VerticalViewPager
+        <com.buqi.app.view.VerticalViewPager
             android:id="@+id/view_pager"
             android:layout_width="wrap_content"
             android:layout_height="444px"

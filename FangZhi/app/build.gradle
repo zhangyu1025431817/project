@@ -8,7 +8,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {
-        applicationId "com.fangzhi.app"
+        applicationId "com.buqi.app"
         minSdkVersion 17
         targetSdkVersion 24
         versionCode 6
@@ -17,9 +17,9 @@ android {
     signingConfigs {
         release {
             //注意：该签名文件的路径是以你的moudle文件夹为根路径的，而不是project，不能写错了
-            storeFile file("D:\\qianming\\fangzhi.jks")
+            storeFile file("D:\\qianming\\buqi.jks")
             storePassword "123456"
-            keyAlias "fangzhi"
+            keyAlias "buqi"
             keyPassword "123456"
         }
     }

@@ -57,7 +57,7 @@
             android:layout_width="20px"
             android:layout_height="match_parent" />
 
-        <com.fangzhi.app.view.StateEditText
+        <com.buqi.app.view.StateEditText
             android:id="@+id/et_user_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -92,7 +92,7 @@
             android:layout_width="20px"
             android:layout_height="match_parent" />
 
-        <com.fangzhi.app.view.ClearEditText
+        <com.buqi.app.view.ClearEditText
             android:id="@+id/et_register_psd"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -126,7 +126,7 @@
             android:layout_width="20px"
             android:layout_height="match_parent" />
 
-        <com.fangzhi.app.view.ClearEditText
+        <com.buqi.app.view.ClearEditText
             android:id="@+id/et_register_psd_confirm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -265,7 +265,7 @@
             android:layout_width="20px"
             android:layout_height="match_parent" />
 
-        <com.fangzhi.app.view.ClearEditText
+        <com.buqi.app.view.ClearEditText
             android:id="@+id/et_company"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -302,7 +302,7 @@
             android:layout_width="20px"
             android:layout_height="match_parent" />
 
-        <com.fangzhi.app.view.ClearEditText
+        <com.buqi.app.view.ClearEditText
             android:id="@+id/et_address"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -338,7 +338,7 @@
             android:layout_width="20px"
             android:layout_height="match_parent" />
 
-        <com.fangzhi.app.view.ClearEditText
+        <com.buqi.app.view.ClearEditText
             android:id="@+id/et_register_v_code"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -376,7 +376,7 @@
             android:layout_width="20px"
             android:layout_height="match_parent" />
 
-        <com.fangzhi.app.view.ClearEditText
+        <com.buqi.app.view.ClearEditText
             android:id="@+id/et_business_area"
             android:layout_width="0dp"
             android:layout_height="match_parent"

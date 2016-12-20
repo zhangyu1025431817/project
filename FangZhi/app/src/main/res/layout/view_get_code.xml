@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.fangzhi.app.view.ClearEditText
+    <com.buqi.app.view.ClearEditText
         android:id="@+id/et_phone_code"
         android:layout_width="640px"
         android:layout_height="100px"
@@ -39,7 +39,7 @@
         android:layout_marginTop="80px"
         android:orientation="horizontal">
 
-        <com.fangzhi.app.view.ClearEditText
+        <com.buqi.app.view.ClearEditText
             android:id="@+id/et_message_code"
             android:layout_width="0dp"
             android:layout_height="match_parent"

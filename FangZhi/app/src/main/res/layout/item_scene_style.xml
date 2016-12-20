@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.buqi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="796px"
     android:layout_height="618px"
     android:layout_margin="20px"
@@ -28,4 +28,4 @@
             android:text="翡翠城"
             android:textSize="32px" />
     </com.zhy.autolayout.AutoLinearLayout>
-</com.fangzhi.app.view.AutoCardView>
+</com.buqi.app.view.AutoCardView>

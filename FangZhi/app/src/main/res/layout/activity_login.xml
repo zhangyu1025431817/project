@@ -8,8 +8,8 @@
 
     <ImageView
         android:layout_width="862px"
-        android:layout_height="148px"
-        android:src="@drawable/icon_login_logo" />
+        android:layout_height="225px"
+        android:src="@drawable/icon_login_logo_buqi" />
 
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/layout_login"
@@ -23,7 +23,7 @@
         android:paddingBottom="90px"
         android:paddingTop="90px">
 
-        <com.fangzhi.app.view.ClearEditText
+        <com.buqi.app.view.ClearEditText
             android:id="@+id/et_phone"
             android:layout_width="640px"
             android:layout_height="100px"
@@ -38,7 +38,7 @@
             android:textScaleX="0.96"
             android:textSize="30px" />
 
-        <com.fangzhi.app.view.ClearEditText
+        <com.buqi.app.view.ClearEditText
             android:id="@+id/et_password"
             android:layout_width="640px"
             android:layout_height="100px"
@@ -65,6 +65,7 @@
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="640px"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginTop="20px">
 
@@ -95,6 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30px"
+            android:visibility="gone"
             android:gravity="center"
             android:orientation="horizontal">
 

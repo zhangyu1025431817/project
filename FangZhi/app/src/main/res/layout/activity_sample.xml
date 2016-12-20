@@ -15,7 +15,7 @@
             android:orientation="horizontal"
             android:background="@color/colorWhite"
             android:layout_height="96px">
-            <com.fangzhi.app.view.DrawableCenterCheckBox
+            <com.buqi.app.view.DrawableCenterCheckBox
                 android:id="@+id/cb_left"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -26,7 +26,7 @@
                 android:drawablePadding="20px"
                 android:button="@null"
                 android:layout_height="match_parent" />
-            <com.fangzhi.app.view.DrawableCenterCheckBox
+            <com.buqi.app.view.DrawableCenterCheckBox
                 android:id="@+id/cb_middle"
                 android:layout_width="wrap_content"
                 android:text="@string/all_sample"
@@ -36,7 +36,7 @@
                 android:drawablePadding="20px"
                 android:button="@null"
                 android:layout_height="match_parent" />
-            <com.fangzhi.app.view.DrawableCenterCheckBox
+            <com.buqi.app.view.DrawableCenterCheckBox
                 android:id="@+id/cb_right"
                 android:layout_width="0dp"
                 android:layout_weight="1"
