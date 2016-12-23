@@ -28,7 +28,8 @@ public class MyApplication extends LitePalApplication {
         String processName = getProcessName(this, android.os.Process.myPid());
         if (processName != null) {
             if (MAIN_PROCESS.equals(processName)) {
-          //      File cacheFile = new File(getCacheDir(), "Test");
+                //请求缓存
+             //   File cacheFile = new File(getCacheDir(), "Test");
              //   Cache cache = new Cache(cacheFile, 1024 * 1024 * 10);
                 AutoLayoutConifg.getInstance().useDeviceSize();
                 //配置
