@@ -18,7 +18,7 @@ import okhttp3.OkHttpClient;
  * Created by zhangyu on 2016/5/9.
  */
 public class MyApplication extends LitePalApplication {
-    private static final String MAIN_PROCESS = "com.fangzhi.app";
+    private static final String MAIN_PROCESS = "com.buqi.app";
     private static Context mContext ;
 
     @Override
