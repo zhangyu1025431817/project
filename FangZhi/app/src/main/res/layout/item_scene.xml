@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.buyiren.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="796px"
     android:layout_height="618px"
     android:layout_margin="20px"
@@ -38,4 +38,4 @@
         android:visibility="gone"
         android:textColor="@color/white"
         android:textSize="30px" />
-</com.fangzhi.app.view.AutoCardView>
+</com.buyiren.app.view.AutoCardView>

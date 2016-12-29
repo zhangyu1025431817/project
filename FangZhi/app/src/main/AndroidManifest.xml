@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.fangzhi.app">
+    package="com.buyiren.app">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -25,7 +25,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /><!-- 在SD卡上创建 删除文件权限 -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <application
-        android:name=".MyApplication"
+        android:name="com.buyiren.app.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -41,13 +41,13 @@
             android:name="房智_装修"
             android:value="9ecad00ea95543d902c3820868a03d03" />
         <meta-data
-            android:name="com.fangzhi.app.config.GlideConfiguration"
+            android:name="com.buyiren.app.config.GlideConfiguration"
             android:value="GlideModule" />
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
-            android:name="com.fangzhi.app.LoadingActivity"
+            android:name="com.buyiren.app.LoadingActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,97 +56,94 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.MainActivity"
+            android:name="com.buyiren.app.main.MainActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseThemeMain" />
         <activity
-            android:name=".main.room.RoomActivity"
+            android:name="com.buyiren.app.main.room.RoomActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name="com.buyiren.app.login.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseThemeMain"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".main.city.CityActivity"
+            android:name="com.buyiren.app.main.city.CityActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".main.house.HouseActivity"
+            android:name="com.buyiren.app.main.house.HouseActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".main.house.house_type.HouseTypeActivity"
+            android:name="com.buyiren.app.main.house.house_type.HouseTypeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity
-            android:name=".main.house.type_detail.HouseTypeDetailActivity"
+            android:name="com.buyiren.app.main.house.type_detail.HouseTypeDetailActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity
-            android:name=".main.house.scene.SceneActivity"
+            android:name="com.buyiren.app.main.house.scene.SceneActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity
-            android:name=".main.list.ListOrderActivity"
+            android:name="com.buyiren.app.main.list.ListOrderActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".main.welcome.CustomActivity"
+            android:name="com.buyiren.app.main.welcome.CustomActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity
-            android:name=".login.ProtocolActivity"
+            android:name="com.buyiren.app.login.ProtocolActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".main.room.ZoomActivity"
+            android:name="com.buyiren.app.main.decoration.SellPartActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".main.decoration.SellPartActivity"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".main.decoration.product.ProductActivity"
+            android:name="com.buyiren.app.main.decoration.product.ProductActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".main.parent.ParentActivity"
+            android:name="com.buyiren.app.main.parent.ParentActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".main.room.search.ProductSearchActivity"
+            android:name="com.buyiren.app.main.room.search.ProductSearchActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".main.house.window_type.WindowTypeActivity"
+            android:name="com.buyiren.app.main.house.window_type.WindowTypeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity
-            android:name=".main.ddd.ThreeDimensionalActivity"
+            android:name="com.buyiren.app.main.ddd.ThreeDimensionalActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity
-            android:name=".main.ddd.DDDWebView"
+            android:name="com.buyiren.app.main.ddd.DDDWebView"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <activity
-            android:name=".main.ddd.DDView"
+            android:name="com.buyiren.app.main.ddd.DDView"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
-        <activity android:name=".main.decoration.product.PictureActivity"
+        <activity android:name="com.buyiren.app.main.decoration.product.PictureActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <activity android:name=".main.scenestyle.SceneStyleActivity"
+        <activity android:name="com.buyiren.app.main.scenestyle.SceneStyleActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
-        <activity android:name=".main.sample.SampleActivity"
+        <activity android:name="com.buyiren.app.main.sample.SampleActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
-        <activity android:name=".main.ddd.DDView2"
+        <activity android:name="com.buyiren.app.main.ddd.DDView2"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
         <meta-data

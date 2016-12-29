@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.buyiren.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="796px"
     android:layout_height="618px"
     android:layout_margin="20px"
@@ -45,4 +45,4 @@
                 android:text="户型:13" />
         </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoLinearLayout>
-</com.fangzhi.app.view.AutoCardView>
+</com.buyiren.app.view.AutoCardView>

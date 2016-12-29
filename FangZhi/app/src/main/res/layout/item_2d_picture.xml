@@ -2,7 +2,7 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.fangzhi.app.view.ScaleImageView
+    <com.buyiren.app.view.ScaleImageView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:scaleType="fitXY"
