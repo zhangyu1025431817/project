@@ -19,6 +19,7 @@ import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.HouseTypeDetails;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
+import com.fangzhi.app.main.MainActivity;
 import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.house.scene.SceneActivity;
 import com.fangzhi.app.tools.SPUtils;
@@ -89,7 +90,12 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
     public void onFinish() {
         finish();
     }
-
+    @OnClick(R.id.iv_home)
+    public void onHome(){
+        Intent intent = new Intent(HouseTypeDetailActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
     @Override
     public String getToken() {
         return SPUtils.getString(this, SpKey.TOKEN, "");

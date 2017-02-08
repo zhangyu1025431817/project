@@ -11,6 +11,7 @@ import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.Scene;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
+import com.fangzhi.app.main.MainActivity;
 import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.adapter.SceneAdapter;
 import com.fangzhi.app.main.room.RoomActivity;
@@ -82,7 +83,12 @@ public class SceneActivity extends BaseActivity<ScenePresenter, SceneModel> impl
     public String getToken() {
         return SPUtils.getString(this, SpKey.TOKEN, "");
     }
-
+    @OnClick(R.id.iv_home)
+    public void onHome(){
+        Intent intent = new Intent(SceneActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
     @Override
     public String getHouseHotTypeId() {
         return mHotType;

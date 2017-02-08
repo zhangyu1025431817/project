@@ -10,6 +10,7 @@ import com.fangzhi.app.base.BaseActivity;
 import com.fangzhi.app.bean.HouseTypes;
 import com.fangzhi.app.config.SpKey;
 import com.fangzhi.app.login.LoginActivity;
+import com.fangzhi.app.main.MainActivity;
 import com.fangzhi.app.main.adapter.HouseTypeAdapter;
 import com.fangzhi.app.main.adapter.NoDoubleClickListener;
 import com.fangzhi.app.main.house.type_detail.HouseTypeDetailActivity;
@@ -94,6 +95,12 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
         finish();
     }
 
+    @OnClick(R.id.iv_home)
+    public void onHome(){
+        Intent intent = new Intent(HouseTypeActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
     @Override
     public void onRefresh() {
         recyclerView.setRefreshing(true);

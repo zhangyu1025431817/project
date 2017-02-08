@@ -4,7 +4,49 @@
     android:layout_height="match_parent"
     android:background="@color/bg_common"
     android:orientation="vertical">
-    <include layout="@layout/common_title_bar"/>
+    <com.zhy.autolayout.AutoLinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/layout_title"
+            android:layout_width="match_parent"
+            android:background="@drawable/bg_common_title_color"
+            android:layout_height="128px">
+            <ImageView
+                android:id="@+id/iv_back"
+                style="@style/Widget.AppCompat.ActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:src="@drawable/ic_back"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="选择城市"
+                android:textSize="40px"
+                android:textColor="@color/colorWhite" />
+            <ImageView
+                android:id="@+id/iv_home"
+                style="@style/Widget.AppCompat.ActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_home"
+                tools:ignore="ContentDescription" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#AAEBEBEB"/>
+    </com.zhy.autolayout.AutoLinearLayout>
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
