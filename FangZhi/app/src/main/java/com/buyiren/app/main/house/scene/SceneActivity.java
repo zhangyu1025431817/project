@@ -13,6 +13,7 @@ import com.buyiren.app.bean.RoomProductType;
 import com.buyiren.app.bean.Scene;
 import com.buyiren.app.config.SpKey;
 import com.buyiren.app.login.LoginActivity;
+import com.buyiren.app.main.MainActivity;
 import com.buyiren.app.main.adapter.NoDoubleClickListener;
 import com.buyiren.app.main.adapter.SceneAdapter;
 import com.buyiren.app.main.room.RoomActivity;
@@ -124,7 +125,12 @@ public class SceneActivity extends BaseActivity<ScenePresenter, SceneModel> impl
         mAdapter.addAll(list);
         recyclerView.setRefreshing(false);
     }
-
+    @OnClick(R.id.iv_home)
+    public void onHome(){
+        Intent intent = new Intent(SceneActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
     @Override
     public void showRoomProductTypes(ArrayList<RoomProductType> list, int position) {
         if(list == null || list.isEmpty()){

@@ -10,6 +10,7 @@ import com.buyiren.app.base.BaseActivity;
 import com.buyiren.app.bean.HouseTypes;
 import com.buyiren.app.config.SpKey;
 import com.buyiren.app.login.LoginActivity;
+import com.buyiren.app.main.MainActivity;
 import com.buyiren.app.main.adapter.HouseTypeAdapter;
 import com.buyiren.app.main.adapter.NoDoubleClickListener;
 import com.buyiren.app.main.house.type_detail.HouseTypeDetailActivity;
@@ -93,7 +94,12 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
         dialogDelegate.clearDialog();
         finish();
     }
-
+    @OnClick(R.id.iv_home)
+    public void onHome(){
+        Intent intent = new Intent(HouseTypeActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
     @Override
     public void onRefresh() {
         recyclerView.setRefreshing(true);

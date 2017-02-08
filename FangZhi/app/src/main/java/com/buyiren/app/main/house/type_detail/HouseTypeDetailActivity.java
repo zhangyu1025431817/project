@@ -19,6 +19,7 @@ import com.buyiren.app.base.BaseActivity;
 import com.buyiren.app.bean.HouseTypeDetails;
 import com.buyiren.app.config.SpKey;
 import com.buyiren.app.login.LoginActivity;
+import com.buyiren.app.main.MainActivity;
 import com.buyiren.app.main.adapter.NoDoubleClickListener;
 import com.buyiren.app.main.house.scene.SceneActivity;
 import com.buyiren.app.tools.SPUtils;
@@ -89,7 +90,12 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
     public void onFinish() {
         finish();
     }
-
+    @OnClick(R.id.iv_home)
+    public void onHome(){
+        Intent intent = new Intent(HouseTypeDetailActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
     @Override
     public String getToken() {
         return SPUtils.getString(this, SpKey.TOKEN, "");
