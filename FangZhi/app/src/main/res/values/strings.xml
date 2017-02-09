@@ -6,6 +6,7 @@
     <string name="input_request_code">请输入邀请码</string>
     <string name="input_verification_code">请输入验证码</string>
     <string name="login">登录</string>
+    <string name="exit">退出</string>
     <string name="login_protocol_one">点击登录，即表示您同意并愿意遵守</string>
     <string name="login_protocol_two"><![CDATA[<房智用户使用协议>]]></string>
     <string name="forget_password">忘记密码?</string>
