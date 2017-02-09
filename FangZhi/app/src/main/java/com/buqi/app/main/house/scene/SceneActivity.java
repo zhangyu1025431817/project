@@ -11,6 +11,7 @@ import com.buqi.app.base.BaseActivity;
 import com.buqi.app.bean.Scene;
 import com.buqi.app.config.SpKey;
 import com.buqi.app.login.LoginActivity;
+import com.buqi.app.main.MainActivity;
 import com.buqi.app.main.adapter.NoDoubleClickListener;
 import com.buqi.app.main.adapter.SceneAdapter;
 import com.buqi.app.main.room.RoomActivity;
@@ -108,7 +109,12 @@ public class SceneActivity extends BaseActivity<ScenePresenter, SceneModel> impl
     public void onFinish() {
         finish();
     }
-
+    @OnClick(R.id.iv_home)
+    public void onHome() {
+        Intent intent = new Intent(SceneActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 
     @Override
     public void onRefresh() {

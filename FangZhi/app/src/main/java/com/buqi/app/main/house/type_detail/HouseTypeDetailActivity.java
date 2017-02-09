@@ -19,6 +19,7 @@ import com.buqi.app.base.BaseActivity;
 import com.buqi.app.bean.HouseTypeDetails;
 import com.buqi.app.config.SpKey;
 import com.buqi.app.login.LoginActivity;
+import com.buqi.app.main.MainActivity;
 import com.buqi.app.main.adapter.NoDoubleClickListener;
 import com.buqi.app.main.house.scene.SceneActivity;
 import com.buqi.app.tools.SPUtils;
@@ -88,6 +89,12 @@ public class HouseTypeDetailActivity extends BaseActivity<HouseTypeDetailPresent
     @OnClick(R.id.iv_back)
     public void onFinish() {
         finish();
+    }
+    @OnClick(R.id.iv_home)
+    public void onHome() {
+        Intent intent = new Intent(HouseTypeDetailActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.buqi.app.base.BaseActivity;
 import com.buqi.app.bean.HouseTypes;
 import com.buqi.app.config.SpKey;
 import com.buqi.app.login.LoginActivity;
+import com.buqi.app.main.MainActivity;
 import com.buqi.app.main.adapter.HouseTypeAdapter;
 import com.buqi.app.main.adapter.NoDoubleClickListener;
 import com.buqi.app.main.house.type_detail.HouseTypeDetailActivity;
@@ -27,8 +28,8 @@ import butterknife.OnClick;
 /**
  * Created by smacr on 2016/9/21.
  */
-public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseTypeModel> implements HouseTypeContract.View
-,SwipeRefreshLayout.OnRefreshListener{
+public class HouseTypeActivity extends BaseActivity<HouseTypePresenter, HouseTypeModel> implements HouseTypeContract.View
+        , SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.recycler_view)
     EasyRecyclerView recyclerView;
     @Bind(R.id.tv_title)
@@ -36,6 +37,7 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
     private String mHouseId;
     private HouseTypeAdapter mAdapter;
     DialogDelegate dialogDelegate;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_house_type;
@@ -61,9 +63,9 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
                 String id = mAdapter.getItem(position).getId();
                 String name = mAdapter.getItem(position).getHouse_name();
                 Intent intent = new Intent();
-                intent.putExtra("imgUrl",imgUrl);
-                intent.putExtra("id",id);
-                intent.putExtra("name",name);
+                intent.putExtra("imgUrl", imgUrl);
+                intent.putExtra("id", id);
+                intent.putExtra("name", name);
                 intent.setClass(HouseTypeActivity.this, HouseTypeDetailActivity.class);
                 startActivity(intent);
             }
@@ -75,7 +77,7 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
 
     @Override
     public String getToken() {
-        return SPUtils.getString(this, SpKey.TOKEN,"");
+        return SPUtils.getString(this, SpKey.TOKEN, "");
     }
 
     @Override
@@ -88,10 +90,18 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
         mAdapter.addAll(list);
         recyclerView.setRefreshing(false);
     }
+
     @OnClick(R.id.iv_back)
-    public void onFinish(){
+    public void onFinish() {
         dialogDelegate.clearDialog();
         finish();
+    }
+
+    @OnClick(R.id.iv_home)
+    public void onHome() {
+        Intent intent = new Intent(HouseTypeActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override
@@ -114,6 +124,6 @@ public class HouseTypeActivity extends BaseActivity<HouseTypePresenter,HouseType
 
     @Override
     public void onError(String msg) {
-        T.showShort(this,msg);
+        T.showShort(this, msg);
     }
 }
