@@ -119,7 +119,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             mPresenter.loginNew();
         }
     }
-
+    @OnClick(R.id.btn_exit)
+    public void onExit(){
+        finish();
+    }
     private boolean verificationEmpty(EditText et, String errorMsg) {
         if (et.getText().toString().trim().isEmpty()) {
             T.showShort(this, errorMsg);
