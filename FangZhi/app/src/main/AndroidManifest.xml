@@ -63,7 +63,7 @@
             android:name="com.buqi.app.main.room.RoomActivity"
             android:process=":room"
             android:screenOrientation="landscape"
-            android:theme="@style/AppBaseTheme" />
+            android:theme="@style/AppBaseThemeMain" />
         <activity
             android:name="com.buqi.app.login.LoginActivity"
             android:launchMode="singleTask"

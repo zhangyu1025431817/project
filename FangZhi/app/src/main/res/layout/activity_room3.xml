@@ -45,6 +45,15 @@
         android:layout_marginTop="40dp"
         android:src="@drawable/icon_eye" />
 
+    <ImageView
+        android:id="@+id/iv_scene_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_eye"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/icon_scene_more_n" />
+
       <!--<include layout="@layout/view_room_right_part" />-->
     <com.buqi.app.main.room.ProductView
         android:id="@+id/view_product"

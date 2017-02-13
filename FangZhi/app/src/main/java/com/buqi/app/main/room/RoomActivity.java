@@ -2,11 +2,17 @@ package com.buqi.app.main.room;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.buqi.app.R;
 import com.buqi.app.base.BaseActivity;
@@ -46,7 +52,6 @@ import butterknife.OnClick;
  * Created by smacr on 2016/9/12.
  */
 public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> implements RoomContract.View {
-
     //  @Bind(R.id.gb_type)
     EasyRecyclerView typeRecyclerView;
     //  @Bind(R.id.recycler_view)
@@ -58,7 +63,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Bind(R.id.view_product)
     ProductView productView;
-
 
     //当前图层urls
     private Map<Integer, String> mapUrl = new TreeMap<>(new Comparator<Integer>() {
@@ -98,6 +102,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public void initView() {
+        //该功能与popWindow弹出背景半透明冲突
+        setSwipeBackEnable(false);
         //loading
         typeRecyclerView = productView.getTypeRecyclerView();
         productRecyclerView = productView.getProductRecyclerView();
@@ -559,6 +565,52 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         intent.putExtra("list", list);
         intent.setClass(this, ListOrderActivity.class);
         startActivity(intent);
+    }
+
+    @Bind(R.id.iv_scene_more)
+    ImageView imageView;
+
+    @OnClick(R.id.iv_scene_more)
+    public void onSceneMore(){
+        View view = LayoutInflater.from(this).inflate(R.layout.view_room_scene,null);
+
+        PopupWindow popupWindow = new PopupWindow(view,200,120);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setOnDismissListener(new popDismissListener());
+        backgroundAlpha(0.6f);
+
+        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layout_scene);
+
+        for(int i=0;i< 3;i++) {
+            View item = LayoutInflater.from(this).inflate(R.layout.item_room_scene, null);
+            linearLayout.addView(item);
+        }
+        int[] location = new int[2];
+        imageView.getLocationOnScreen(location);
+
+        popupWindow.showAtLocation(imageView, Gravity.NO_GRAVITY, location[0]+imageView.getWidth(), location[1]);
+        imageView.setBackground(getResources().getDrawable(R.drawable.icon_scene_more_p));
+    }
+    class popDismissListener implements PopupWindow.OnDismissListener{
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1f);
+            imageView.setBackground(getResources().getDrawable(R.drawable.icon_scene_more_n));
+        }
+    }
+    /**
+     * 设置添加屏幕的背景透明度
+     * 注意：此时activity背景style 要设置为 <item name="android:windowIsTranslucent">false</item>
+     * 因为activity滑动删除功能需要将android:windowIsTranslucent设置为true
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha)
+    {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
     }
 
     public void productToOrder(RoomProduct product) {
