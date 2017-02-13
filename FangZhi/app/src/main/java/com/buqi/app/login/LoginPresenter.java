@@ -50,7 +50,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     @Override
     void loginNew() {
         mRxManager.add(mModel.loginNew(mView.getDeviceId(), mView.getPhoneNumber(), mView.getPassword()
-                , mView.getDeviceRealSize(),mView.getScreenWidth(),mView.getScreenHeight())
+                , mView.getDeviceRealSize(),mView.getScreenWidth(),mView.getScreenHeight(),mView.isPad(),mView.getScreenLayout())
                 .subscribe(new MySubscriber<LoginNewBean>() {
                     @Override
                     public void onNext(LoginNewBean loginBean) {

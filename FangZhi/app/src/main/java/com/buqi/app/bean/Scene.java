@@ -18,6 +18,15 @@ public class Scene{
     String show_img;
     String hot_type;
     ArrayList<Part> sonList;
+    boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public String getHot_type() {
         return hot_type;

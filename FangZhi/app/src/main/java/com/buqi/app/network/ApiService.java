@@ -17,6 +17,7 @@ import com.buqi.app.bean.LocationArea;
 import com.buqi.app.bean.LoginBean;
 import com.buqi.app.bean.LoginNewBean;
 import com.buqi.app.bean.RoomProductTypes;
+import com.buqi.app.bean.SameScenes;
 import com.buqi.app.bean.SceneLabelResponseBean;
 import com.buqi.app.bean.SceneStyleResponse;
 import com.buqi.app.bean.Scenes;
@@ -47,7 +48,9 @@ public interface ApiService {
                                       @Query("machine_type") String type,
                                       @Query("machine_size") String size,
                                       @Query("equipmentWidth") String width,
-                                      @Query("equipmentHigh") String height);
+                                      @Query("equipmentHigh") String height,
+                                      @Query("isAPad")String number,
+                                      @Query("screenLayout") String screenLayout);
 
     @GET(ApiUrl.PARENT_LOGIN_NEW)
     Observable<LoginBean> loginParent(@Header("token") String token, @Query("parentId") String parentId, @Query("userID") String userId);
@@ -164,4 +167,6 @@ public interface ApiService {
     @GET(ApiUrl.GET_TAG_LIST)
     Observable<SceneLabelResponseBean> getTagList(@Header("token")String token,@Query("id") String id);
 
+    @GET(ApiUrl.GET_SAME_SCENE)
+    Observable<SameScenes> getSameScenes(@Header("token")String token, @Query("scene_id") String id);
 }

@@ -8,11 +8,11 @@ public class ApiUrl {
     /**
      * 正式
      */
-    public static final String BASE_URL = "http://51fangz.com:8050/";
+   // public static final String BASE_URL = "http://51fangz.com:8050/";
     /**
      * 测试
      */
-  //  public static final String BASE_URL = "http://test.51fangz.com:8050/";
+    public static final String BASE_URL = "http://test.51fangz.com:8050/";
     /**
      * 获取城市列表
      */
@@ -40,7 +40,7 @@ public class ApiUrl {
     /**
      * 获取场景组成部件类型及部件
      */
-    public static final String GET_SCNEN_PART_TYPE="fznet/fzapp/FangzhiAction/getPart.json";
+    public static final String GET_SCNEN_PART_TYPE = "fznet/fzapp/FangzhiAction/getPart.json";
     /**
      * 获取app版本号
      */
@@ -118,7 +118,7 @@ public class ApiUrl {
      */
     public static final String GET_ATTACH_PART = "fznet/fzapp/FangzhiAction/getAttachPartList.json";
     /**
-     *查询单元图
+     * 查询单元图
      */
     public static final String QUERY_CELL_GRAPH = "fznet/fzmangge/FzUser/queryCellGraph.json";
     /**
@@ -133,4 +133,8 @@ public class ApiUrl {
      * 获取指定合作商的标签列表及其场景列表
      */
     public static final String GET_TAG_LIST = "fznet/fzapp/HouseCaseAction/getSceneList.json";
- }
+    /**
+     * 获取指定场景的相似场景
+     */
+    public static final String GET_SAME_SCENE = "/fznet/fzapp/FangzhiAction/getAttachSceneList.json";
+}

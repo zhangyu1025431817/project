@@ -16,6 +16,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by zhangyu on 2016/6/15.
+ * 这一层级其实可以省略
  */
 public class NetWorkRequest {
 

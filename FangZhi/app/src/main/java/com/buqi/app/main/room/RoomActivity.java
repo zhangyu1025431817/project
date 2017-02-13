@@ -6,13 +6,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.buqi.app.R;
 import com.buqi.app.base.BaseActivity;
@@ -26,6 +27,7 @@ import com.buqi.app.download.DrawImageService;
 import com.buqi.app.login.LoginActivity;
 import com.buqi.app.main.adapter.PartAdapter;
 import com.buqi.app.main.adapter.ProductTypeAdapter;
+import com.buqi.app.main.adapter.SameSceneAdapter;
 import com.buqi.app.main.list.ListOrderActivity;
 import com.buqi.app.main.room.search.ProductSearchActivity;
 import com.buqi.app.tools.SPUtils;
@@ -111,7 +113,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             @Override
             public void onClick(View v) {
                 ArrayList<RoomProduct> list = (ArrayList<RoomProduct>) partAdapter.getAllData();
-                if(list == null || list.isEmpty()){
+                if (list == null || list.isEmpty()) {
                     return;
                 }
                 Intent intent = new Intent(RoomActivity.this, ProductSearchActivity.class);
@@ -128,7 +130,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         Bundle bundle = intent.getExtras();
         bgUrl = bundle.getString("bg");
         //首先放置背景
-        mapUrl.put(0, bgUrl);
         mHotTypeId = bundle.getString("hotType");
         mSceneId = bundle.getString("sceneId");
         mHlCode = bundle.getString("hlCode");
@@ -140,35 +141,47 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         ArrayList<RoomProductType> partTypeList = (ArrayList<RoomProductType>) bundle.getSerializable("types");
         //用于当背景的空bitmap
         if (list != null) {
-            for (Scene.Part part : list) {
-                mapUrl.put(part.getOrder_num(), part.getPart_img());
-                mapIdToOrder.put(part.getType_id(), part.getOrder_num());
-                Order order = new Order();
-                order.setId(part.getId());
-                order.setPart_img_short(part.getPart_img_short());
-                order.setPart_brand(part.getPart_brand());
-                order.setPart_name(part.getPart_name());
-                order.setType(part.getType_name());
-                order.setPart_code(part.getPart_name());
-                order.setPrice("");
-                order.setCountNumber("");
-                order.setTotalMoney("0.0");
-                order.setPart_unit(part.getPart_unit());
-                productMap.put(part.getOrder_num(), order);
-            }
+            setOrder(list);
         }
+        dialogDelegate = new SweetAlertDialogDelegate(this);
+        initRecyclerView(partTypeList);
 
-        if(mapIdToOrder.containsKey(3) && (mapIdToOrder.containsKey(12)
+        //请求相似场景数据
+        mPresenter.getSameScene();
+    }
+
+    private void setOrder(List<Scene.Part> list){
+        mapUrl.clear();
+        mapIdToOrder.clear();
+        productMap.clear();
+        mapUrl.put(0, bgUrl);
+        for (Scene.Part part : list) {
+            mapUrl.put(part.getOrder_num(), part.getPart_img());
+            mapIdToOrder.put(part.getType_id(), part.getOrder_num());
+            Order order = new Order();
+            order.setId(part.getId());
+            order.setPart_img_short(part.getPart_img_short());
+            order.setPart_brand(part.getPart_brand());
+            order.setPart_name(part.getPart_name());
+            order.setType(part.getType_name());
+            order.setPart_code(part.getPart_name());
+            order.setPrice("");
+            order.setCountNumber("");
+            order.setTotalMoney("0.0");
+            order.setPart_unit(part.getPart_unit());
+            productMap.put(part.getOrder_num(), order);
+        }
+        if (mapIdToOrder.containsKey(3) && (mapIdToOrder.containsKey(12)
                 || mapIdToOrder.containsKey(13)
-                || mapIdToOrder.containsKey(14))){
-            if("12".equals(mDefaultSelectTypeId) ||
-                    "13".equals(mDefaultSelectTypeId)||
-                    "14".equals(mDefaultSelectTypeId)){
-                if(mapUrl.containsKey(mapIdToOrder.get(3))){
-                    mapUrl.put(mapIdToOrder.get(3),null);
-                    productMap.put(mapIdToOrder.get(3),null);
+                || mapIdToOrder.containsKey(14))) {
+            if ("12".equals(mDefaultSelectTypeId) ||
+                    "13".equals(mDefaultSelectTypeId) ||
+                    "14".equals(mDefaultSelectTypeId)) {
+                if (mapUrl.containsKey(mapIdToOrder.get(3))) {
+                    mapUrl.put(mapIdToOrder.get(3), null);
+                    productMap.put(mapIdToOrder.get(3), null);
                 }
-            }else {
+            } else {
                 if (mapUrl.containsKey(mapIdToOrder.get(12))) {
                     mapUrl.put(mapIdToOrder.get(12), null);
                     productMap.put(mapIdToOrder.get(12), null);
@@ -183,10 +196,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                 }
             }
         }
-
-
-        dialogDelegate = new SweetAlertDialogDelegate(this);
-        initRecyclerView(partTypeList);
         downLoadImageService = new DownLoadImageService(mapUrl, this, new DownLoadImageService.OnDrawListener() {
             @Override
             public void onDrawSucceed(Bitmap bitmap) {
@@ -525,6 +534,20 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 //            }else{
             addPartType(list);
             //}
+        }else{
+            productTypeAdapter.clear();
+            partAdapter.clear();
+            Toast.makeText(this,"暂无数据",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //相似场景
+    List<Scene> mSameSceneList = new ArrayList<>();
+
+    @Override
+    public void showSameScene(List<Scene> list) {
+        if(list != null) {
+            mSameSceneList.addAll(list);
         }
     }
 
@@ -556,8 +579,8 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     public void onShowOrder() {
         ArrayList<Order> list = new ArrayList<>();
         for (int key : productMap.keySet()) {
-            Order order =  productMap.get(key);
-            if(order != null) {
+            Order order = productMap.get(key);
+            if (order != null) {
                 list.add(order);
             }
         }
@@ -571,43 +594,65 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     ImageView imageView;
 
     @OnClick(R.id.iv_scene_more)
-    public void onSceneMore(){
-        View view = LayoutInflater.from(this).inflate(R.layout.view_room_scene,null);
+    public void onSceneMore() {
+        View view = LayoutInflater.from(this).inflate(R.layout.view_room_scene, null);
+        EasyRecyclerView recyclerView = (EasyRecyclerView) view.findViewById(R.id.recycler_view);
 
-        PopupWindow popupWindow = new PopupWindow(view,200,120);
+        final SameSceneAdapter adapter = new SameSceneAdapter(this);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerView.setAdapter(adapter);
+        adapter.addAll(mSameSceneList);
+        adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Scene scene = adapter.getItem(position);
+                if(!scene.isSelected()){
+                    for(Scene s : mSameSceneList){
+                        s.setSelected(false);
+                    }
+                    scene.setSelected(true);
+                    adapter.notifyDataSetChanged();
+                    //切换场景
+                    setOrder(scene.getSonList());
+                    //重新请求部件数据
+                 //   mHotTypeId = scene.getHot_type();
+                    mSceneId = scene.getScene_id();
+                  //  mHlCode = scene.getHl_code();
+                    mPresenter.getRoomPartTypeList();
+                }
+            }
+        });
+
+        PopupWindow popupWindow = new PopupWindow(view, 700, 200);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setOnDismissListener(new popDismissListener());
         backgroundAlpha(0.6f);
 
-        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layout_scene);
-
-        for(int i=0;i< 3;i++) {
-            View item = LayoutInflater.from(this).inflate(R.layout.item_room_scene, null);
-            linearLayout.addView(item);
-        }
         int[] location = new int[2];
         imageView.getLocationOnScreen(location);
 
-        popupWindow.showAtLocation(imageView, Gravity.NO_GRAVITY, location[0]+imageView.getWidth(), location[1]);
+        popupWindow.showAtLocation(imageView, Gravity.NO_GRAVITY, location[0] + imageView.getWidth() + 40, location[1] - 80);
         imageView.setBackground(getResources().getDrawable(R.drawable.icon_scene_more_p));
     }
-    class popDismissListener implements PopupWindow.OnDismissListener{
+
+    class popDismissListener implements PopupWindow.OnDismissListener {
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
             imageView.setBackground(getResources().getDrawable(R.drawable.icon_scene_more_n));
         }
     }
+
     /**
      * 设置添加屏幕的背景透明度
      * 注意：此时activity背景style 要设置为 <item name="android:windowIsTranslucent">false</item>
      * 因为activity滑动删除功能需要将android:windowIsTranslucent设置为true
+     *
      * @param bgAlpha
      */
-    public void backgroundAlpha(float bgAlpha)
-    {
+    public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);

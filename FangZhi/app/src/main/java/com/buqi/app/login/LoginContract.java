@@ -19,7 +19,7 @@ public interface LoginContract {
     interface Model extends BaseModel {
         Observable<LoginBean> login(String deviceCode, String account, String password);
         Observable<LoginNewBean> loginNew(String deviceCode, String account,
-                                          String password,String deviceSize,String width,String height);
+                                          String password,String deviceSize,String width,String height,String isPad,String screenLayout);
 
         Observable<BaseResponseBean> getMsgCode(String phone, String key);
 
@@ -44,6 +44,8 @@ public interface LoginContract {
         String getKey();
 
         String getCode();
+        String isPad();
+        String getScreenLayout();
 
         int getType();
         String getLoginPwd();

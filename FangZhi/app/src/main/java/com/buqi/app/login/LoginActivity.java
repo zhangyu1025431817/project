@@ -1,6 +1,8 @@
 package com.buqi.app.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
@@ -201,6 +203,20 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     public String getCode() {
         return etMessageCode.getText().toString().trim();
+    }
+
+    @Override
+    public String isPad() {
+        if(isPad(this)){
+            return "30031004";
+        }else{
+            return "30031003";
+        }
+    }
+
+    @Override
+    public String getScreenLayout() {
+        return getResources().getConfiguration().screenLayout+"";
     }
 
     @Override
@@ -564,5 +580,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         }
         dialogDelegate.showProgressDialog(true, "正在修改...");
         mPresenter.modificationPassword();
+    }
+    public static boolean isPad(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }
