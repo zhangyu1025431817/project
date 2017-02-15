@@ -60,7 +60,7 @@ public class MatrixImageView extends ImageView {
         /**  不支持Matrix */
         private static final int MODE_UNABLE=3;
         /**   最大缩放级别*/
-        float mMaxScale=6;
+        float mMaxScale=4;
         /**   双击时的缩放级别*/
         float mDobleClickScale=2;
         private int mMode = 0;//

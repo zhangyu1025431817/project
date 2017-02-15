@@ -1,5 +1,4 @@
 package com.buqi.app.main.room;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.widget.Space;
@@ -15,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.buqi.app.R;
+import com.buqi.app.view.DrawableCenterTextView;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.utils.AutoLayoutHelper;
@@ -50,7 +50,8 @@ public class ProductView extends LinearLayout {
      */
     View viewCover;
     View line;
-    TextView tvSearch;
+    DrawableCenterTextView tvSearch;
+    TextView tvProductDetail;
     AutoLinearLayout layoutSearch;
     HorizontalScrollView horizontalScrollView;
     ScrollView scrollView;
@@ -117,34 +118,53 @@ public class ProductView extends LinearLayout {
         layoutParamsRadioGroup.weight = 10;
 
         layoutSearch = new AutoLinearLayout(getContext());
-        layoutSearch.setBackgroundDrawable(getContext().getResources().
-                getDrawable(R.drawable.shape_transparent_solid_white_stroke));
+
         layoutSearch.setGravity(Gravity.CENTER);
-        tvSearch = new TextView(getContext());
-        //  tvSearch.setPadding(30,30,30,30);
+        layoutSearch.setOrientation(HORIZONTAL);
+
+        tvSearch = new DrawableCenterTextView(getContext());
         tvSearch.setText("搜索");
         tvSearch.setGravity(Gravity.CENTER_VERTICAL);
+        tvSearch.setBackgroundDrawable(getContext().getResources().
+                getDrawable(R.drawable.shape_transparent_solid_white_stroke));
         tvSearch.setTextSize(12);
         tvSearch.setTextColor(getContext().getResources().getColor(R.color.white));
-
+        LayoutParams layoutParamsTvSearch = new LayoutParams(0,ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParamsTvSearch.weight = 1;
         Drawable drawableSearch = getResources().getDrawable(R.drawable.icon_search);
         drawableSearch.setBounds(0, 0, drawableSearch.getMinimumWidth(), drawableSearch.getMinimumHeight());
         tvSearch.setCompoundDrawables(drawableSearch, null, null, null);
 
-        layoutSearch.addView(tvSearch, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        LayoutParams layoutParamsTvSearch = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
-        layoutParamsTvSearch.weight = 1;
-        layoutParamsTvSearch.rightMargin = 16;
-        layoutParamsTvSearch.leftMargin = 16;
-        layoutParamsTvSearch.topMargin = 6;
-        layoutParamsTvSearch.bottomMargin = 20;
+        tvProductDetail = new TextView(getContext());
+        tvProductDetail.setText("产品详情");
+        tvProductDetail.setGravity(Gravity.CENTER);
+        tvProductDetail.setTextSize(12);
+        tvProductDetail.setBackgroundDrawable(getContext().getResources().
+                getDrawable(R.drawable.shape_blue_solid_white_stroke));
+        tvProductDetail.setTextColor(getContext().getResources().getColor(R.color.white));
+        LayoutParams layoutParamstvProductDetail = new LayoutParams(0,ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParamstvProductDetail.weight = 1;
+
+        Space spaceSearch = new Space(getContext());
+        LayoutParams spaceSearchParams = new LayoutParams(20, 20);
+
+        layoutSearch.addView(tvProductDetail,layoutParamsTvSearch);
+        layoutSearch.addView(spaceSearch,spaceSearchParams);
+        layoutSearch.addView(tvSearch, layoutParamstvProductDetail);
+
+        LayoutParams layoutParamsLayoutSearch = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        layoutParamsLayoutSearch.weight = 1;
+        layoutParamsLayoutSearch.rightMargin = 16;
+        layoutParamsLayoutSearch.leftMargin = 16;
+        layoutParamsLayoutSearch.topMargin = 6;
+        layoutParamsLayoutSearch.bottomMargin = 20;
 
 
         layoutType.addView(typeRecyclerView, layoutParamsRadioGroup);
         Space space = new Space(getContext());
         LayoutParams spaceParams = new LayoutParams(20, 20);
         layoutType.addView(space, spaceParams);
-        layoutType.addView(layoutSearch, layoutParamsTvSearch);
+        layoutType.addView(layoutSearch, layoutParamsLayoutSearch);
 
         layoutBottom.addView(productRecyclerView, layoutParamsRecyclerView);
         layoutBottom.addView(layoutType, layoutTypeParams);
@@ -168,6 +188,10 @@ public class ProductView extends LinearLayout {
 
     public AutoLinearLayout getTvSearch() {
         return layoutSearch;
+    }
+
+    public TextView getTvProductDetail(){
+        return tvProductDetail;
     }
 
     public void changeBottom() {
@@ -207,7 +231,7 @@ public class ProductView extends LinearLayout {
         LayoutParams layoutParamsSearch = (LayoutParams) layoutSearch.getLayoutParams();
         layoutParamsSearch.width = 0;
         layoutParamsSearch.height = LayoutParams.MATCH_PARENT;
-        layoutParamsSearch.weight = 1;
+        layoutParamsSearch.weight = 2;
         layoutSearch.setLayoutParams(layoutParamsSearch);
 
         LayoutParams layoutParamsType = (LayoutParams) typeRecyclerView.getLayoutParams();
