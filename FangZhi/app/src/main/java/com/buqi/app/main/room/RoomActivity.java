@@ -33,6 +33,7 @@ import com.buqi.app.main.room.search.ProductSearchActivity;
 import com.buqi.app.tools.SPUtils;
 import com.buqi.app.tools.T;
 import com.buqi.app.view.DialogDelegate;
+import com.buqi.app.view.MatrixImageView;
 import com.buqi.app.view.SweetAlertDialogDelegate;
 import com.buqi.app.view.loading.AVLoadingIndicatorView;
 import com.buqi.app.view.loading.BallSpinFadeLoaderIndicator;
@@ -91,7 +92,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     private int mCurrentIndex = 0;//当前图层
 
     @Bind(R.id.iv_show)
-    ImageView ivShow;
+    MatrixImageView ivShow;
     String bgUrl;
     DownLoadImageService downLoadImageService;
     DrawImageService drawImageService;
@@ -553,6 +554,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @OnClick(R.id.iv_home)
     public void onHome() {
+        ivShow.resetZoom();
         productView.setVisibility(View.VISIBLE);
     }
 
@@ -560,6 +562,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @OnClick(R.id.iv_eye)
     public void onEye() {
+        ivShow.resetZoom();
         if (isClear) {
             downLoadImageService.clearAll();
         } else {
@@ -595,6 +598,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @OnClick(R.id.iv_scene_more)
     public void onSceneMore() {
+        ivShow.resetZoom();
         View view = LayoutInflater.from(this).inflate(R.layout.view_room_scene, null);
         EasyRecyclerView recyclerView = (EasyRecyclerView) view.findViewById(R.id.recycler_view);
 
