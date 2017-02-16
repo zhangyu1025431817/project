@@ -1,5 +1,6 @@
 package com.buqi.app;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -87,11 +88,11 @@ public class LoadingActivity extends AppCompatActivity {
                     @Override
                     public void call(String s) {
                         //请求读写sd卡权限
-//                        if (!MPermissions.shouldShowRequestPermissionRationale(LoadingActivity.this,
-//                                Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_CODE_SDCARD)) {
-//                            MPermissions.requestPermissions(LoadingActivity.this, REQUEST_CODE_SDCARD,
-//                                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//                        }
+                        if (!MPermissions.shouldShowRequestPermissionRationale(LoadingActivity.this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_CODE_SDCARD)) {
+                            MPermissions.requestPermissions(LoadingActivity.this, REQUEST_CODE_SDCARD,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                        }
                         /**
                          * 布奇直接跳转不要更新
                          */
@@ -212,13 +213,13 @@ public class LoadingActivity extends AppCompatActivity {
 
     @PermissionGrant(REQUEST_CODE_SDCARD)
     public void requestSdcardSuccess() {
-        requestVersionCode();
+       // requestVersionCode();
     }
 
     @PermissionDenied(REQUEST_CODE_SDCARD)
     public void requestSdcardFailed() {
-        startActivity(new Intent(LoadingActivity.this, LoginActivity.class));
-        finish();
+      //  startActivity(new Intent(LoadingActivity.this, LoginActivity.class));
+      //  finish();
     }
 
     private static final String apkName = "/fangzhi.apk";
