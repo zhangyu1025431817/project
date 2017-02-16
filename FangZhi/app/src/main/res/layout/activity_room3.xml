@@ -8,9 +8,6 @@
         android:id="@+id/iv_show"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:maxWidth="2560px"
-        android:maxHeight="1600px"
-        android:adjustViewBounds="true"
          />
 
     <ImageView

@@ -732,9 +732,9 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                     //切换场景
                     setOrder(scene.getSonList());
                     //重新请求部件数据
-                    //   mHotTypeId = scene.getHot_type();
+                    mHotTypeId = scene.getHot_type();
                     mSceneId = scene.getScene_id();
-                    //  mHlCode = scene.getHl_code();
+                    mHlCode = scene.getHl_code();
                     mPresenter.getRoomPartTypeList();
                 }
             }

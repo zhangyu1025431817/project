@@ -8,11 +8,11 @@ public class ApiUrl {
     /**
      * 正式
      */
-   // public static final String BASE_URL = "http://51fangz.com:8050/";
+    public static final String BASE_URL = "http://51fangz.com:8050/";
     /**
      * 测试
      */
-    public static final String BASE_URL = "http://test.51fangz.com:8050/";
+   // public static final String BASE_URL = "http://test.51fangz.com:8050/";
     /**
      * 获取城市列表
      */
