@@ -11,8 +11,8 @@ android {
         applicationId "com.buqi.app"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 6
-        versionName "3.22"
+        versionCode 7
+        versionName "3.23"
     }
     signingConfigs {
         release {

@@ -237,17 +237,23 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                     productMap.put(mapIdToOrder.get(3), null);
                 }
             } else {
-                if (mapUrl.containsKey(mapIdToOrder.get(12))) {
-                    mapUrl.put(mapIdToOrder.get(12), null);
-                    productMap.put(mapIdToOrder.get(12), null);
+                if(mapIdToOrder.containsKey(12)) {
+                    if (mapUrl.containsKey(mapIdToOrder.get(12))) {
+                        mapUrl.put(mapIdToOrder.get(12), null);
+                        productMap.put(mapIdToOrder.get(12), null);
+                    }
                 }
-                if (mapUrl.containsKey(mapIdToOrder.get(13))) {
-                    mapUrl.put(mapIdToOrder.get(13), null);
-                    productMap.put(mapIdToOrder.get(13), null);
+                if(mapIdToOrder.containsKey(13)) {
+                    if (mapUrl.containsKey(mapIdToOrder.get(13))) {
+                        mapUrl.put(mapIdToOrder.get(13), null);
+                        productMap.put(mapIdToOrder.get(13), null);
+                    }
                 }
-                if (mapUrl.containsKey(mapIdToOrder.get(14))) {
-                    mapUrl.put(mapIdToOrder.get(14), null);
-                    productMap.put(mapIdToOrder.get(14), null);
+                if(mapIdToOrder.containsKey(14)) {
+                    if (mapUrl.containsKey(mapIdToOrder.get(14))) {
+                        mapUrl.put(mapIdToOrder.get(14), null);
+                        productMap.put(mapIdToOrder.get(14), null);
+                    }
                 }
             }
         }
@@ -740,7 +746,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             }
         });
 
-        PopupWindow popupWindow = new PopupWindow(view, 700, 200);
+        PopupWindow popupWindow = new PopupWindow(view, 700, 300);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
