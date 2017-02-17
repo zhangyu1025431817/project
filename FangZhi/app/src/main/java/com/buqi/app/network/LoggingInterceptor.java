@@ -38,11 +38,15 @@ public class LoggingInterceptor implements Interceptor {
                     response.request().url(), (t2 - t1) / 1e6d, response.headers()));
 
             okhttp3.MediaType mediaType = response.body().contentType();
-            String content = response.body().string();
-            KLog.json(content);
-            return response.newBuilder()
-                    .body(okhttp3.ResponseBody.create(mediaType, content))
-                    .build();
+            if("json".equals(mediaType.subtype())) {
+                String content = response.body().string();
+                KLog.json(content);
+                return response.newBuilder()
+                        .body(okhttp3.ResponseBody.create(mediaType, content))
+                        .build();
+            }else{
+                return response;
+            }
     }
 
     private boolean isNetworkConnected() {
