@@ -210,7 +210,7 @@ public class LoadingActivity extends AppCompatActivity {
         finish();
     }
 
-    private static final String apkName = "/fangzhi.apk";
+    private static final String apkName = "/fz.apk";
 
     /**
      * 下载apk文件
