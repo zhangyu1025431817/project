@@ -1,7 +1,10 @@
 package com.buqi.app.main.room;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +33,7 @@ import com.buqi.app.config.SpKey;
 import com.buqi.app.download.DownLoadImageService;
 import com.buqi.app.download.DrawImageService;
 import com.buqi.app.login.LoginActivity;
+import com.buqi.app.main.MainActivity;
 import com.buqi.app.main.adapter.PartAdapter;
 import com.buqi.app.main.adapter.ProductTypeAdapter;
 import com.buqi.app.main.adapter.SameSceneAdapter;
@@ -42,6 +46,9 @@ import com.buqi.app.view.MatrixImageView;
 import com.buqi.app.view.SweetAlertDialogDelegate;
 import com.buqi.app.view.loading.AVLoadingIndicatorView;
 import com.buqi.app.view.loading.BallSpinFadeLoaderIndicator;
+import com.buqi.app.view.showtipsview.ShowTipsBuilder;
+import com.buqi.app.view.showtipsview.ShowTipsView;
+import com.buqi.app.view.showtipsview.ShowTipsViewInterface;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -82,6 +89,10 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
     TextView tvDetailName;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
+    @Bind(R.id.iv_calculate)
+    ImageView ivCalculate;
+    @Bind(R.id.iv_home)
+    ImageView ivHome;
     List<ProductDetail> mListDetailUrls = new ArrayList<>();
     //当前图层urls
     private Map<Integer, String> mapUrl = new TreeMap<>(new Comparator<Integer>() {
@@ -121,6 +132,12 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public void initView() {
+        showTips();
+        if (isPad(this)) {
+            ivShow.setScaleType(ImageView.ScaleType.FIT_XY);
+        } else {
+            ivShow.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
         //该功能与popWindow弹出背景半透明冲突
         setSwipeBackEnable(false);
         //loading
@@ -205,6 +222,47 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         mPresenter.getSameScene();
     }
 
+    private void showTips() {
+        ShowTipsView tipsCalculate = new ShowTipsBuilder(this)
+                .setTarget(ivCalculate).setTitle("清单:点击可以看见明明白白的清单。")
+                .setTipsDrawable(getResources().getDrawable(R.drawable.icon_gestures_spread))
+                .setDelay(1000)
+                .setBackgroundAlpha(128)
+                .setButtonBackground(getResources().getDrawable(R.drawable.bg_close_button))
+                .setCloseButtonTextColor(Color.WHITE)
+                .build();
+        final ShowTipsView tipsSceneMore = new ShowTipsBuilder(this)
+                .setTarget(imageView).setTitle("切换场景:点击可切换场景，看到不同的效果哦!")
+                .setTipsDrawable(getResources().getDrawable(R.drawable.icon_gestures_click))
+                .setDelay(1000)
+                .setBackgroundAlpha(128)
+                .setButtonBackground(getResources().getDrawable(R.drawable.bg_close_button))
+                .setCloseButtonTextColor(Color.WHITE)
+                .build();
+        final ShowTipsView tipsHome = new ShowTipsBuilder(this)
+                .setTarget(ivHome).setTitle("切换建材:点击可以更换材料，找到自己喜欢的效果哦!")
+                .setTipsDrawable(getResources().getDrawable(R.drawable.icon_gestures_click))
+                .setDelay(1000)
+                .setBackgroundAlpha(128)
+                .setButtonBackground(getResources().getDrawable(R.drawable.bg_close_button))
+                .setCloseButtonTextColor(Color.WHITE)
+                .build();
+        tipsCalculate.show(this);
+        tipsCalculate.setCallback(new ShowTipsViewInterface(){
+            @Override
+            public void gotItClicked() {
+                tipsSceneMore.show(RoomActivity.this);
+            }
+        });
+
+        tipsSceneMore.setCallback(new ShowTipsViewInterface(){
+            @Override
+            public void gotItClicked() {
+                tipsHome.show(RoomActivity.this);
+            }
+        });
+    }
+
     private void setOrder(List<Scene.Part> list) {
         mapUrl.clear();
         mapIdToOrder.clear();
@@ -237,19 +295,19 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                     productMap.put(mapIdToOrder.get(3), null);
                 }
             } else {
-                if(mapIdToOrder.containsKey(12)) {
+                if (mapIdToOrder.containsKey(12)) {
                     if (mapUrl.containsKey(mapIdToOrder.get(12))) {
                         mapUrl.put(mapIdToOrder.get(12), null);
                         productMap.put(mapIdToOrder.get(12), null);
                     }
                 }
-                if(mapIdToOrder.containsKey(13)) {
+                if (mapIdToOrder.containsKey(13)) {
                     if (mapUrl.containsKey(mapIdToOrder.get(13))) {
                         mapUrl.put(mapIdToOrder.get(13), null);
                         productMap.put(mapIdToOrder.get(13), null);
                     }
                 }
-                if(mapIdToOrder.containsKey(14)) {
+                if (mapIdToOrder.containsKey(14)) {
                     if (mapUrl.containsKey(mapIdToOrder.get(14))) {
                         mapUrl.put(mapIdToOrder.get(14), null);
                         productMap.put(mapIdToOrder.get(14), null);
@@ -579,10 +637,12 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         drawImageService = null;
         System.gc();
     }
+
     @OnClick(R.id.iv_frame_close)
     public void onFrameClose() {
         layoutProductDetail.setVisibility(View.GONE);
     }
+
     @Override
     public String getToken() {
         return token;
@@ -879,5 +939,11 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
             this.name = name;
             this.url = url;
         }
+    }
+
+    public static boolean isPad(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }

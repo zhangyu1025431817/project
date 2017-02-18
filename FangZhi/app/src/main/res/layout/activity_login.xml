@@ -1,84 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/bg_login"
     android:gravity="center">
 
-    <ImageView
-        android:layout_width="862px"
-        android:layout_height="225px"
-        android:src="@drawable/icon_login_logo_buqi" />
-
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/layout_login"
-        android:layout_width="1000px"
-        android:layout_height="800px"
+        android:layout_width="1746px"
+        android:layout_height="1280px"
         android:layout_marginTop="60px"
         android:background="@drawable/bg_login_box"
         android:focusableInTouchMode="true"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="90px"
         android:paddingTop="90px">
 
+        <ImageView
+            android:layout_width="392px"
+            android:layout_height="272px"
+            android:layout_marginTop="100px"
+            android:src="@drawable/icon_logo_buqi" />
+
         <com.buqi.app.view.ClearEditText
             android:id="@+id/et_phone"
-            android:layout_width="640px"
+            android:layout_width="708px"
             android:layout_height="100px"
-            android:background="@drawable/shape_edit_bg"
+            android:layout_marginTop="100px"
+            android:background="@null"
             android:hint="@string/input_phone_number"
             android:inputType="text"
-            android:paddingLeft="20px"
             android:maxLength="100"
+            android:paddingLeft="20px"
             android:paddingRight="20px"
             android:textColorHint="@color/colorTextGrayBABABA"
             android:textCursorDrawable="@null"
             android:textScaleX="0.96"
             android:textSize="30px" />
 
+        <View
+            android:layout_width="708px"
+            android:layout_height="2px"
+            android:background="@drawable/bg_login_et" />
+
         <com.buqi.app.view.ClearEditText
             android:id="@+id/et_password"
-            android:layout_width="640px"
+            android:layout_width="708px"
             android:layout_height="100px"
             android:layout_marginTop="40px"
-            android:background="@drawable/shape_edit_bg"
+            android:background="@null"
             android:hint="@string/please_input_password"
             android:inputType="textPassword"
-            android:paddingLeft="20px"
             android:maxLength="100"
+            android:paddingLeft="20px"
             android:paddingRight="20px"
             android:textColorHint="@color/colorTextGrayBABABA"
             android:textCursorDrawable="@null"
             android:textScaleX="0.96"
             android:textSize="30px" />
+
+        <View
+            android:layout_width="708px"
+            android:layout_height="2px"
+            android:background="@drawable/bg_login_et" />
+
         <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="640px"
+            android:layout_width="708px"
             android:layout_height="100px"
-            android:orientation="horizontal"
-            android:layout_marginTop="40px">
+            android:layout_marginTop="100px"
+            android:orientation="horizontal">
+
             <Button
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="1"
                 android:id="@+id/btn_login"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/btn_login"
-                android:text="@string/login"
                 android:gravity="center"
+                android:text="@string/login"
                 android:textColor="@color/colorWhite"
                 android:textSize="30px" />
+
             <Space
                 android:layout_width="10px"
                 android:layout_height="match_parent" />
+
             <Button
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="1"
                 android:id="@+id/btn_exit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/btn_login"
-                android:text="@string/exit"
                 android:gravity="center"
+                android:text="@string/exit"
                 android:textColor="@color/colorWhite"
                 android:textSize="30px" />
         </com.zhy.autolayout.AutoLinearLayout>
@@ -86,29 +101,30 @@
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="640px"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20px">
+            android:layout_marginTop="20px"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="20px"
                 android:paddingBottom="20px"
                 android:paddingRight="20px"
+                android:paddingTop="20px"
                 android:text="体验注册>>"
                 android:textColor="@color/text_blue_light_blue"
                 android:textSize="30px" />
+
             <TextView
                 android:id="@+id/tv_forget_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="20px"
+                android:layout_alignParentRight="true"
                 android:paddingBottom="20px"
                 android:paddingLeft="20px"
+                android:paddingTop="20px"
                 android:text="忘记密码？"
-                android:layout_alignParentRight="true"
                 android:textColor="@color/text_light_gray_white"
                 android:textSize="30px" />
         </com.zhy.autolayout.AutoRelativeLayout>
@@ -117,9 +133,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30px"
-            android:visibility="gone"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -137,7 +153,10 @@
         </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoLinearLayout>
-    <include layout="@layout/view_get_code"/>
-    <include layout="@layout/view_register"/>
-    <include layout="@layout/view_find_password"/>
-</com.zhy.autolayout.AutoLinearLayout>
+
+    <include layout="@layout/view_get_code" />
+
+    <include layout="@layout/view_register" />
+
+    <include layout="@layout/view_find_password" />
+</com.zhy.autolayout.AutoRelativeLayout>

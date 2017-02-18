@@ -76,12 +76,12 @@ public class LoadingActivity extends AppCompatActivity {
         }
 
         /**
-         * 延迟1秒页面跳转
+         * 延迟2秒页面跳转
          * 使用了RxAndroid
          */
         mSubscription = Observable
                 .just("")
-                .delay(2, TimeUnit.SECONDS)
+                .delay(3, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<String>() {
