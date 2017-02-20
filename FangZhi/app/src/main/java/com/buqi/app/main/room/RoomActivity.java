@@ -132,7 +132,6 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public void initView() {
-        showTips();
         if (isPad(this)) {
             ivShow.setScaleType(ImageView.ScaleType.FIT_XY);
         } else {
@@ -220,30 +219,35 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
         });
         //请求关联场景数据
         mPresenter.getSameScene();
+        showTips();
     }
 
     private void showTips() {
+        if(!"0".equals(SPUtils.getString(this,SpKey.FIRST_USE,"0"))){
+            return;
+        }
+        SPUtils.putString(this,SpKey.FIRST_USE,"1");
         ShowTipsView tipsCalculate = new ShowTipsBuilder(this)
                 .setTarget(ivCalculate).setTitle("清单:点击可以看见明明白白的清单。")
                 .setTipsDrawable(getResources().getDrawable(R.drawable.icon_gestures_spread))
-                .setDelay(1000)
-                .setBackgroundAlpha(128)
+                .setDelay(300)
+                .setBackgroundAlpha(100)
                 .setButtonBackground(getResources().getDrawable(R.drawable.bg_close_button))
                 .setCloseButtonTextColor(Color.WHITE)
                 .build();
         final ShowTipsView tipsSceneMore = new ShowTipsBuilder(this)
                 .setTarget(imageView).setTitle("切换场景:点击可切换场景，看到不同的效果哦!")
                 .setTipsDrawable(getResources().getDrawable(R.drawable.icon_gestures_click))
-                .setDelay(1000)
-                .setBackgroundAlpha(128)
+                .setDelay(300)
+                .setBackgroundAlpha(100)
                 .setButtonBackground(getResources().getDrawable(R.drawable.bg_close_button))
                 .setCloseButtonTextColor(Color.WHITE)
                 .build();
         final ShowTipsView tipsHome = new ShowTipsBuilder(this)
                 .setTarget(ivHome).setTitle("切换建材:点击可以更换材料，找到自己喜欢的效果哦!")
                 .setTipsDrawable(getResources().getDrawable(R.drawable.icon_gestures_click))
-                .setDelay(1000)
-                .setBackgroundAlpha(128)
+                .setDelay(300)
+                .setBackgroundAlpha(100)
                 .setButtonBackground(getResources().getDrawable(R.drawable.bg_close_button))
                 .setCloseButtonTextColor(Color.WHITE)
                 .build();
@@ -795,6 +799,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
                     }
                     scene.setSelected(true);
                     adapter.notifyDataSetChanged();
+                    bgUrl = scene.getHl_img();
                     //切换场景
                     setOrder(scene.getSonList());
                     //重新请求部件数据

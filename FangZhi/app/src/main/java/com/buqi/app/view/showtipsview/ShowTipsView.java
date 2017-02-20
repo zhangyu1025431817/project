@@ -299,6 +299,7 @@ public class ShowTipsView extends RelativeLayout {
 
 		btn_close.setTextSize(18);
 		btn_close.setGravity(Gravity.CENTER);
+		btn_close.setPadding(10,10,10,10);
 
 		params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
@@ -330,7 +331,7 @@ public class ShowTipsView extends RelativeLayout {
 
 	public String getButtonText() {
         if(button_text == null || button_text.equals(""))
-            return "Got it";
+            return "朕知道了";
 
 		return button_text;
 	}

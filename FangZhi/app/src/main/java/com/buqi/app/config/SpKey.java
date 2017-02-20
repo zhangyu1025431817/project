@@ -32,4 +32,8 @@ public class SpKey {
      * 厂家地址
      */
     public static final String FACTORY_ADDRESS = "factory_address";
+    /**
+     * 第一次使用
+     */
+    public static final String FIRST_USE = "is_first";
 }
