@@ -322,6 +322,7 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="800px"
         android:layout_height="100px"
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30px"
         android:orientation="horizontal">
@@ -407,7 +408,7 @@
             android:text="注册"
             android:layout_weight="1"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/btn_get_msg_code"
+            android:background="@drawable/btn_login"
             android:textSize="30px" />
         <Space
             android:layout_width="40px"
@@ -418,7 +419,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/btn_get_msg_code"
+            android:background="@drawable/btn_login"
             android:text="取消"
             android:textSize="30px" />
     </com.zhy.autolayout.AutoLinearLayout>

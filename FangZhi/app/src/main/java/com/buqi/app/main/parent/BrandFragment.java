@@ -32,7 +32,7 @@ public class BrandFragment extends Fragment {
     public static BrandFragment newInstance(ArrayList<LoginNewBean.Parent> list) {
         shaderWhite =new LinearGradient(0, 0, 0, 100, Color.WHITE, Color.WHITE, Shader.TileMode.CLAMP);
         shaderBlue =new LinearGradient(0, 0, 0, 100,
-                0xFF0095d6, 0xFF005ead,
+                0xFFac8f58, 0xFF6a5734,
                 Shader.TileMode.CLAMP);
         BrandFragment fragment = new BrandFragment();
         Bundle args = new Bundle();

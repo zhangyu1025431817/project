@@ -40,7 +40,7 @@
             android:text="3D定制"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:background="@drawable/btn_3d"
+            android:background="@drawable/shape_coner_white_stroke"
             android:textColor="@color/colorWhite"
             android:textSize="28px" />
     </com.zhy.autolayout.AutoRelativeLayout>

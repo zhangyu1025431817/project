@@ -246,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onChangeParent() {
         startActivity(new Intent(this, ParentActivity.class));
+      //  finish();
     }
 
     public void onExit() {

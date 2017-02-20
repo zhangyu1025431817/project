@@ -88,7 +88,8 @@ public class ApiUrl {
     /**
      * 插入体验号用户
      */
-    public static final String REGISTER_EXPERIENCE_ACCOUNT = "fznet/fzmangge/FzUser/newUserExperience.json";
+    //public static final String REGISTER_EXPERIENCE_ACCOUNT = "fznet/fzmangge/FzUser/newUserExperience.json";
+    public static final String REGISTER_EXPERIENCE_ACCOUNT = "fznet/fzmangge/FzUser/register.json";
     /**
      * 查询用户的所属厂家
      */

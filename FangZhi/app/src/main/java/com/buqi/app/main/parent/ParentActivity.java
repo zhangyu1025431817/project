@@ -86,6 +86,7 @@ public class ParentActivity extends AppCompatActivity implements BrandFragment.M
                             Intent intent = new Intent();
                             if (loginBean.getImg() == null || loginBean.getImg().isEmpty()) {
                                 intent.setClass(ParentActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             } else {
                                 intent.putExtra("url", loginBean.getImg());
                                 intent.setClass(ParentActivity.this, CustomActivity.class);

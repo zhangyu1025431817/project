@@ -26,7 +26,7 @@ public class BannerAdapter extends StaticPagerAdapter {
         public View getView(ViewGroup container, final int position) {
             ImageView imageView = new ImageView(ctx);
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             //加载图片
             Glide.with(ctx)
                     .load(list.get(position))

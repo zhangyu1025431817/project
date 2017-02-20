@@ -1,9 +1,11 @@
 package com.buqi.app.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by smacr on 2016/9/1.
  */
-public class BaseResponseBean {
+public class BaseResponseBean implements Serializable{
     String error_code;
     String msg;
 

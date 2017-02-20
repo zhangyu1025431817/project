@@ -230,7 +230,7 @@ public class ShowTipsView extends RelativeLayout {
 			textTitle.setTextColor(getTitle_color());
 		else
 			textTitle.setTextColor(getResources().getColor(android.R.color.white));
-		textTitle.setId(123);
+		textTitle.setId(R.id.view_001);
 		textTitle.setTextSize(18);
 
 		// Add title to this view
@@ -255,7 +255,7 @@ public class ShowTipsView extends RelativeLayout {
 			ImageView imageView = new ImageView(getContext());
 			imageView.setBackground(tipsDrawable);
 			params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			params.addRule(RelativeLayout.RIGHT_OF, 123);
+			params.addRule(RelativeLayout.RIGHT_OF, R.id.view_001);
 			imageView.setLayoutParams(params);
 			texts_layout.addView(imageView);
 		}
@@ -288,7 +288,7 @@ public class ShowTipsView extends RelativeLayout {
 		 * Close button
 		 */
 		TextView btn_close = new TextView(getContext());
-		btn_close.setId(4375);
+		btn_close.setId(R.id.view_002);
 		btn_close.setText(getButtonText());
 		btn_close.setTextColor(buttonTextColor == 0 ? Color.WHITE : buttonTextColor);
 
@@ -303,7 +303,7 @@ public class ShowTipsView extends RelativeLayout {
 
 		params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
-		params.addRule(RelativeLayout.BELOW,123);
+		params.addRule(RelativeLayout.BELOW,R.id.view_001);
 		params.topMargin = 50;
 
 		btn_close.setLayoutParams(params);

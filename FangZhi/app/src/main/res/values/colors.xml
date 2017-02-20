@@ -45,4 +45,6 @@
     <color name="text_main_color">#157efb</color>
     <color name="text_main_color_light">#FF4B9AF9</color>
     <color name="status_bar_color">#0095d6</color>
+    <color name="color_yellow_light">#ac8f58</color>
+    <color name="color_yellow">#6a5734</color>
 </resources>
