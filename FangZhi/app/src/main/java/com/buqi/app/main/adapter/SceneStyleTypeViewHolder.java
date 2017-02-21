@@ -26,7 +26,7 @@ public class SceneStyleTypeViewHolder extends BaseViewHolder<SceneStyleResponse.
     public void setData(SceneStyleResponse.SceneStyle data) {
         textView.setText(data.getCode_desc());
         if (data.isSelected()) {
-            textView.setTextColor(getContext().getResources().getColor(R.color.text_main_color));
+            textView.setTextColor(getContext().getResources().getColor(R.color.color_yellow_light));
             viewLine.setVisibility(View.VISIBLE);
         } else {
             textView.setTextColor(getContext().getResources().getColor(R.color.black_3c3c3c));

@@ -32,6 +32,7 @@ import com.buqi.app.main.parent.ParentActivity;
 import com.buqi.app.main.sample.SampleActivity;
 import com.buqi.app.main.scenestyle.SceneStyleActivity;
 import com.buqi.app.manager.AccountManager;
+import com.buqi.app.music.MusicService;
 import com.buqi.app.tools.ActivityTaskManager;
 import com.buqi.app.tools.DensityUtils;
 import com.buqi.app.tools.ScreenUtils;
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialogDelegate = new SweetAlertDialogDelegate(this);
+        startPlayMusic();
     }
 
     List<BannerMain> mBannerList ;
@@ -191,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
         TextView btnLogout;
         TextView btnChangeParent;
         TextView btnContactUs;
+        final TextView btnMusic;
         if (popupWindow == null) {
             LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.view_popup_window, null);
@@ -216,6 +219,19 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     onChangeParent();
                     popupWindow.dismiss();
+                }
+            });
+            btnMusic = (TextView) view.findViewById(R.id.btn_play_music);
+            btnMusic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if("播放音乐".equals(btnMusic.getText().toString())){
+                        btnMusic.setText("停止音乐");
+                        startPlayMusic();
+                    }else{
+                        btnMusic.setText("播放音乐");
+                        stopMusic();
+                    }
                 }
             });
             if (AccountManager.getInstance().getParentList() == null ||
@@ -258,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-
+                stopMusic();
             }
         });
     }
@@ -285,5 +301,21 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopMusic();
+    }
+
+    private void startPlayMusic(){
+        //播放背景音乐
+        Intent intent = new Intent(this, MusicService.class);
+        startService(intent);
+    }
+    private void stopMusic(){
+        Intent intent = new Intent(this, MusicService.class);
+        stopService(intent);
     }
 }

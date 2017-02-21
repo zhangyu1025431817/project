@@ -96,8 +96,8 @@ public class LoadingActivity extends AppCompatActivity {
                         /**
                          * 布奇直接跳转不要更新
                          */
-                        startActivity(new Intent(LoadingActivity.this,LoginActivity.class));
-                        finish();
+                     //   startActivity(new Intent(LoadingActivity.this,LoginActivity.class));
+                     //   finish();
                     }
                 });
 
@@ -116,7 +116,7 @@ public class LoadingActivity extends AppCompatActivity {
      * 请求版本号
      */
     private void requestVersionCode() {
-        mDownloadSp = Network.getApiService().updateVersion("A").subscribeOn(Schedulers.io())
+        mDownloadSp = Network.getApiService().updateVersion("AB").subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new MySubscriber<UpdateVersion>() {
                     @Override
                     public void onNext(UpdateVersion updateVersion) {
@@ -213,16 +213,16 @@ public class LoadingActivity extends AppCompatActivity {
 
     @PermissionGrant(REQUEST_CODE_SDCARD)
     public void requestSdcardSuccess() {
-       // requestVersionCode();
+        requestVersionCode();
     }
 
     @PermissionDenied(REQUEST_CODE_SDCARD)
     public void requestSdcardFailed() {
-      //  startActivity(new Intent(LoadingActivity.this, LoginActivity.class));
-      //  finish();
+        startActivity(new Intent(LoadingActivity.this, LoginActivity.class));
+        finish();
     }
 
-    private static final String apkName = "/fangzhi.apk";
+    private static final String apkName = "/buqi.apk";
 
     /**
      * 下载apk文件

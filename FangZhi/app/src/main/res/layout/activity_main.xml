@@ -24,7 +24,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="#cbecf8">
+            android:background="#fff3dd">
 
             <ImageView
                 android:background="@drawable/icon_building_location"
@@ -50,7 +50,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="#cbecf8">
+            android:background="#fff3dd">
 
             <ImageView
                 android:background="@drawable/icon_scene_style"
@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="#cbecf8">
+            android:background="#fff3dd">
 
             <ImageView
                 android:background="@drawable/icon_domestic_outfit_design"
@@ -100,7 +100,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="#cbecf8">
+            android:background="#fff3dd">
 
             <ImageView
                 android:background="@drawable/icon_3d_display"
@@ -125,7 +125,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="#cbecf8">
+            android:background="#fff3dd">
             <ImageView
                 android:background="@drawable/icon_real_case"
                 android:layout_width="196px"

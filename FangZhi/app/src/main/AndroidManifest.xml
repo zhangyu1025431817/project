@@ -150,6 +150,7 @@
         <activity android:name="com.buqi.app.main.ddd.DDView2"
             android:screenOrientation="landscape"
             android:theme="@style/AppBaseTheme" />
+        <service android:name=".music.MusicService"/>
         <meta-data
             android:name="design_width"
             android:value="2560" />

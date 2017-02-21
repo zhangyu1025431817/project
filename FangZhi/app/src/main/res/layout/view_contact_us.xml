@@ -12,7 +12,7 @@
         android:layout_height="116px"
         android:gravity="center"
         android:text="服务热线"
-        android:textColor="@color/text_main_color"
+        android:textColor="@color/color_yellow_light"
         android:textSize="40px" />
 
     <TextView
@@ -20,6 +20,6 @@
         android:layout_height="131px"
         android:gravity="center"
         android:textSize="40px"
-        android:text="023-62955035" />
+        android:text="0573-87556811" />
 
 </com.zhy.autolayout.AutoLinearLayout>
