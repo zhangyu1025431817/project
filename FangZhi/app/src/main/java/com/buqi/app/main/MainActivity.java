@@ -251,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
         // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         int xPos = -popupWindow.getWidth() / 2;
-
         popupWindow.showAsDropDown(parent, xPos, 4);
 
     }
