@@ -22,7 +22,7 @@
             android:layout_marginTop="230px"
             android:background="@drawable/bg_brand" />
 
-        <com.fangzhi.app.view.VerticalViewPager
+        <com.fangzhipro.app.view.VerticalViewPager
             android:id="@+id/view_pager"
             android:layout_width="wrap_content"
             android:layout_height="444px"

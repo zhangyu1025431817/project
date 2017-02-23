@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.fangzhi.app">
+    package="com.fangzhipro.app">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -41,13 +41,13 @@
             android:name="房智_装修"
             android:value="9ecad00ea95543d902c3820868a03d03" />
         <meta-data
-            android:name="com.fangzhi.app.config.GlideConfiguration"
+            android:name="com.fangzhipro.app.config.GlideConfiguration"
             android:value="GlideModule" />
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
-            android:name="com.fangzhi.app.LoadingActivity"
+            android:name=".LoadingActivity"
             android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

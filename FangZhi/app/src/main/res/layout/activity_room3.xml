@@ -46,7 +46,7 @@
         android:src="@drawable/icon_eye" />
 
       <!--<include layout="@layout/view_room_right_part" />-->
-    <com.fangzhi.app.main.room.ProductView
+    <com.fangzhipro.app.main.room.ProductView
         android:id="@+id/view_product"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -57,7 +57,7 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <com.fangzhi.app.view.loading.AVLoadingIndicatorView
+        <com.fangzhipro.app.view.loading.AVLoadingIndicatorView
             android:id="@+id/avi"
             android:layout_width="100dp"
             android:layout_height="40dp" />

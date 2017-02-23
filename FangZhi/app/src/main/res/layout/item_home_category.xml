@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fangzhi.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.fangzhipro.app.view.AutoCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="796px"
     android:layout_height="600px"
     android:layout_margin="20px"
@@ -25,4 +25,4 @@
             android:textColor="@color/white"
             android:textSize="30px" />
     </com.zhy.autolayout.AutoRelativeLayout>
-</com.fangzhi.app.view.AutoCardView>
+</com.fangzhipro.app.view.AutoCardView>
