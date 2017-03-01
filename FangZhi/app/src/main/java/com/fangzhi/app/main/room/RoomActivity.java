@@ -489,6 +489,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public void showRoomProductTypes(List<RoomProductType> list, int position) {
+        position = 1;
         switch (position) {
             case 0:
                 productView.changeRight();
