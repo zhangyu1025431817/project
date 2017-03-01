@@ -36,4 +36,8 @@ public class SpKey {
      * 第一次使用
      */
     public static final String FIRST_USE = "is_first";
+    /**
+     * 是否自动播放音乐
+     */
+    public static final String IS_AUTO_PLAY = "auto_play";
 }

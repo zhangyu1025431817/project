@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.buqi.app.R;
 import com.buqi.app.bean.BannerMain;
+import com.buqi.app.config.SpKey;
 import com.buqi.app.login.LoginActivity;
 import com.buqi.app.main.adapter.BannerAdapter;
 import com.buqi.app.main.adapter.NoDoubleClickListener;
@@ -35,6 +36,7 @@ import com.buqi.app.manager.AccountManager;
 import com.buqi.app.music.MusicService;
 import com.buqi.app.tools.ActivityTaskManager;
 import com.buqi.app.tools.DensityUtils;
+import com.buqi.app.tools.SPUtils;
 import com.buqi.app.tools.ScreenUtils;
 import com.buqi.app.view.DialogContactUs;
 import com.buqi.app.view.DialogDelegate;
@@ -69,27 +71,27 @@ public class MainActivity extends AppCompatActivity {
         //去除title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //去掉Activity上面的状态栏
-        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
-                WindowManager.LayoutParams. FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         rollPagerView.setHintView(new ColorPointHintView(this, Color.GREEN, Color.GRAY));
         rollPagerView.setHintPadding(0, 0, 0, DensityUtils.dp2px(this, 8));
         rollPagerView.setPlayDelay(2000);
-        rollPagerView.setAdapter(mBannerAdapter = new BannerAdapter(this, mListImages,  new NoDoubleClickListener()  {
+        rollPagerView.setAdapter(mBannerAdapter = new BannerAdapter(this, mListImages, new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(int position) {
-                    if(mBannerList != null){
-                        BannerMain bannerMain =  mBannerList.get(position);
-                        String url = bannerMain.getURL();
-                        if(url != null && !url.isEmpty()){
-                            Intent intent = new Intent();
-                            intent.putExtra("url",url);
-                            intent.setClass(MainActivity.this, DDDWebView.class);
-                            startActivity(intent);
-                        }
+                if (mBannerList != null) {
+                    BannerMain bannerMain = mBannerList.get(position);
+                    String url = bannerMain.getURL();
+                    if (url != null && !url.isEmpty()) {
+                        Intent intent = new Intent();
+                        intent.putExtra("url", url);
+                        intent.setClass(MainActivity.this, DDDWebView.class);
+                        startActivity(intent);
                     }
+                }
             }
         }));
 
@@ -101,10 +103,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialogDelegate = new SweetAlertDialogDelegate(this);
-        startPlayMusic();
+        if ("1".equals(SPUtils.getString(this,SpKey.IS_AUTO_PLAY,"1"))) {
+            startPlayMusic();
+        }
     }
 
-    List<BannerMain> mBannerList ;
+    List<BannerMain> mBannerList;
+
     private void setData(List<BannerMain> list) {
         textViewTitle.setText(AccountManager.getInstance().getCurrentParentName());
         if (list != null && !list.isEmpty()) {
@@ -183,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
     private PopupWindow popupWindow;
 
 
-
     @OnClick(R.id.tv_more)
     public void onMore(View view) {
         showPopupWindow(view);
@@ -222,15 +226,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             btnMusic = (TextView) view.findViewById(R.id.btn_play_music);
+            if ("1".equals(SPUtils.getString(this,SpKey.IS_AUTO_PLAY,"1"))) {
+                //音乐已经播放
+                btnMusic.setText("停止音乐");
+            }else{
+                btnMusic.setText("播放音乐");
+            }
             btnMusic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if("播放音乐".equals(btnMusic.getText().toString())){
+                    if ("播放音乐".equals(btnMusic.getText().toString())) {
                         btnMusic.setText("停止音乐");
                         startPlayMusic();
-                    }else{
+                        SPUtils.putString(MainActivity.this, SpKey.IS_AUTO_PLAY,"1");
+                    } else {
                         btnMusic.setText("播放音乐");
                         stopMusic();
+                        SPUtils.putString(MainActivity.this, SpKey.IS_AUTO_PLAY, "0");
                     }
                 }
             });
@@ -261,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onChangeParent() {
         startActivity(new Intent(this, ParentActivity.class));
-      //  finish();
+        //  finish();
     }
 
     public void onExit() {
@@ -287,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -308,12 +321,14 @@ public class MainActivity extends AppCompatActivity {
         stopMusic();
     }
 
-    private void startPlayMusic(){
+    private void startPlayMusic() {
+        //自动播放
         //播放背景音乐
         Intent intent = new Intent(this, MusicService.class);
         startService(intent);
     }
-    private void stopMusic(){
+
+    private void stopMusic() {
         Intent intent = new Intent(this, MusicService.class);
         stopService(intent);
     }

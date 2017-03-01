@@ -33,7 +33,6 @@ import com.buqi.app.config.SpKey;
 import com.buqi.app.download.DownLoadImageService;
 import com.buqi.app.download.DrawImageService;
 import com.buqi.app.login.LoginActivity;
-import com.buqi.app.main.MainActivity;
 import com.buqi.app.main.adapter.PartAdapter;
 import com.buqi.app.main.adapter.ProductTypeAdapter;
 import com.buqi.app.main.adapter.SameSceneAdapter;
@@ -674,6 +673,7 @@ public class RoomActivity extends BaseActivity<RoomPresenter, RoomModel> impleme
 
     @Override
     public void showRoomProductTypes(List<RoomProductType> list, int position) {
+        position = 1;
         switch (position) {
             case 0:
                 productView.changeRight();
