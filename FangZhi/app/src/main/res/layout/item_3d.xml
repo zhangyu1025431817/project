@@ -19,14 +19,16 @@
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="match_parent"
-            android:layout_height="542px"
+            android:layout_height="0dp"
+            android:layout_weight="7.3"
             android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
-            android:layout_height="70px"
+            android:layout_height="0dp"
             android:gravity="center"
+            android:layout_weight="1"
             android:text="翡翠城"
             android:textSize="35px" />
     </com.zhy.autolayout.AutoLinearLayout>
